@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="产品学习,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="哎，五一没回家，留校准备简历投递的事情，很想去扇贝，因为我感觉他不够好，我也有中莫名其妙的自大认为我能让他变得很好。 以下是我的第一篇产品分析，参考的模版来自我之前看的产品面试那本书。">
+<meta name="keywords" content="产品学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为扇贝实习所做的产品分析">
+<meta property="og:url" content="https://junshang11.com/2018/05/03/扇贝实习/index.html">
+<meta property="og:site_name" content="君十一">
+<meta property="og:description" content="哎，五一没回家，留校准备简历投递的事情，很想去扇贝，因为我感觉他不够好，我也有中莫名其妙的自大认为我能让他变得很好。 以下是我的第一篇产品分析，参考的模版来自我之前看的产品面试那本书。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://junshang11.com/images/%E6%89%87%E8%B4%9D/1.png">
+<meta property="og:image" content="https://junshang11.com/images/%E6%89%87%E8%B4%9D/2.png">
+<meta property="og:image" content="https://junshang11.com/images/%E6%89%87%E8%B4%9D/3.png">
+<meta property="og:updated_time" content="2018-06-20T13:33:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="为扇贝实习所做的产品分析">
+<meta name="twitter:description" content="哎，五一没回家，留校准备简历投递的事情，很想去扇贝，因为我感觉他不够好，我也有中莫名其妙的自大认为我能让他变得很好。 以下是我的第一篇产品分析，参考的模版来自我之前看的产品面试那本书。">
+<meta name="twitter:image" content="https://junshang11.com/images/%E6%89%87%E8%B4%9D/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://junshang11.com/2018/05/03/扇贝实习/">
+
+
+
+
+
+  <title>为扇贝实习所做的产品分析 | 君十一</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">君十一</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Stay hungry Stay foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://junshang11.com/2018/05/03/扇贝实习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jun Shang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="君十一">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">为扇贝实习所做的产品分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-03T00:00:00+08:00">
+                2018-05-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/产品/" itemprop="url" rel="index">
+                    <span itemprop="name">产品</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>哎，五一没回家，留校准备简历投递的事情，很想去扇贝，因为我感觉他不够好，我也有中莫名其妙的自大认为我能让他变得很好。</p>
+<p>以下是我的第一篇产品分析，参考的模版来自我之前看的产品面试那本书。</p>
+<a id="more"></a>
+
+<h2 id="扇贝单词产品分析"><a href="#扇贝单词产品分析" class="headerlink" title="扇贝单词产品分析"></a>扇贝单词产品分析</h2><p>本文尝试从一个产品新人的角度，从市场前景，产品定位，竞品分析，核心竞争力，产品优化五个维度，对扇贝单词进行浅析。</p>
+<h3 id="1-市场前景"><a href="#1-市场前景" class="headerlink" title="1. 市场前景"></a>1. 市场前景</h3><p>根据2018年4月19日，Analysys易观发布的《2018年中国互联网教育平台专题分析》可以看出，2017年中国互联网教育市场规模高达2502亿元人民币，同比增长56.3%。相比线下教育行业相比，规模有所增长，意味着更多的人开始接受互联网教育的概念，但占比依旧较低，说明线上教育依然具有很大的发展潜力。随着教育信息化2.0行动，三通两平台的搭建等诸多友好政策的实行，势必给互联网教育行业带来更积极的影响。</p>
+<p>国家经济增长，中产阶级的数量增多，生活水平提高，家庭更多的教育投入，出国留学依旧火热，这些客观事实对于互联网语言教育市场来说，意味着更大的机遇。</p>
+<h3 id="2-产品定位"><a href="#2-产品定位" class="headerlink" title="2. 产品定位"></a>2. 产品定位</h3><h4 id="2-1-产品概述"><a href="#2-1-产品概述" class="headerlink" title="2.1 产品概述"></a>2.1 产品概述</h4><p>扇贝单词是南京贝湾教育科技有限公司推出的英语单词学习app，是扇贝语言学习生态中的拳头产品。扇贝单词使用智能启发式的学习方法，帮助用户更好地识记英语单词。</p>
+<h4 id="2-2-目标用户"><a href="#2-2-目标用户" class="headerlink" title="2.2 目标用户"></a>2.2 目标用户</h4><p>扇贝单词的目标用户是</p>
+<p>•    想要更好地学习和提高英语学习能力广大的学生群体<br>•    想要缓解知识焦虑的白领用户</p>
+<p><img src="/images/%E6%89%87%E8%B4%9D/1.png" alt="扇贝"></p>
+<p>根据艾瑞数据显示，扇贝的使用人群是以女性为主导的，12-30岁是核心用户，在几个教育大省，广东，山东和江苏有着广泛的分布。</p>
+<h4 id="2-3-产品需求分析"><a href="#2-3-产品需求分析" class="headerlink" title="2.3 产品需求分析"></a>2.3 产品需求分析</h4><h5 id="2-3-1-使用场景"><a href="#2-3-1-使用场景" class="headerlink" title="2.3.1 使用场景"></a>2.3.1 使用场景</h5><p>•    在宿舍，四六级考试前期，扇贝单词能帮助学生更好地去学习和巩固单词。</p>
+<p>•    在地铁或者等待公交的过程中，精力旺盛的年轻人需要利用这样的碎片化时间去充电以对抗外来的竞争压力，这种时候点开扇贝单词，完成今日任务，能有效地提高自己的核心竞争能力。</p>
+<p>•    在晚餐过后，已为人父人母的用户为了激发孩子对英语学习的热情，可以和孩子一起点开扇贝单词，做好榜样作用。</p>
+<p>2.3.2 用户需求分析</p>
+<p> <img src="/images/%E6%89%87%E8%B4%9D/2.png" alt="扇贝"></p>
+<h3 id="3-竞品分析"><a href="#3-竞品分析" class="headerlink" title="3. 竞品分析"></a>3. 竞品分析</h3><h4 id="3-1-选择对象"><a href="#3-1-选择对象" class="headerlink" title="3.1 选择对象"></a>3.1 选择对象</h4><p>在艾瑞数据中，扇贝的排列语言总榜类第四。第二的英语趣配音是一个偏口语的app，并不是扇贝的主要竞争对手。所以我们将分析第一的百词斩和第三的开心词场，分析他们在市场中的状况。</p>
+<p> <img src="/images/%E6%89%87%E8%B4%9D/3.png" alt="扇贝"></p>
+<h4 id="3-2-扇贝单词的优势"><a href="#3-2-扇贝单词的优势" class="headerlink" title="3.2 扇贝单词的优势"></a>3.2 扇贝单词的优势</h4><ol>
+<li><p>扇贝拥有更全的生态系统，阅读，听力等其他app的部署，让英语学习这个环节更加完整</p>
+</li>
+<li><p>扇贝有着更大的用户活跃度，小组，同桌功能的推出，能加强用户之间的联系，提升留存度，带来更好的使用体验</p>
+</li>
+<li><p>通过艾瑞数据能发现，25-30岁的用户占比很大。这体现了更多的serious learner倾向于扇贝单词这种简洁有效的交互</p>
+</li>
+</ol>
+<h3 id="4-扇贝单词的核心竞争力"><a href="#4-扇贝单词的核心竞争力" class="headerlink" title="4. 扇贝单词的核心竞争力"></a>4. 扇贝单词的核心竞争力</h3><h4 id="4-1-扇贝的核心机制突出"><a href="#4-1-扇贝的核心机制突出" class="headerlink" title="4.1 扇贝的核心机制突出"></a>4.1 扇贝的核心机制突出</h4><p>扇贝将新老词汇混编记忆的机制是非常科学的，像我上面所提到的，他不花哨，简单直接。和top 1，3的单词识记app相比，扇贝拥有异常坚实的25-30岁用户基础，这点侧方面说明，扇贝更加适合serious learner。而这部分人群经济状况良好，相对拥有更好的消费能力，在知识付费如此风行的现在，对新概念的接受程度也高，会更加愿意为提升自己而购买相关的服务。</p>
+<h4 id="4-2-扇贝拥有令人羡慕的UGC环境"><a href="#4-2-扇贝拥有令人羡慕的UGC环境" class="headerlink" title="4.2 扇贝拥有令人羡慕的UGC环境"></a>4.2 扇贝拥有令人羡慕的UGC环境</h4><p>我在朋友的初创公司帮忙过，曾今一起为了用户增长绞尽脑汁，也为用户留存量费过心。而当我打开扇贝小组的时候，我是非常羡慕扇贝拥有这么一群非常认真的核心用户的。在不是那么合理，功能不是那么完善的小组里面，会有组长制作这么详尽的图，并加以美化，po到小组里面。这样的用户行为，在整体软件市场养刁用户口味的背景下，更加显得难能可贵。这说明扇贝小组的用户是真的喜欢这款app，稍微增加一点功能点，可以极大地增加用户黏度，以及提升有效时长。</p>
+<h4 id="4-2-扇贝的订购服务是成熟的"><a href="#4-2-扇贝的订购服务是成熟的" class="headerlink" title="4.2 扇贝的订购服务是成熟的"></a>4.2 扇贝的订购服务是成熟的</h4><p>我咨询了我身边一个订购扇贝四，六级备考训练营的朋友，她说扇贝单词提供的服务是用心考量过的。不像其他app将课程设计外包给其他教育机构去设计，扇贝的训练营的质量是有保障的。<br>我作为一个前广告狗，觉得是有更好的方式去向大家介绍扇贝训练营的有效的。</p>
+<h3 id="5-扇贝单词的优化"><a href="#5-扇贝单词的优化" class="headerlink" title="5.扇贝单词的优化"></a>5.扇贝单词的优化</h3><p>写这份报告之前，我有找过10个比较具有代表性的英语学习者对扇贝单词app进行使用，我站在他们后面观察他们的操作行为，看他们使用过程中遇到的问题并进行记录。<br>以下是他们的反馈和我想到的可行性较高的解决方案。</p>
+<p>Q: 想看今日背到的单词，和之前看到的单词，在页面中找不到。<br>A:其实这个功能是有的，在我的 -&gt; 我的词库中。</p>
+<p>事实上这是扇贝做的非常好的一个功能点，单词划分也清晰。但是这个功能和核心功能距离有点远，增加了用户的使用的难度，整改一下ui界面，让满足用户核心需求的功能都集合在首页面，给予用户更多的正向反馈，同时也能更好地激励用户。</p>
+<p>Q: 不是那么的有趣<br>A: 这是一个用百词斩的女生，相比百词斩来说，扇贝单词确实没有看图来的轻松，扇贝单词更加适合serious learner的定位。但是这并不意味着扇贝将会放弃0-24这个区间里面想着用更轻松的方式去背单词的潜在用户群体。</p>
+<p>借鉴于我之前学习过程中接受到的还有我自己欣赏的记忆方法。</p>
+<p>针对低年龄的用户，可以使用word puzzle的方法，鼓励拼读中用荧光笔找出正确的单词。<br>针对更多的成熟用户，我推荐网格记忆法。在背完一天的单词以后，当用户想要复习今天所悲的单词时，网格记忆法的使用能带来更好的体验。<br>i.e:  网格记忆法的使用： fa_u_ous   抽掉部分单词让用户去填写</p>
+<p>Q:贝壳的作用体现在哪里？<br>A:几个用开心词场的用户觉得扇贝的贝壳所具有的虚拟货币效益比较低，所以需要一种更好的方式去体现贝壳的价值。我有点觉得扇贝的盈利方式还是显得单一。是不是有可能赋予贝壳更多的效益，让他有能力去为用户获得更多的魅力值，或者有更加实用的实体礼品可以兑换，凸显扇贝的价值，也促使更多的用户购买和消费扇贝。</p>
+<p>以及我最近看到扇贝单词做了一个微信小程序，单词大师，设计和概念都不错，DAU很高，但我觉得应该加入道具或者某种形式进行引流，将更多感兴趣的用户导流到扇贝单词来，从而充分利用小程序的流量价值。</p>
+<h3 id="6-总结"><a href="#6-总结" class="headerlink" title="6.总结"></a>6.总结</h3><p>总的来说，扇贝已经实现了一个非常好的英语学习闭环，扇贝单词app作为扇贝家族的拳头产品，排列语言教育榜前列。作为一个不成熟的观察者，我相信平台的力量，我相信生态的力量，而扇贝正巧有着这么一批异常忠诚的用户群体。在外部竞争越发激烈的今天，扇贝单词只要发挥自己的优势，走差异化路线，就能不断提升自己的市场占有，走得更远。</p>
+<p>以上是我不成熟的数据调查，和个人观点，希望得到审阅者的反馈，谢谢。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/产品学习/" rel="tag"># 产品学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/24/什么样的交互是好的交互/" rel="next" title="什么样的交互是好的交互设计？">
+                <i class="fa fa-chevron-left"></i> 什么样的交互是好的交互设计？
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/12/失败后的总结/" rel="prev" title="失败总结">
+                失败总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Jun Shang</p>
+              <p class="site-description motion-element" itemprop="description">Road to a decent Product Manager</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#扇贝单词产品分析"><span class="nav-number">1.</span> <span class="nav-text">扇贝单词产品分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-市场前景"><span class="nav-number">1.1.</span> <span class="nav-text">1. 市场前景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-产品定位"><span class="nav-number">1.2.</span> <span class="nav-text">2. 产品定位</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-产品概述"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 产品概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-目标用户"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 目标用户</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-产品需求分析"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 产品需求分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-1-使用场景"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">2.3.1 使用场景</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-竞品分析"><span class="nav-number">1.3.</span> <span class="nav-text">3. 竞品分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-选择对象"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 选择对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-扇贝单词的优势"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 扇贝单词的优势</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-扇贝单词的核心竞争力"><span class="nav-number">1.4.</span> <span class="nav-text">4. 扇贝单词的核心竞争力</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-扇贝的核心机制突出"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 扇贝的核心机制突出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-扇贝拥有令人羡慕的UGC环境"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2 扇贝拥有令人羡慕的UGC环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-扇贝的订购服务是成熟的"><span class="nav-number">1.4.3.</span> <span class="nav-text">4.2 扇贝的订购服务是成熟的</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-扇贝单词的优化"><span class="nav-number">1.5.</span> <span class="nav-text">5.扇贝单词的优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-总结"><span class="nav-number">1.6.</span> <span class="nav-text">6.总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jun Shang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
