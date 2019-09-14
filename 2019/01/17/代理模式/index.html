@@ -105,18 +105,20 @@
 
 
 
-<meta name="description" content="Road to a decent Product Manager">
+<meta name="description" content="今天看到aop的时候，听到了一个新的名词，这是我在单例模式和工厂模式之后听到的一个新的模式。加上我看了一下动态代理模式的代码和反射又有关系，是真的挺难看懂的，所以这边写一篇理解一下这个模式。">
 <meta name="keywords" content="代理模式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="代理模式">
 <meta property="og:url" content="https://junshang11.com/2019/01/17/代理模式/index.html">
 <meta property="og:site_name" content="君十一">
-<meta property="og:description" content="Road to a decent Product Manager">
+<meta property="og:description" content="今天看到aop的时候，听到了一个新的名词，这是我在单例模式和工厂模式之后听到的一个新的模式。加上我看了一下动态代理模式的代码和反射又有关系，是真的挺难看懂的，所以这边写一篇理解一下这个模式。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-07T09:50:10.063Z">
+<meta property="og:image" content="https://junshang11.com/images/%E7%BB%93%E6%9E%9C1.png">
+<meta property="og:updated_time" content="2019-09-08T06:37:59.412Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="代理模式">
-<meta name="twitter:description" content="Road to a decent Product Manager">
+<meta name="twitter:description" content="今天看到aop的时候，听到了一个新的名词，这是我在单例模式和工厂模式之后听到的一个新的模式。加上我看了一下动态代理模式的代码和反射又有关系，是真的挺难看懂的，所以这边写一篇理解一下这个模式。">
+<meta name="twitter:image" content="https://junshang11.com/images/%E7%BB%93%E6%9E%9C1.png">
 
 
 
@@ -410,7 +412,75 @@
       
 
       
-        
+        <p>  今天看到aop的时候，听到了一个新的名词，这是我在单例模式和工厂模式之后听到的一个新的模式。加上我看了一下动态代理模式的代码和反射又有关系，是真的挺难看懂的，所以这边写一篇理解一下这个模式。</p>
+<a id="more"></a>
+
+<h3 id="使用场景是啥"><a href="#使用场景是啥" class="headerlink" title="使用场景是啥"></a>使用场景是啥</h3><p>先不说aop，先看名字，代理，一下子就想起来我妈朋友圈删不光的微商代理了。代理的意思就是我主体不想做的，请别人来做的意思吧。就比如说，我赚钱赚得贼多，数钱的活就不是我做了，我要聘个小秘帮我数钱（你怕是活在梦里）。那我这边用个糖果店卖东西的时候顺便打广告的例子来说。</p>
+<h3 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h3><p>我现在是一个店铺接口，我的职责就是销售。</p>
+<pre><code>public interface groceries {
+        void sell();
+}</code></pre>
+
+<p>我们这里有卖德芙巧克力。</p>
+<p><em>这就是被代理对象</em></p>
+<pre><code>public class Defu implements groceries {
+    public void sell() {
+        System.out.println("我卖德芙巧克力的");
+    }
+}</code></pre>
+
+<p>代理对象</p>
+<pre><code>
+public class defuproxy implements groceries {
+    private defu defu;
+    public defuproxy(defu defu){
+        this.defu =defu;
+    }
+    public void sell(){
+        advertise();
+        defu.sell();
+    }
+    public void advertise(){
+        System.out.println("打广告的来了");
+    }
+}</code></pre>
+
+<p>那当客户来访问的时候。</p>
+<pre><code>public class testDefu(){
+    public static void main(){
+        Defu defu = new Defu();
+        Proxy proxy = new proxy(defu);
+        proxy.sell();
+    }}</code></pre>
+
+<p>这样的话，运行结果就是：</p>
+<p><img src="/images/%E7%BB%93%E6%9E%9C1.png" alt="运行结果1" title="静态代理"></p>
+<p>这样的话，用户就不需要知道被代理对象的具体的行为，就可以通过代理对象进行相应的操作。但是静态代理有个麻烦的地方是，代理对象需要与目标对象实现一样的接口,所以会有很多代理类,类太多.同时,一旦接口增加方法,目标对象与代理对象都要维护。那这个时候就可以用我前几天学的反射，来进行动态代理。</p>
+<h3 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h3><p>动态代理使用的是InvocationHandler(Interface)接口和java.lang.reflect包里的代理类，proxy。具体的修改代码如下，接口和被代理对象不变，所以就不重复写了。</p>
+<pre><code>public class defuproxy implements InvocationHandler {
+     private Object target;
+​    public defuproxy(Object target) {
+​        this.target = target;}
+​    @Override
+​    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+​        System.out.println("欢迎来到商店");
+​      method.invoke(target, args);
+​        return null;}}</code></pre>
+
+<p>测试的main方法是：</p>
+<pre><code>public class test {
+​    public static void main(String[] args) {
+​        groceries defu= new defu();
+​        InvocationHandler shop1 = new shops(defu);
+​        groceries proxy = (groceries) Proxy.newProxyInstance(defu.class.getClassLoader(),
+​                defu.class.getInterfaces(), shop1);
+​        proxy.sell();
+​    }
+}</code></pre>
+
+<p>这样就能动态地创建代理对象了。</p>
+<p>代理模式的优点：</p>
+
       
     </div>
     
@@ -450,8 +520,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/02/12/uml/" rel="prev" title="uml相关的元素在这边啊">
-                uml相关的元素在这边啊 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/01/31/MySQL编码的坑/" rel="prev" title="MySQL编码的坑">
+                MySQL编码的坑 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -504,8 +574,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -520,7 +599,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -542,7 +621,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -565,6 +644,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用场景是啥"><span class="nav-number">1.</span> <span class="nav-text">使用场景是啥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#静态代理"><span class="nav-number">2.</span> <span class="nav-text">静态代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态代理"><span class="nav-number">3.</span> <span class="nav-text">动态代理</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
