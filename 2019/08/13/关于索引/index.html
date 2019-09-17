@@ -113,10 +113,12 @@
 <meta property="og:site_name" content="君十一">
 <meta property="og:description" content="昨天碰到一个索引需要优化，翻了挺多资料，琢磨着得整一篇全的讲讲索引的知识点。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-14T07:35:20.750Z">
+<meta property="og:image" content="https://junshang11.com/images/%E7%B4%A2%E5%BC%95/b+%E6%A0%91.png">
+<meta property="og:updated_time" content="2019-09-15T07:11:42.378Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于索引">
 <meta name="twitter:description" content="昨天碰到一个索引需要优化，翻了挺多资料，琢磨着得整一篇全的讲讲索引的知识点。">
+<meta name="twitter:image" content="https://junshang11.com/images/%E7%B4%A2%E5%BC%95/b+%E6%A0%91.png">
 
 
 
@@ -415,7 +417,37 @@
 
 <h3 id="什么是索引"><a href="#什么是索引" class="headerlink" title="什么是索引"></a>什么是索引</h3><p> 我的理解就是书的目录，对数据进行定位和查找，速度极快。那既然是目录，问题就是，如果我数据更改的频次很高，比如说添加删除等，那这个目录就是得频繁的修改。这也是索引的特性，对于需要经常进行修改的表，我们并不添加索引。索引的添加语句是：</p>
 <p> <code>CREATE UNIQUE INDEX index_name ON table_name (column_name) ;</code></p>
-<h3 id="索引的种类"><a href="#索引的种类" class="headerlink" title="索引的种类"></a>索引的种类</h3>
+<h3 id="索引的种类"><a href="#索引的种类" class="headerlink" title="索引的种类"></a>索引的种类</h3><h4 id="从功能逻辑上来说"><a href="#从功能逻辑上来说" class="headerlink" title="从功能逻辑上来说"></a>从功能逻辑上来说</h4><p><em>普通索引</em>:没有任何约束,基础索引</p>
+<p>_唯一索引_：在基础索引的基础上添加了数据唯一性的约束</p>
+<p>_主键索引_：在唯一索引的基础上添加了不为空</p>
+<p>_全文索引_：用的不多</p>
+<p>（这种一步一步约束提升的样子有点像数据库设计三范式。。</p>
+<h4 id="从物理实现上来分"><a href="#从物理实现上来分" class="headerlink" title="从物理实现上来分"></a>从物理实现上来分</h4><p>_聚集索引_：按照主键来排序存储数据</p>
+<p>_非聚集索引_：会有单独的存储空间存放非聚集索引，这些索引项是按照顺序存储的，但索引项指向的内容是随机存储的，也就是说查询得分两步骤，先找到索引，再通过索引找到存储的数据。</p>
+<p><strong>通常情况下，聚集索引比非聚集索引效率更高一点</strong></p>
+<h4 id="按照字段个数划分"><a href="#按照字段个数划分" class="headerlink" title="按照字段个数划分"></a>按照字段个数划分</h4><p>_单一索引_：索引列为一列时</p>
+<p>_联合索引_：索引列为多列时<br>创建联合索引的语句</p>
+<p><code>create index 索引名 on 表名（字段名1，字段名2）</code></p>
+<p>对于联合索引来说，有最左匹配原则。</p>
+<h3 id="索引为啥默认采用b-树作为存储的数据结构"><a href="#索引为啥默认采用b-树作为存储的数据结构" class="headerlink" title="索引为啥默认采用b+树作为存储的数据结构"></a>索引为啥默认采用b+树作为存储的数据结构</h3><p>整理了一张图，很直接了。</p>
+<p><img src="/images/%E7%B4%A2%E5%BC%95/b+%E6%A0%91.png" alt="索引数据结构"></p>
+<h3 id="索引的使用原则"><a href="#索引的使用原则" class="headerlink" title="索引的使用原则"></a>索引的使用原则</h3><h4 id="啥时候创建索引呢"><a href="#啥时候创建索引呢" class="headerlink" title="啥时候创建索引呢"></a>啥时候创建索引呢</h4><ol>
+<li>字段的数值有唯一性的限制</li>
+<li>频繁作为 WHERE 查询条件的字段</li>
+<li>需要经常 GROUP BY 和 ORDER BY 的列 </li>
+<li>UPDATE、DELETE 的 WHERE 条件列，一般也需要创建索引</li>
+<li>DISTINCT 字段需要创建索引</li>
+</ol>
+<h4 id="哪些情况下索引会失效"><a href="#哪些情况下索引会失效" class="headerlink" title="哪些情况下索引会失效"></a>哪些情况下索引会失效</h4><ol>
+<li>如果索引进行了表达式计算，则会失效 </li>
+<li>如果对索引使用函数，也会造成失效 （比如说我substring一下）</li>
+<li>在 WHERE 子句中，如果在 OR 前的条件列进行了索引，而在 OR 后的条件列没有进行索引，那么索引会失效</li>
+<li>当我们使用 LIKE 进行模糊查询的时候，后面不能是 %（这边有个有意思的，%123不行，但是123%是能走索引的）</li>
+<li>索引列与 NULL 或者 NOT NULL 进行判断的时候也会失效。</li>
+<li>索引列与 NULL 或者 NOT NULL 进行判断的时候也会失效。（所以我们设计表的时候，最好都加上not null的约束）</li>
+</ol>
+<p>以上是我参考了SQL必知必会和一些csdn的blog总结的索引相关知识。总感觉对SQL这块，还得再写一篇关于SQL调优才行。</p>
+
       
     </div>
     
@@ -454,6 +486,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/24/SQL经典实例1/" rel="prev" title="SQL经典实例1">
+                SQL经典实例1 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -530,7 +566,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">46</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -552,7 +588,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -585,7 +621,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是索引"><span class="nav-number">1.</span> <span class="nav-text">什么是索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引的种类"><span class="nav-number">2.</span> <span class="nav-text">索引的种类</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是索引"><span class="nav-number">1.</span> <span class="nav-text">什么是索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引的种类"><span class="nav-number">2.</span> <span class="nav-text">索引的种类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#从功能逻辑上来说"><span class="nav-number">2.1.</span> <span class="nav-text">从功能逻辑上来说</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#从物理实现上来分"><span class="nav-number">2.2.</span> <span class="nav-text">从物理实现上来分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#按照字段个数划分"><span class="nav-number">2.3.</span> <span class="nav-text">按照字段个数划分</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引为啥默认采用b-树作为存储的数据结构"><span class="nav-number">3.</span> <span class="nav-text">索引为啥默认采用b+树作为存储的数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引的使用原则"><span class="nav-number">4.</span> <span class="nav-text">索引的使用原则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#啥时候创建索引呢"><span class="nav-number">4.1.</span> <span class="nav-text">啥时候创建索引呢</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#哪些情况下索引会失效"><span class="nav-number">4.2.</span> <span class="nav-text">哪些情况下索引会失效</span></a></li></ol></li></ol></div>
             
 
           </div>
