@@ -113,7 +113,7 @@
 <meta property="og:site_name" content="君十一">
 <meta property="og:description" content="前几天写了Ajax相关的知识，然后这几天写前后端传json磕磕绊绊中学到了点新的，这边来记录一下。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-17T04:05:47.395Z">
+<meta property="og:updated_time" content="2019-09-17T23:32:47.919Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="json的那些事">
 <meta name="twitter:description" content="前几天写了Ajax相关的知识，然后这几天写前后端传json磕磕绊绊中学到了点新的，这边来记录一下。">
@@ -455,10 +455,8 @@ public @ResponseBody Address testJson(@RequestBody Address address) {
                     .create();
 </code></pre>
 
-<h4 id="各种数据和json之前的转化"><a href="#各种数据和json之前的转化" class="headerlink" title="各种数据和json之前的转化"></a>各种数据和json之前的转化</h4><p>#####JavaBean转json</p>
-<p><code>        String jsonStr = gson.toJson(student);</code></p>
-<p>#####List和Map 转json</p>
-<pre><code> List<string> list = Arrays.asList("1", "a", "3", "rt", "5");
+<h4 id="各种数据和json之前的转化"><a href="#各种数据和json之前的转化" class="headerlink" title="各种数据和json之前的转化"></a>各种数据和json之前的转化</h4><h5 id="JavaBean转json"><a href="#JavaBean转json" class="headerlink" title="JavaBean转json"></a>JavaBean转json</h5><p><code>        String jsonStr = gson.toJson(student);</code></p>
+<h5 id="List和Map-转json"><a href="#List和Map-转json" class="headerlink" title="List和Map 转json"></a>List和Map 转json</h5><pre><code> List<string> list = Arrays.asList("1", "a", "3", "rt", "5");
 String jsonStr = gson.toJson(list);</string></code></pre>
 
 <pre><code>  
@@ -650,7 +648,7 @@ Student student1 = gson.fromJson(studentJsonStr, Student.class);
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#页面发Ajax请求过来，我怎么收"><span class="nav-number">1.</span> <span class="nav-text">页面发Ajax请求过来，我怎么收</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将JavaBean对象转成json"><span class="nav-number">2.</span> <span class="nav-text">将JavaBean对象转成json</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gson"><span class="nav-number">3.</span> <span class="nav-text">Gson</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#首先是Gson的实力化"><span class="nav-number">3.1.</span> <span class="nav-text">首先是Gson的实力化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#各种数据和json之前的转化"><span class="nav-number">3.2.</span> <span class="nav-text">各种数据和json之前的转化</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#json转其他数据类型"><span class="nav-number">3.2.1.</span> <span class="nav-text">json转其他数据类型</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#页面发Ajax请求过来，我怎么收"><span class="nav-number">1.</span> <span class="nav-text">页面发Ajax请求过来，我怎么收</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将JavaBean对象转成json"><span class="nav-number">2.</span> <span class="nav-text">将JavaBean对象转成json</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gson"><span class="nav-number">3.</span> <span class="nav-text">Gson</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#首先是Gson的实力化"><span class="nav-number">3.1.</span> <span class="nav-text">首先是Gson的实力化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#各种数据和json之前的转化"><span class="nav-number">3.2.</span> <span class="nav-text">各种数据和json之前的转化</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#JavaBean转json"><span class="nav-number">3.2.1.</span> <span class="nav-text">JavaBean转json</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#List和Map-转json"><span class="nav-number">3.2.2.</span> <span class="nav-text">List和Map 转json</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#json转其他数据类型"><span class="nav-number">3.2.3.</span> <span class="nav-text">json转其他数据类型</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
