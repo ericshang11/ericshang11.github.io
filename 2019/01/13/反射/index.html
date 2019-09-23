@@ -6,10 +6,10 @@
 
 
 <html class="theme-next mist use-motion" lang="zh-Hans">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="theme-color" content="#222">
 
 
@@ -20,8 +20,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -40,7 +40,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
 
 
 
@@ -74,9 +74,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
@@ -94,29 +94,31 @@
 
 
 
-  <meta name="keywords" content="Stay hungry, Stay foolish" />
-
-
-
-
-  
-
-
-  <link rel="alternate" href="/atom.xml" title="君十一" type="application/atom+xml" />
+  <meta name="keywords" content="反射,">
 
 
 
 
 
+  <link rel="alternate" href="/atom.xml" title="君十一" type="application/atom+xml">
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="君十一">
-<meta property="og:url" content="https://junshang11.com/404.html">
+
+
+
+
+
+<meta name="description" content="这学期学了spring,struts和hibernate，还学了点MyBatis，做了两个项目，感觉还行。然后昨天晚上回家路上在脑子里面转，突然想起来上课的老师一直说的，反射是一切框架的基础，没有反射就没有框架。但我竟然反射是啥都没有好好看过，查了点资料，翻了书，按照我的理解，我来写写反射的相关的事情。">
+<meta name="keywords" content="反射">
+<meta property="og:type" content="article">
+<meta property="og:title" content="反射的相关知识">
+<meta property="og:url" content="https://junshang11.com/2019/01/13/反射/index.html">
 <meta property="og:site_name" content="君十一">
+<meta property="og:description" content="这学期学了spring,struts和hibernate，还学了点MyBatis，做了两个项目，感觉还行。然后昨天晚上回家路上在脑子里面转，突然想起来上课的老师一直说的，反射是一切框架的基础，没有反射就没有框架。但我竟然反射是啥都没有好好看过，查了点资料，翻了书，按照我的理解，我来写写反射的相关的事情。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-16T06:21:38.000Z">
+<meta property="og:updated_time" content="2019-09-07T09:31:11.081Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="君十一">
+<meta name="twitter:title" content="反射的相关知识">
+<meta name="twitter:description" content="这学期学了spring,struts和hibernate，还学了点MyBatis，做了两个项目，感觉还行。然后昨天晚上回家路上在脑子里面转，突然想起来上课的老师一直说的，反射是一切框架的基础，没有反射就没有框架。但我竟然反射是啥都没有好好看过，查了点资料，翻了书，按照我的理解，我来写写反射的相关的事情。">
 
 
 
@@ -146,13 +148,13 @@
 
 
 
-  <link rel="canonical" href="https://junshang11.com/404.html"/>
+  <link rel="canonical" href="https://junshang11.com/2019/01/13/反射/">
 
 
 
 
 
-  <title> | 君十一</title>
+  <title>反射的相关知识 | 君十一</title>
   
 
 
@@ -180,7 +182,7 @@
     
 
     <div class="custom-logo-site-title">
-      <a href="/"  class="brand" rel="start">
+      <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">君十一</span>
         <span class="logo-line-after"><i></i></span>
@@ -210,7 +212,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
             
             首页
           </a>
@@ -220,7 +222,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
             
             分类
           </a>
@@ -230,7 +232,7 @@
         <li class="menu-item menu-item-tags">
           <a href="/tags/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
             
             标签
           </a>
@@ -240,7 +242,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
             
             归档
           </a>
@@ -250,7 +252,7 @@
         <li class="menu-item menu-item-about">
           <a href="/about/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
             
             关于
           </a>
@@ -263,7 +265,7 @@
             <a href="javascript:;" class="popup-trigger">
           
             
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
             
             搜索
           </a>
@@ -284,9 +286,7 @@
       <i class="fa fa-times-circle"></i>
     </span>
     <div class="local-search-input-wrapper">
-      <input autocomplete="off"
-             placeholder="搜索..." spellcheck="false"
-             type="text" id="local-search-input">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
     </div>
   </div>
   <div id="local-search-result"></div>
@@ -311,48 +311,209 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://junshang11.com/2019/01/13/反射/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jun Shang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="君十一">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline"></h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <!DOCTYPE HTML>
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-  <meta http-equiv="content-type" content="text/html;charset=utf-8;">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="robots" content="all">
-  <meta name="robots" content="index,follow">
-  <link rel="stylesheet" type="text/css" href="https://qzone.qq.com/gy/404/style/404style.css">
-</head>
-<body>
-  <script type="text/plain" src="http://www.qq.com/404/search_children.js" charset="utf-8" homepageurl="/" homepagename="回到我的主页">
-  </script>
-  <script src="https://qzone.qq.com/gy/404/data.js" charset="utf-8"></script>
-  <script src="https://qzone.qq.com/gy/404/page.js" charset="utf-8"></script>
-</body>
-</html>
+          <h1 class="post-title" itemprop="name headline">反射的相关知识</h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-13T00:00:00+08:00">
+                2019-01-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <p>  这学期学了spring,struts和hibernate，还学了点MyBatis，做了两个项目，感觉还行。然后昨天晚上回家路上在脑子里面转，突然想起来上课的老师一直说的，反射是一切框架的基础，没有反射就没有框架。但我竟然反射是啥都没有好好看过，查了点资料，翻了书，按照我的理解，我来写写反射的相关的事情。</p>
+<a id="more"></a>
+
+<h3 id="为什么我们需要反射"><a href="#为什么我们需要反射" class="headerlink" title="为什么我们需要反射"></a>为什么我们需要反射</h3><p>​    平时我们操作数据的时候，都是上来直接new对象，然后拿属性，调用方法。编译器是根据类型进行代码的检查编译的，编译完了我们才能操作对象。</p>
+<p>​    反射不一样，它是在运行时，而非编译时获取类型信息的。既然是在编译时，那不可避免的就是，他的效率不是那么高的，因为有时候在调用方法前，反射得首先查找到对应的方法才能执行，但是为啥反射的使用频率还是那么高呢。</p>
+<p>​    因为它够灵活。</p>
+<p>​    我看到的一个案例是，假如我有一个软件，去给公司去使用，一开始用的是MySQL，后面换成了Oracle，这种时候不可能去停下来找代码改成Oracle吧，不然以后再换个啥啥数据库的，还是得再改一次，这种时候就可以使用反射，去动态地读取Oracle配置文件里的信息。</p>
+<h3 id="一些反射的代码"><a href="#一些反射的代码" class="headerlink" title="一些反射的代码"></a>一些反射的代码</h3><p>代码编译就是将java文件转换成.class文件的过程。这里我们反射就是操作.class。那如何获取Class对象呢。</p>
+<pre><code>第一种
+类名.class
+第二种
+Class.forName("类名")
+第三种 Object类有一个getClass方法
+类名.getClass()</code></pre>
+
+<p>那我们这边拿到了Class以后，能做些什么呢。</p>
+<p>可以创建对象</p>
+<pre><code>
+Class c =Class.forName("Object");
+Object o = c.newInstance(); </code></pre>
+
+<p>可以拿对象的属性，这边有两种方法，一种是getDeclaredFields,一种是getFields,区别在哪里呢。不带declared的只可以获取public的字段，带declared可以获取private，protected的属性。</p>
+<p><code>Fields f[] = c.getDeclaredFileds();</code></p>
+<p>既然属性都能拿到，那相对应的，方法啊，构造方法啊，都能用反射拿到。</p>
+<p>然后一种暴力的不提倡的越过类型检查的方法，比如说我一个对象里有一个int的数组，我如何在里面放个字符串。</p>
+<pre><code>Class c = Class.forName("Object");
+Field f = c.getDeclaredFields("a");
+f.setAccessable(true);
+f.set(obj,value);
+</code></pre>
+
+<p>只要通过反射打开属性的setAccessable，就能往里面越过类型检查添加其他数据了，但是这是不提倡的。</p>
+<p>顺便提一下，如何通过反射调用方法，invoke方法。</p>
+<p><code>method.invoke(obj,args)</code></p>
+<pre><code>Class c = Class.forName("Object");
+Method method = c.getMethod(methodName, argsClass); //通过方法名称和参数获得方法
+method.invoke(Object,args);</code></pre>
+
+<p>Invoke 方法里第一个是对象，第二个是参数。</p>
+<p>以上是我找到的一些反射相关的内容。写着写着就感觉对Spring的ioc 有了一点更清晰的理解了。</p>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/反射/" rel="tag"># 反射</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/14/好广告or坏广告/" rel="next" title="好广告，坏广告">
+                <i class="fa fa-chevron-left"></i> 好广告，坏广告
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/17/代理模式/" rel="prev" title="代理模式">
+                代理模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -385,8 +546,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -453,6 +623,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么我们需要反射"><span class="nav-number">1.</span> <span class="nav-text">为什么我们需要反射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些反射的代码"><span class="nav-number">2.</span> <span class="nav-text">一些反射的代码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>君十一</title>
+  
+  <subtitle>Stay hungry Stay foolish</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://junshang11.com/"/>
+  <updated>2019-09-23T02:27:03.700Z</updated>
+  <id>https://junshang11.com/</id>
+  
+  <author>
+    <name>Jun Shang</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Java经典面试题总结</title>
+    <link href="https://junshang11.com/2019/09/19/Java%E7%BB%8F%E5%85%B8%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
+    <id>https://junshang11.com/2019/09/19/Java经典面试题/</id>
+    <published>2019-09-18T16:00:00.000Z</published>
+    <updated>2019-09-23T02:27:03.700Z</updated>
+    
+    <content type="html"><![CDATA[<p>这篇记一些我比较容易搞混的概念还有题目，尽量用自己的语言去表达出来，因为只有自己语言表达出来才是真的理解了吧。</p><a id="more"></a><h3 id="try-catch-finally"><a href="#try-catch-finally" class="headerlink" title="try catch finally"></a>try catch finally</h3><p>之前看过一个题目讲，如果try和finally里都有return，那么它的执行顺序是什么？</p><pre><code>try{ return; }    catch(){}     finally{}     return;</code></pre><p>他会先执行try块中return之前的语句，再到finally块，然后去try中的return。</p><p>然后还有种情况：</p><pre><code>try{ return; }    catch(){}     finally{return}     </code></pre><p>他会先执行try块中return之前的语句，再到finally这边，因为finally中有return，所以他会return后提前跳出。</p><p>所以结论是：<br>finally里的语句一定会执行，所以不建议在finally语句里加入return，因为会提前跳出，返回值不是try或者catch块里的返回值。</p><h3 id="equals-的那些事"><a href="#equals-的那些事" class="headerlink" title="equals, ==的那些事"></a>equals, ==的那些事</h3><p>== 一直是比较两个对象的地址是不是相等的，即两个对象是不是同一个对象。基本类型是比较值是否相同，引用类型是地址是否相同。</p><p>equals ，类如果没有覆盖equals方法，则通过equsls比较两个对象时，等价于通过”==”比较这两个对象，如果覆盖了，比如说string里的equals，那就是比较两个对象的值。</p><p>这里还有一个题目，</p><h4 id="为啥重写equals必须重写hashcode-方法？"><a href="#为啥重写equals必须重写hashcode-方法？" class="headerlink" title="为啥重写equals必须重写hashcode()方法？"></a>为啥重写equals必须重写hashcode()方法？</h4><p>任何类都具有自己的hashcode。</p><pre>如果两个对象相等，那么他们的hashcode一定是相同的；如果两个对象相等，那么两个对象调用equals方法都返回true；如果两个对象hashcode相同，那么两个对象可能equals不同（概率性问题）因此我们可以得出结论，如果说两个对象equals，那么他们的hashcode方法一定是相同的，所以如果equals重写了，hashcode()方法必定重写。</pre><p>这一篇记得是Java基础的问题，下一篇写多线程。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这篇记一些我比较容易搞混的概念还有题目，尽量用自己的语言去表达出来，因为只有自己语言表达出来才是真的理解了吧。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="技术" scheme="https://junshang11.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="面试" scheme="https://junshang11.com/tags/%E9%9D%A2%E8%AF%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>svn知识补全</title>
+    <link href="https://junshang11.com/2019/09/10/svn/"/>
+    <id>https://junshang11.com/2019/09/10/svn/</id>
+    <published>2019-09-09T16:00:00.000Z</published>
+    <updated>2019-09-18T06:17:25.726Z</updated>
+    
+    <content type="html"><![CDATA[<p>因为看到南通很多公司都用svn作为代码版本控制系统，而我之前用得多的是git吧。所以这篇学一下svn的基本操作，这样子面试遇到了也是有点准备的那种。</p><a id="more"></a><p>整体来说，svn和git还是有点像的。</p><h3 id="svn的生命周期"><a href="#svn的生命周期" class="headerlink" title="svn的生命周期"></a>svn的生命周期</h3><pre>创建版本库，检出checkout，更新update，执行变更 对文件内容的修改，复查变化status，重置修改revert，解决冲突merge，提交更改 commit</pre><p>因为Mac有自带的svn，直接terminal里输入svn help可以看到我的版本是1.10.3</p><ol><li><p>将文件checkout到本地</p><p>svn checkout path (path是服务器上的目录)</p><p>checkout这步就有点像git里的git add，将服务器的内容拉到本地做一个个人的工作空间</p></li></ol><ol start="2"><li><p>往版本库中添加新的文件</p><p>svn add file</p><p>比如说我svn add test.java</p></li></ol><ol start="3"><li><p>将改动的文件提交到版本库</p><p>svn commit -m “LogMessage“ [-N] [<em>–no-unlock] PATH</em></p></li></ol><ol start="4"><li><p>比较差异</p><p>svn diff path（将修改的文件与基础版本比较）</p></li></ol><ol start="5"><li>将两个版本之前的差异合并到当前文件<br>svn merge -r m:n path</li></ol><ol start="6"><li>查看文件或者目录状态<br>svn status path(目录下的文件和子目录的状态，正常状态不显示)<br>其中可能出现的参数：M：内容被修改；C：发生冲突；A：预定加入到版本库；K：被锁定</li></ol><ol start="7"><li>删除文件<br>svn delete path -m “delete test fle“</li></ol><ol start="8"><li><p>版本回退</p><p>svn revert file</p></li></ol><p>以上。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;因为看到南通很多公司都用svn作为代码版本控制系统，而我之前用得多的是git吧。所以这篇学一下svn的基本操作，这样子面试遇到了也是有点准备的那种。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="技术" scheme="https://junshang11.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="Linux" scheme="https://junshang11.com/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SQL优化</title>
+    <link href="https://junshang11.com/2019/09/01/SQL%E4%BC%98%E5%8C%96/"/>
+    <id>https://junshang11.com/2019/09/01/SQL优化/</id>
+    <published>2019-08-31T16:00:00.000Z</published>
+    <updated>2019-09-17T08:21:25.506Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="写在最前面的"><a href="#写在最前面的" class="headerlink" title="写在最前面的"></a>写在最前面的</h3><p>说实话，真的没想到凌志是能这么玩的，强制转cobol，不然就进不了岗。我挺懵逼的，明明招进来的时候很明确地说了写java的啊。歇了两天，很认真地思考了一下以后的职业发展方向，还是不能接受转语言，周五选择离职应该是正确的决定。</p><p>我现在在想我过去的这两个月，自己所做的事情，有没有浪费时间。想了想，其实感觉也还好，最近真的看了很多数据库相关的东西，虽然没有涉及到那些高阶的，比如说分库分表之类的，但SQL整体的知识，索引的原理，一些sql优化的方向，这些知识是自己学到手了的。这边记录一下我笔记本上记录过的一些SQL优化的方法。</p><a id="more"></a><h3 id="一些基础的优化"><a href="#一些基础的优化" class="headerlink" title="一些基础的优化"></a>一些基础的优化</h3><h4 id="lt-gt-优化"><a href="#lt-gt-优化" class="headerlink" title="&lt;&gt;优化"></a>&lt;&gt;优化</h4><p>不等号通常不能走索引，通常情况下用union连接起来。比如说我这边检索出所有金额不等于100的订单，优化的语句就是</p><pre><code>select id from orders where amount >100）union all(select id from orders where amount <100 and amount>0);</100></code></pre><h4 id="OR优化"><a href="#OR优化" class="headerlink" title="OR优化"></a>OR优化</h4><p>or是无法使用联合索引的，比如说我要选出电话号码等于1111或者用户编号是11的用户姓名，就该用union来连接起来。</p><pre><code>(select username from users where mobile = '1111'union(select username from users where id = 11);</code></pre><pre>这边记录一下,union和union all的区别，union是会压缩重复的值，union all并不会</pre><h4 id="in-优化"><a href="#in-优化" class="headerlink" title="in 优化"></a>in 优化</h4><p>之前我记过，in适合主表大，字表小的情况，exist适合主表小子表大的情况，但不管怎么说都是子查询，这种偏嵌套的运行效率都不怎么高，应该尽量用left join来表示,我们这边举个例子是，找出身份是vip的人的用户的单号，涉及到两张表，user表和order表，我们来用left join写一下。</p><pre><code>select o.id from orders o left join user uon o.user_id = u.id where u.class = 'VIP';</code></pre><h4 id="几个不要"><a href="#几个不要" class="headerlink" title="几个不要"></a>几个不要</h4><ol><li>我前面索引那篇写过，不要对索引的数据进行任何计算，不然都会让索引失效。</li><li>不要用select *，这样子一定会走全表扫描，好好写表中的列</li><li>join虽然好，但不要连接超过三个以上的表。</li></ol><h4 id="如何发现需要优化的语句"><a href="#如何发现需要优化的语句" class="headerlink" title="如何发现需要优化的语句"></a>如何发现需要优化的语句</h4><h5 id="打开慢查询日志"><a href="#打开慢查询日志" class="headerlink" title="打开慢查询日志"></a>打开慢查询日志</h5><p>首先打开慢查询日志<br><code>set global slow_query_log='ON';</code><br>再次查看是否开启<br><code>show variables like'%slow_query_log';</code><br>设置时间的阀值<br><code>set global long_query_time = 3;</code></p><p>这样我们就设置好了阀值是3秒钟。</p><p>接下来要是查询语句超过了3秒，MySQL会自动地记录到慢查询日志中。我在我的mac上遇到的问题是，我找不到这个慢查询日志的地址，查了文档，我们可以使用</p><p><code>SELECT @@slow_query_log_file;</code></p><p>找到他。</p><h5 id="用Explain查看执行计划"><a href="#用Explain查看执行计划" class="headerlink" title="用Explain查看执行计划"></a>用Explain查看执行计划</h5><p>用这个对查询是否命中索引非常有用。</p><p>用我这边有的一个范例库nba举个例子</p><p><code>select player_name,  team_name from player  left join team  on player.team_id = team.team_id;</code></p><p>用explain看一下，这个的结果是：</p><p><img src="/images/SQL%E4%BC%98%E5%8C%96/1.png" alt="Explain"></p><p>在这么多参数中，我们主要关注的是type列，type列的几种情况是：</p><p><img src="/images/SQL%E4%BC%98%E5%8C%96/2.png" alt="Explain"></p><p>效率从低到高依次为 all &lt; index &lt; range &lt; index_merge &lt; ref &lt; eq_ref &lt; const/system，我们希望执行计划至少可以使用到range级别，如果看到了all和index，就需要去从SQL语句和索引设计的角度上进行改进。</p><p>以上。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;写在最前面的&quot;&gt;&lt;a href=&quot;#写在最前面的&quot; class=&quot;headerlink&quot; title=&quot;写在最前面的&quot;&gt;&lt;/a&gt;写在最前面的&lt;/h3&gt;&lt;p&gt;说实话，真的没想到凌志是能这么玩的，强制转cobol，不然就进不了岗。我挺懵逼的，明明招进来的时候很明确地说了写java的啊。歇了两天，很认真地思考了一下以后的职业发展方向，还是不能接受转语言，周五选择离职应该是正确的决定。&lt;/p&gt;
+&lt;p&gt;我现在在想我过去的这两个月，自己所做的事情，有没有浪费时间。想了想，其实感觉也还好，最近真的看了很多数据库相关的东西，虽然没有涉及到那些高阶的，比如说分库分表之类的，但SQL整体的知识，索引的原理，一些sql优化的方向，这些知识是自己学到手了的。这边记录一下我笔记本上记录过的一些SQL优化的方法。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="技术" scheme="https://junshang11.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="MySQL" scheme="https://junshang11.com/tags/MySQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SQL经典实例1</title>
+    <link href="https://junshang11.com/2019/08/24/SQL%E7%BB%8F%E5%85%B8%E5%AE%9E%E4%BE%8B1/"/>
+    <id>https://junshang11.com/2019/08/24/SQL经典实例1/</id>
+    <published>2019-08-23T16:00:00.000Z</published>
+    <updated>2019-09-15T07:34:52.786Z</updated>
+    
+    <content type="html"><![CDATA[<p>这是我最近找到的一本很棒的关于SQL的书，里面记录了150多个SQL常见问题和解决方法，最近做了挺久的sql优化，感觉自己还是蛮熟练的了，结果看到这本是真的被amaze了一下。复杂场景下，sql得会写才有机会优化吧，这本书追了追了。</p> <a id="more"></a><h3 id="1-SQL中使用条件逻辑"><a href="#1-SQL中使用条件逻辑" class="headerlink" title="1.SQL中使用条件逻辑"></a>1.SQL中使用条件逻辑</h3><p>case函数的使用</p><pre><code>Select ename,sal,    case when sal<=2000 then ‘underpaid’ when sal>= 4000 then ‘underpaid’        else’ok'    End as statusfrom emp</=2000></code></pre><p>记录一下case函数的用法</p><pre><code>case when value then statement      else ’statement'end case;</code></pre><h3 id="2-把null值转换为实际值"><a href="#2-把null值转换为实际值" class="headerlink" title="2.把null值转换为实际值"></a>2.把null值转换为实际值</h3><p>有两个函数可以用<br>coalesce，返回的是参数列表里的第一个非null值。</p><p><code>select coalesce(comm,0) from emp;</code></p><p>或者用case函数</p><pre><code>select case         when comm is not null then comm        else 0         endFrom emp;</code></pre><h3 id="3-排序时对null值的处理"><a href="#3-排序时对null值的处理" class="headerlink" title="3.排序时对null值的处理"></a>3.排序时对null值的处理</h3><p>想把所有不为null的数放到排序的前面</p><pre><code>select ename,sal,comm    from(select ename,sal,comm,          case when comm is null then 0 else 1 end as is_null from emp)xorder by is_null desc, comm</code></pre><h3 id="4-union-和-union-all的区别"><a href="#4-union-和-union-all的区别" class="headerlink" title="4.union 和 union all的区别"></a>4.union 和 union all的区别</h3><p><em>union等同于针对union all的输出结果再执行一次distinct操作</em></p><h3 id="5-查询编号为10的部门的总工资和总奖金"><a href="#5-查询编号为10的部门的总工资和总奖金" class="headerlink" title="5.查询编号为10的部门的总工资和总奖金"></a>5.查询编号为10的部门的总工资和总奖金</h3><p>因为部分员工获得了不只一次奖金，所以这边有两种方法可以把重复项目给清除</p><p>一种是在聚合函数之前，用关键字distinct</p><p>另一种是，在进行连接查询之前执行聚合运算</p><pre><code>select deptno,        sum(distinct sal) as total_sal,        sum(bonus) as total_bonusfrom(    select e.empno,        e.ename,        e.sal,        e.deptno,        e.sal*case when eb.type = 1 then .1                    when eb.type =2 then .2                end as bonus    from emp e, emp_bonus eb    where e.empno = eb.empno and e.deptno = 10)x group by deptno;</code></pre><p><em>group by函数通常和聚合函数一起用，having的使用是因为，where不能和聚合函数（sum）一起使用</em></p><h3 id="6-上一题的拓展"><a href="#6-上一题的拓展" class="headerlink" title="6.上一题的拓展"></a>6.上一题的拓展</h3><p> 如果只是部分人获得了奖励，就需要left join，将没获得奖金的人的工资也算进来</p><h3 id="7-full-join是left-join和right-join的并集"><a href="#7-full-join是left-join和right-join的并集" class="headerlink" title="7.full join是left join和right join的并集"></a>7.full join是left join和right join的并集</h3>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这是我最近找到的一本很棒的关于SQL的书，里面记录了150多个SQL常见问题和解决方法，最近做了挺久的sql优化，感觉自己还是蛮熟练的了，结果看到这本是真的被amaze了一下。复杂场景下，sql得会写才有机会优化吧，这本书追了追了。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="技术" scheme="https://junshang11.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="MySQL" scheme="https://junshang11.com/tags/MySQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>关于索引</title>
+    <link href="https://junshang11.com/2019/08/13/%E5%85%B3%E4%BA%8E%E7%B4%A2%E5%BC%95/"/>
+    <id>https://junshang11.com/2019/08/13/关于索引/</id>
+    <published>2019-08-12T16:00:00.000Z</published>
+    <updated>2019-09-15T07:11:42.378Z</updated>
+    
+    <content type="html"><![CDATA[<p>昨天碰到一个索引需要优化，翻了挺多资料，琢磨着得整一篇全的讲讲索引的知识点。</p> <a id="more"></a><h3 id="什么是索引"><a href="#什么是索引" class="headerlink" title="什么是索引"></a>什么是索引</h3><p> 我的理解就是书的目录，对数据进行定位和查找，速度极快。那既然是目录，问题就是，如果我数据更改的频次很高，比如说添加删除等，那这个目录就是得频繁的修改。这也是索引的特性，对于需要经常进行修改的表，我们并不添加索引。索引的添加语句是：</p><p> <code>CREATE UNIQUE INDEX index_name ON table_name (column_name) ;</code></p><h3 id="索引的种类"><a href="#索引的种类" class="headerlink" title="索引的种类"></a>索引的种类</h3><h4 id="从功能逻辑上来说"><a href="#从功能逻辑上来说" class="headerlink" title="从功能逻辑上来说"></a>从功能逻辑上来说</h4><p><em>普通索引</em>:没有任何约束,基础索引</p><p>_唯一索引_：在基础索引的基础上添加了数据唯一性的约束</p><p>_主键索引_：在唯一索引的基础上添加了不为空</p><p>_全文索引_：用的不多</p><p>（这种一步一步约束提升的样子有点像数据库设计三范式。。</p><h4 id="从物理实现上来分"><a href="#从物理实现上来分" class="headerlink" title="从物理实现上来分"></a>从物理实现上来分</h4><p>_聚集索引_：按照主键来排序存储数据</p><p>_非聚集索引_：会有单独的存储空间存放非聚集索引，这些索引项是按照顺序存储的，但索引项指向的内容是随机存储的，也就是说查询得分两步骤，先找到索引，再通过索引找到存储的数据。</p><p><strong>通常情况下，聚集索引比非聚集索引效率更高一点</strong></p><h4 id="按照字段个数划分"><a href="#按照字段个数划分" class="headerlink" title="按照字段个数划分"></a>按照字段个数划分</h4><p>_单一索引_：索引列为一列时</p><p>_联合索引_：索引列为多列时<br>创建联合索引的语句</p><p><code>create index 索引名 on 表名（字段名1，字段名2）</code></p><p>对于联合索引来说，有最左匹配原则。</p><h3 id="索引为啥默认采用b-树作为存储的数据结构"><a href="#索引为啥默认采用b-树作为存储的数据结构" class="headerlink" title="索引为啥默认采用b+树作为存储的数据结构"></a>索引为啥默认采用b+树作为存储的数据结构</h3><p>整理了一张图，很直接了。</p><p><img src="/images/%E7%B4%A2%E5%BC%95/b+%E6%A0%91.png" alt="索引数据结构"></p><h3 id="索引的使用原则"><a href="#索引的使用原则" class="headerlink" title="索引的使用原则"></a>索引的使用原则</h3><h4 id="啥时候创建索引呢"><a href="#啥时候创建索引呢" class="headerlink" title="啥时候创建索引呢"></a>啥时候创建索引呢</h4><ol><li>字段的数值有唯一性的限制</li><li>频繁作为 WHERE 查询条件的字段</li><li>需要经常 GROUP BY 和 ORDER BY 的列 </li><li>UPDATE、DELETE 的 WHERE 条件列，一般也需要创建索引</li><li>DISTINCT 字段需要创建索引</li></ol><h4 id="哪些情况下索引会失效"><a href="#哪些情况下索引会失效" class="headerlink" title="哪些情况下索引会失效"></a>哪些情况下索引会失效</h4><ol><li>如果索引进行了表达式计算，则会失效 </li><li>如果对索引使用函数，也会造成失效 （比如说我substring一下）</li><li>在 WHERE 子句中，如果在 OR 前的条件列进行了索引，而在 OR 后的条件列没有进行索引，那么索引会失效</li><li>当我们使用 LIKE 进行模糊查询的时候，后面不能是 %（这边有个有意思的，%123不行，但是123%是能走索引的）</li><li>索引列与 NULL 或者 NOT NULL 进行判断的时候也会失效。</li><li>索引列与 NULL 或者 NOT NULL 进行判断的时候也会失效。（所以我们设计表的时候，最好都加上not null的约束）</li></ol><p>以上是我参考了SQL必知必会和一些csdn的blog总结的索引相关知识。总感觉对SQL这块，还得再写一篇关于SQL调优才行。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;昨天碰到一个索引需要优化，翻了挺多资料，琢磨着得整一篇全的讲讲索引的知识点。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="技术" scheme="https://junshang11.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="SQL" scheme="https://junshang11.com/tags/SQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SQL必知必会学到的</title>
+    <link href="https://junshang11.com/2019/07/13/SQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/"/>
+    <id>https://junshang11.com/2019/07/13/SQL必知必会/</id>
+    <published>2019-07-12T16:00:00.000Z</published>
+    <updated>2019-09-05T10:02:36.893Z</updated>
+    
+    <content type="html"><![CDATA[<p>因为现在培训时期没有机会接触业务代码，所以就是做一些SQL优化的事情，然后遇到一些之前没有学过的SQL写法，比如说判断啊之类的，然后就买了“极客时间的SQL必知必会”的课，是真的不错，所以这边再开一篇，记录一下自己学到的新的写法。</p> <a id="more"></a><h3 id="1"><a href="#1" class="headerlink" title="1"></a>1</h3><p>   utf8_general_ci 对大小写不敏感。 Utf8_bin是敏感的。</p><h3 id="2-设计数据库表的经典“三少一多”原则"><a href="#2-设计数据库表的经典“三少一多”原则" class="headerlink" title="2 设计数据库表的经典“三少一多”原则"></a>2 设计数据库表的经典“三少一多”原则</h3><ol><li>数据表个数越少越好</li><li>字段个数越少越好</li><li>联合主键字段个数越少越好</li><li>使用的主键和外键越多越好（提升相互之间的关联使用率）</li></ol><h3 id="3-查询常数"><a href="#3-查询常数" class="headerlink" title="3 查询常数"></a>3 查询常数</h3><p><code>Select ‘农药’ as platform, name from heroes;</code></p><h3 id="4-去重用的distinct，必须写在sql语句的最前面"><a href="#4-去重用的distinct，必须写在sql语句的最前面" class="headerlink" title="4 去重用的distinct，必须写在sql语句的最前面"></a>4 去重用的distinct，必须写在sql语句的最前面</h3><p><code>Select distinct name, age from users;</code></p><h3 id="5-百分比的表示"><a href="#5-百分比的表示" class="headerlink" title="5 百分比的表示"></a>5 百分比的表示</h3><p><code>Select concat(round(mp.max/mp.base,2)*100, ,’%');</code></p><h3 id="6-表创建相关"><a href="#6-表创建相关" class="headerlink" title="6 表创建相关"></a>6 表创建相关</h3><p>有时候为了防止删除关联表，就可以使用外键约束。<br><code>Set foreign_key_checks =1;</code><br>这样删除表的时候，就会报出 “a foreign key constraint fail”。</p><p>存储中文信息的时候，表头创建加一句<br><code>SET NAMES utf8mb4;</code><br>Utf8支持的最大字符长度是3个字节，所有4个字节的宽数据就存储不了，这时候就得改成utf8mb4</p><h3 id="7-where-和-having的区别"><a href="#7-where-和-having的区别" class="headerlink" title="7 where 和 having的区别"></a>7 where 和 having的区别</h3><p>where 是对数据的过滤，having是针对分组的</p><h3 id="8-子查询-any，all的用法"><a href="#8-子查询-any，all的用法" class="headerlink" title="8 子查询 any，all的用法"></a>8 子查询 any，all的用法</h3><p>select name, height from players where height &gt; any(select height from player where team_id = 1002);</p><h3 id="9-子查询什么时候用exists，什么时候用in"><a href="#9-子查询什么时候用exists，什么时候用in" class="headerlink" title="9 子查询什么时候用exists，什么时候用in"></a>9 子查询什么时候用exists，什么时候用in</h3><p>当查询字段进行了索引时，主表 A 大于从表 B，使用 IN 子查询效率更高；<br>相反主表 A 小于从表 B 时，使用 EXISTS 子查询效率更高。</p><p><strong>虽然是这么说，但是真的少用子查询好吧，因为效率真的不高</strong></p><h3 id="10-连接查询"><a href="#10-连接查询" class="headerlink" title="10 连接查询"></a>10 连接查询</h3><p>内连接<br>左外<br>右外<br>自连接</p><p>例子：三支球队比赛，列出所有的可能对阵表<br><code>Select t1.name, t2.name from team as t1 left join team as t2 on t1.id <> t2.id;</code></p><h3 id="11-视图"><a href="#11-视图" class="headerlink" title="11 视图"></a>11 视图</h3><pre><code>create view player_above_avg_height as Select player.id, height From player Where height > (select avg(height) from player)</code></pre><p>我查看了视图和临时表的区别，我还是挺好奇，视图在实际开发中，到底被用在哪里的。</p><h3 id="12-存储过程"><a href="#12-存储过程" class="headerlink" title="12 存储过程"></a>12 存储过程</h3><pre><code>CREATE PROCEDURE `add_num`(IN n INT)BEGINDECLARE i INT;DECLARE sum INT;SET i = 1;SET sum = 0;WHILE i <= n do set sum="sum" + i; i="i" +1; end while; select sum; < code></=></code></pre><p>NaviCat写法，如果在mysql命令行里面，得在两端加上DELIMITER // 结尾DELIMITER;。</p><p>存储过程的三种参数类型（in，out, inout)</p><pre><code>CREATE PROCEDURE `get_hero_scores`(OUT max_max_hp FLOAT,OUT min_max_mp FLOAT,OUT avg_max_attack FLOAT,s VARCHAR(255))BEGINSELECT MAX(hp_max), MIN(mp_max), AVG(attack_max) FROM heros WHERE role_main = s INTO max_max_hp, min_max_mp, avg_max_attack;END</code></pre><p>这边有个select… into的用法，将取到的值赋给out的数据，方便他传出来。</p><p>例题：</p><pre><code>CREATE PROCEDURE 'total_hp' ( OUT sum_hp_max FLOAT, IN s VARCHAR ( 255 ) ) BEGIN    SELECT        SUM( hp_max ) AS sum_hp_max     FROM        heros     WHERE        role_main = s INTO sum_hp_max;END CALL total_hp ( @sum_hp_max, '射手' );SELECT @sum_hp_max</code></pre><h3 id="13-事务隔离级别"><a href="#13-事务隔离级别" class="headerlink" title="13 事务隔离级别"></a>13 事务隔离级别</h3><pre>常见的错误*脏读：A读到了B没提交的事务**不可重复读：A两次查询得到两个不同的结尾**幻读：A第一次读和第二次读获得的数据不一（B事务对数据做出了修改）*</pre><p>四种隔离级别：<br><img src="/images/isolation_level.jpg" alt="四种隔离级别" title="四种隔离级别"></p><p>MySQL是不可重复读。</p><h3 id="14-游标"><a href="#14-游标" class="headerlink" title="14 游标"></a>14 游标</h3><p>游标实际上是一种控制数据集的更加灵活的处理方式。<br>DECLARE cursor_name CURSOR FOR select_statement;</p><p>例子：</p><pre><code>DECLARE cur_hero CURSOR FOR SELECT hp_max FROM heros;OPEN cursor_name;FETCH cursor_name INTO var_name;CLOSE cursor_name;DEALLOCATE PREPARE;</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;因为现在培训时期没有机会接触业务代码，所以就是做一些SQL优化的事情，然后遇到一些之前没有学过的SQL写法，比如说判断啊之类的，然后就买了“极客时间的SQL必知必会”的课，是真的不错，所以这边再开一篇，记录一下自己学到的新的写法。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="技术" scheme="https://junshang11.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="SQL" scheme="https://junshang11.com/tags/SQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SQL Cheatsheet</title>
+    <link href="https://junshang11.com/2019/03/13/SQL%20Cheatsheet/"/>
+    <id>https://junshang11.com/2019/03/13/SQL Cheatsheet/</id>
+    <published>2019-03-12T16:00:00.000Z</published>
+    <updated>2019-09-05T12:48:04.530Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="SQL语句集合"><a href="#SQL语句集合" class="headerlink" title="SQL语句集合"></a>SQL语句集合</h3><p>这篇是用来记录我之前忘记的好多SQL语句的，因为有些SQL语句真的是不常用就会忘记的，记到这边来下次写SQL的时候可以看。</p> <a id="more"></a><h3 id="皮一下"><a href="#皮一下" class="headerlink" title="皮一下"></a>皮一下</h3><p>开篇先来皮一下，因为真的好几次忘记了自己的密码是什么，然后去网上找那些改密码的方法。所以干脆这边就记录一下。</p><p>先把MySQL服务关闭。</p><p><code>sudo /usr/local/mysql/support-files/mysql.server stop</code></p><p>然后进入mysql的bin目录。<code>cd /usr/local/mysql/bin</code>。</p><p>绕过用户验证。<code>mysqld --skip-grant-tables</code></p><p>重新开一个命令行，直接进mysql。</p><p><code>set password for 'root'@'localhost'=password('xxx');</code></p><p>这样子新的密码就修改好了。如果你需要修改原来的老密码，用的是</p><p><code>update user set password=password('123456') where user='root';</code></p><h3 id="DDL语句"><a href="#DDL语句" class="headerlink" title="DDL语句"></a>DDL语句</h3><p>创建数据库的</p><pre><code>DROP TABLE IF EXISTS admin;CREATE TABLE admin (  username varchar(20) NOT NULL DEFAULT '',  password varchar(32) DEFAULT NULL,  PRIMARY KEY ('username')) ENGINE=InnoDB DEFAULT CHARSET=utf8;</code></pre><p>创建表的</p><pre><code>DROP TABLE IF EXISTS t_stu;CREATE Table t_stu(        stuId int(11) NOT NULL AUTO_INCREMENT,          stuName varchar(20) NOT NULL,          PRIMARY KEY(stuId) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;</code></pre><p>修改表的（增加，删除列）</p><p><code>ALTER TABLE t_student ADD col char(20);</code></p><p><code>ALTER TABLE 't_student' DROP COLUMN col;</code></p><p>删除表</p><p><code>DROP TABLE table;</code></p><h4 id="DML语句"><a href="#DML语句" class="headerlink" title="DML语句"></a>DML语句</h4><p>插入</p><p><code>INSERT INTO table (col1,col2) VALUES(val1,val2); </code></p><p>插入检索出来的数据</p><pre><code>INSERT INTO table(col1,col2) SELECT * FROM table2;</code></pre><p>更新语句</p><pre><code>UPDATE table1SET col = valWHERE id = 1;</code></pre><p>删除语句</p><pre><code>DELETE FROM table WHERE id =1;</code></pre><p>清空表</p><p><code>TRUNCATE TABLE table； </code></p><p><em>TRUNCATE TABLE 删除表中的所有行，但表结构及其列、约束、索引等保持不变。</em></p><p>查询语句实在是有点多，一些常用的我不会忘的就不记了，写点我容易忘的</p><p>通配符的用法</p><pre><code>SELECT * FROM tableWHERE col LIKE '[^AB]%';-- ^否定，[]集合，匹配其中之一，%匹配多个字符，_匹配一个字符</code></pre><p>连接字段</p><pre><code>SELECT CONCAT(TRIM(col),'('TRIM(col2),')')FROM student;</code></pre><p>日期计算记一个日期之差的把</p><p><code>SELECT DATEDIFF('2007-12-31','2007-12-30'); </code></p><p>接下来就是比较难的部分了：</p><p><strong>分组是将具有相同的数据值的行放在同一组中</strong></p><pre><code>SELECT col, COUNT(*) AS numFROM tableGROUP BY col</code></pre><p><em>这里记一下，where是过滤行的，having是过滤分组的，group by默认出现在where之后，order by之前</em></p><p>子查询就不记了吧，因为效率是真的低，一般来说子查询都能用连接查询替代，所以接下来用一张神图来概括所有的连接查询。</p><p><img src="/images/sql_join.jpg" alt="join神图" title="连接的写法"></p><p>大概常用的就是这些了吧。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;SQL语句集合&quot;&gt;&lt;a href=&quot;#SQL语句集合&quot; class=&quot;headerlink&quot; title=&quot;SQL语句集合&quot;&gt;&lt;/a&gt;SQL语句集合&lt;/h3&gt;&lt;p&gt;这篇是用来记录我之前忘记的好多SQL语句的，因为有些SQL语句真的是不常用就会忘记的，记到这边来下次写SQL的时候可以看。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="技术" scheme="https://junshang11.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="SQL" scheme="https://junshang11.com/tags/SQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux命令相关</title>
+    <link href="https://junshang11.com/2019/03/10/Linux%E8%AF%AD%E5%8F%A5%E7%9B%B8%E5%85%B3/"/>
+    <id>https://junshang11.com/2019/03/10/Linux语句相关/</id>
+    <published>2019-03-09T16:00:00.000Z</published>
+    <updated>2019-09-17T09:33:18.972Z</updated>
+    
+    <content type="html"><![CDATA[<p>因为我一直用的是Mac OS，这是一个类Unix的系统，然后之前大一大二写Python的时候，有一本<learn python the hard way>里面，单独分了一章出来讲命令行语句，所以基础cd，mkdir，touch我也知道，写这个是因为我看到明天有个校招的公司要求有Linux基础，我这边抱个佛脚，记录一些使用频率高点的其他的命令。</learn></p><a id="more"></a><h3 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h3><p>直接上来就是帮助，有时候假如我一个命令忘记了就直接用man + 命令去查看，比如我man ps，就能看到process status的详细信息。</p><p>但如果只想看简洁版的，就用–help。</p><h3 id="Vim相关"><a href="#Vim相关" class="headerlink" title="Vim相关"></a>Vim相关</h3><p>之前学的时候我是挺讨厌vim的，可能我没到那个级别，用vim修改python路径或者java路径的时候，总是不会用，后来用的多了感觉也还行。</p><p>vim分三个模式：</p><p><em>一般指令模式</em> ：默认模式，可以查看内容</p><p><em>编辑模式</em> ：按i进入，退出按esc</p><p>_指令列模式_： 按下：进入，保存，退出等操作。</p><p>一般的指令模式有:</p><pre>:w 写磁盘；:w! 强制写磁盘:q 退出:q! 强制退出不保存:wq 写入磁盘后离开:wq! 强制写入磁盘后离开</pre><h3 id="文件和目录操作"><a href="#文件和目录操作" class="headerlink" title="文件和目录操作"></a>文件和目录操作</h3><p>ls,cd,mkdir,cp,rm这些我熟悉就不写了吧，写个我自己老是忘的:</p><p><code>touch [-acdmt] filename</code></p><pre>这里面的常用的参数含义是：-a:更新-c:文件不存在就创建新文件-m: 更新</pre><h3 id="权限管理"><a href="#权限管理" class="headerlink" title="权限管理"></a>权限管理</h3><p><code>chmod [-R] xyz dirname/filename</code></p><p>好像是计算机组成原理的时候学过，r:4,w:2,x:1</p><p>这边的xyz指的是三组人群，owner，同组用户，其他用户</p><p>也可以用符号来设定权限：</p><pre># chmod [ugoa][+-=] [rwx] dirname/filename- u：拥有者- g：所属群组- o：其他人- a：所有人- +：添加权限- -：移除权限- =：设定权限</pre><h3 id="获取文件内容"><a href="#获取文件内容" class="headerlink" title="获取文件内容"></a>获取文件内容</h3><pre>cat:取得文件内容tac：cat的反向操作，从最后一行开始打印more：可以一页一页地查看文件内容less：和more差不多，但有个向前翻页的功能</pre><h3 id="压缩文件"><a href="#压缩文件" class="headerlink" title="压缩文件"></a>压缩文件</h3><p>记一个常用的gzip吧</p><pre>gzip [-cdtv#] filename-c ：将压缩的数据输出到屏幕上-d ：解压缩-t ：检验压缩文件是否出错-v ：显示压缩比等信息-# ： # 为数字的意思，代表压缩等级，数字越大压缩比越高，默认为 6</pre><h3 id="进程管理"><a href="#进程管理" class="headerlink" title="进程管理"></a>进程管理</h3><p>这块应该是我看到的最多的面试题目。</p><h4 id="ps"><a href="#ps" class="headerlink" title="ps"></a>ps</h4><p>全称是process status ，查看某个时间点的进程信息的</p><p>ps -I  :查看自己的进程</p><p>ps aux 查看系统所有进程</p><p>ps aux | grep threadx 查看特定进程</p><h4 id="top"><a href="#top" class="headerlink" title="top"></a>top</h4><p>实时显示进程信息</p><p>top -d 2</p><h3 id="pstree"><a href="#pstree" class="headerlink" title="pstree"></a>pstree</h3><p>查看所有进程树</p><p>Pstree -A</p><p>讲真。。主要一般开发都在unix这边，这个不练是真的记不住。我去装个虚拟机跑centos吧。。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;因为我一直用的是Mac OS，这是一个类Unix的系统，然后之前大一大二写Python的时候，有一本&lt;learn python the hard way&gt;里面，单独分了一章出来讲命令行语句，所以基础cd，mkdir，touch我也知道，写这个是因为我看到明天有个校招的公司要求有Linux基础，我这边抱个佛脚，记录一些使用频率高点的其他的命令。&lt;/learn&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="技术" scheme="https://junshang11.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="Linux" scheme="https://junshang11.com/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>json的那些事</title>
+    <link href="https://junshang11.com/2019/02/20/json%E7%9A%84%E8%A7%A3%E6%9E%90/"/>
+    <id>https://junshang11.com/2019/02/20/json的解析/</id>
+    <published>2019-02-19T16:00:00.000Z</published>
+    <updated>2019-09-17T23:32:47.919Z</updated>
+    
+    <content type="html"><![CDATA[<p>前几天写了Ajax相关的知识，然后这几天写前后端传json磕磕绊绊中学到了点新的，这边来记录一下。</p><a id="more"></a><h3 id="页面发Ajax请求过来，我怎么收"><a href="#页面发Ajax请求过来，我怎么收" class="headerlink" title="页面发Ajax请求过来，我怎么收"></a>页面发Ajax请求过来，我怎么收</h3><pre><code>$(function(){// 绑定点击事件 $("#btn").click(function(){        $.ajax({         url:"user/testJson",         contentType:"application/json;        charset=UTF-8",         data:'{"addressName":"aa","addressNum":100}',         dataType:"json",        type:"post",         success:function(data){         alert(data);         alert(data.addressName); }});});});</code></pre>现在传过来一个键值对对象，我这边就得在我的控制器参数里面加上@RequestBody注解<pre><code>@RequestMapping("/testJson") public void testJson(@RequestBody Address address) { System.out.println(body); }</code></pre><p>这边的@RequestBody会自动地将json数据转化成java bean对象。</p><h3 id="将JavaBean对象转成json"><a href="#将JavaBean对象转成json" class="headerlink" title="将JavaBean对象转成json"></a>将JavaBean对象转成json</h3><p>比如说我现在服务器查到了信息，需要将数据返回给前端</p><pre><code><pre><code>@RequestMapping("/testJson") public @ResponseBody Address testJson(@RequestBody Address address) {     address.setAddressName("上海");    return address;}</code></pre><p>只需要在返回值前面加上@ResponseBody就行了，这样他会自动解析bean对象转成json。</p><h3 id="Gson"><a href="#Gson" class="headerlink" title="Gson"></a>Gson</h3><p>当然上面的操作没有一个第三方包的支持是不可能的，@RequestBody和@ResponseBody都没有内置json的解析器。</p><p>我看的绝大多数教程用的都是jackson去解析json，然后我看到一篇比较近期很流行的json解析器排行时，看到了谷歌开源的Gson。相比阿里出品的FastJson，他有更好的稳定性，所以这边讲一下Gson的用法。</p><h4 id="首先是Gson的实力化"><a href="#首先是Gson的实力化" class="headerlink" title="首先是Gson的实力化"></a>首先是Gson的实力化</h4><p><code>Gson gson = new Gson();</code></p><p>我们可以通过GsonBuilder对Gson进行个性化的配置：</p><pre><code>gson = new GsonBuilder()                    .setLenient()// json宽松                    .enableComplexMapKeySerialization()//支持Map的key为复杂对象的形式                    .serializeNulls() //智能null                    .setPrettyPrinting()// 调教格式                    .disableHtmlEscaping() //默认是GSON把HTML 转义的                    .create();</code></pre><h4 id="各种数据和json之前的转化"><a href="#各种数据和json之前的转化" class="headerlink" title="各种数据和json之前的转化"></a>各种数据和json之前的转化</h4><h5 id="JavaBean转json"><a href="#JavaBean转json" class="headerlink" title="JavaBean转json"></a>JavaBean转json</h5><p><code>        String jsonStr = gson.toJson(student);</code></p><h5 id="List和Map-转json"><a href="#List和Map-转json" class="headerlink" title="List和Map 转json"></a>List和Map 转json</h5><pre><code> List<string> list = Arrays.asList("1", "a", "3", "rt", "5");String jsonStr = gson.toJson(list);</string></code></pre><pre><code>          Map<string, object> content = new HashMap<string, object>();        content.put("name", "ericshang11");        content.put("age", "11");        String jsonStr = gson.toJson(content);</string,></string,></code></pre><h5 id="json转其他数据类型"><a href="#json转其他数据类型" class="headerlink" title="json转其他数据类型"></a>json转其他数据类型</h5><p>先看一个json转成JavaBean的：</p><pre><code>String studentJsonStr="{\"name\":\"ericshang11\",\"age\":11}";Student student1 = gson.fromJson(studentJsonStr, Student.class);</code></pre><p>这边用到了一个fromJson方法，他的第一个参数值是需要转的json对象，第二个是要转成的类型。但是当我们不明确要转成的对象是什么的时候呢，我们就可以用Gson提供的TypeToken，这是一个数据类型转换器。</p><p><code>List<person> ps = gson.fromJson(str, new TypeToken<list<person>>(){}.getType());<br></list<person></person></code></p><p>以上就是我整理json相关的知识，能应付我绝大多数开发场景了吧。</p></code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;前几天写了Ajax相关的知识，然后这几天写前后端传json磕磕绊绊中学到了点新的，这边来记录一下。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="技术" scheme="https://junshang11.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="json" scheme="https://junshang11.com/tags/json/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ajax</title>
+    <link href="https://junshang11.com/2019/02/16/Ajax/"/>
+    <id>https://junshang11.com/2019/02/16/Ajax/</id>
+    <published>2019-02-15T16:00:00.000Z</published>
+    <updated>2019-09-17T01:37:25.852Z</updated>
+    
+    <content type="html"><![CDATA[<p>之前学Java Web的时候学过Ajax，当时得创建XMLHttpRequest，然后通过这个XHR去和服务端进行交互。最近写毕设的时候想通过Ajax实现点击按钮，弹出对话框（用css3的z index实现），然后对数值进行修改，点击确定post到服务器的操作。然后现在就不用js原生的那种方法实现，用jQuery封装的Ajax来实现。</p><a id="more"></a><h3 id="配置和通常情况下的写法"><a href="#配置和通常情况下的写法" class="headerlink" title="配置和通常情况下的写法"></a>配置和通常情况下的写法</h3><p>第一步就是引入jQuery的文件。可以从bootcdn上找到link。</p><p>比如说页面上我有一个修改按钮，那我再head里的js代码如下：</p><pre><code>$("button").click(function(){    $.ajax({url:"emp/edit",    data:""    type:"GET",        success:function(result){       //假如请求成功，执行的方法是    },    error:function(result){    //假如访问失败，执行的方法    }});});</code></pre><p>然后还有一种场景是在一个js方法里，调用了ajax去向服务器发出请求，写法是：</p><pre><code>function doPost(args){    $.ajax({                url:"emp/depts",                type:"GET",                success:function(result){                do something                }})};</code></pre><p>以上两种是通常情况下的ajax使用场景。</p><p>对于我来说，一定要注意到括号的开闭啊，真的是好多次报错就是因为括号没有合理地开闭。</p><h3 id="带参数解析"><a href="#带参数解析" class="headerlink" title="带参数解析"></a>带参数解析</h3><p>接下来，说一下，ajax请求里的这些常用的参数是什么意思。</p><p><em>url</em> : </p><p>String类型的参数，请求的地址。</p><p>_type_：</p><p>请求的方法，通常情况下是post或者是get，这边正好再回顾一下http的get和post方法。</p><pre>GET 从指定的资源请求数据；post 向指定的资源提交要处理的数据。其中相同的点在于，都可以从服务器取得数据，但GET可能会拿到缓存数据，但post拿到了也不会缓存数据。</pre><p><em>data</em> :</p><p>提交到服务器的数据，一般是字符串类型；如果是对象类型，那就转成键值对的形式。比如这个样子：</p><pre><code>data: {                "userName": $('#userName').val(),                "password": $('#password').val(),            },</code></pre><p>dataType_:</p><p>预期的服务器的返回类型是啥：通常情况下有xml，text，json，但json一般来说是主流吧，明天再写一篇讲如何用Gson去解析服务器传过来的json数据的。</p><p><em>success</em> 和 <em>error</em></p><p>要求为Function类型的参数，记录的是请求成功或者失败后的回调函数。</p><p>一般使用的就是这几个参数。</p><h3 id="用到的其他的一些jQuery函数和方法"><a href="#用到的其他的一些jQuery函数和方法" class="headerlink" title="用到的其他的一些jQuery函数和方法"></a>用到的其他的一些jQuery函数和方法</h3><p>写到一个批量删除数据的时候，用到一个each函数，这边记录一下ajax each函数的用法。</p><pre><code>$.each( object, callback )</code></pre><p>这边object是遍历的对象，数组或者是元素；</p><p>callback是用于循环执行的函数。</p><p>另外还有一个prop方法这边记录一下。</p><p>prop() 方法设置或返回被选元素的属性和值。</p><p>当该方法用于<strong>返回</strong>属性值时，则返回第一个匹配元素的值。</p><p><code>$(<em>selector</em>).prop(<em>property</em>)</code></p><p>当该方法用于<strong>设置</strong>属性值时，则为匹配元素集合设置一个或多个属性/值对。</p><p><code>$(<em>selector</em>).prop(<em>property,value</em>)</code></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;之前学Java Web的时候学过Ajax，当时得创建XMLHttpRequest，然后通过这个XHR去和服务端进行交互。最近写毕设的时候想通过Ajax实现点击按钮，弹出对话框（用css3的z index实现），然后对数值进行修改，点击确定post到服务器的操作。然后现在就不用js原生的那种方法实现，用jQuery封装的Ajax来实现。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="技术" scheme="https://junshang11.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="Ajax" scheme="https://junshang11.com/tags/Ajax/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>uml相关的元素在这边啊</title>
+    <link href="https://junshang11.com/2019/02/12/uml/"/>
+    <id>https://junshang11.com/2019/02/12/uml/</id>
+    <published>2019-02-11T16:00:00.000Z</published>
+    <updated>2019-09-07T12:22:53.543Z</updated>
+    
+    <content type="html"><![CDATA[<p>  最近看一些常用设计模式的时候，老是看到uml图，软件工程的课上学过，学完就忘了，没想到设计模式里到处都是，这里贴一张在UML Diagram上面找到的一张图，是关于uml的常用元素的。</p><a id="more"></a><p><img src="/images/uml.png" alt="uml常用元素"></p><p>然后这边再记录一点对象之间的关系，虽然图上已经有标注了，但怕自己有时候会脑抽弄错吧。</p><h3 id="对象之间的关系"><a href="#对象之间的关系" class="headerlink" title="对象之间的关系"></a>对象之间的关系</h3><h4 id="泛化关系-Generalization-空心箭头线"><a href="#泛化关系-Generalization-空心箭头线" class="headerlink" title="泛化关系 Generalization   空心箭头线"></a>泛化关系 Generalization   空心箭头线</h4><p>is-a的关系，比如说，动物和狗，狗 is-a 动物，所以是泛化关系，用的箭头是空心箭头！</p><h4 id="实现关系-Realization-实心箭头的虚线"><a href="#实现关系-Realization-实心箭头的虚线" class="headerlink" title="实现关系 Realization   实心箭头的虚线"></a>实现关系 Realization   实心箭头的虚线</h4><p>实心箭头的虚线表示的，就是类与接口的关系。</p><h4 id="关联关系-Association-就直线"><a href="#关联关系-Association-就直线" class="headerlink" title="关联关系 Association    就直线"></a>关联关系 Association    就直线</h4><p>一条直线表示</p><h4 id="聚合关系-Aggregation-带空心菱形的实线"><a href="#聚合关系-Aggregation-带空心菱形的实线" class="headerlink" title="聚合关系 Aggregation   带空心菱形的实线"></a>聚合关系 Aggregation   带空心菱形的实线</h4><p>是整体和部分的关系，比如说汽车和轮胎，方向盘这些零部件。图例用带空心菱形的实线表示，菱形指向的是实体。</p><h4 id="组合关系-Composition-带实心的菱形"><a href="#组合关系-Composition-带实心的菱形" class="headerlink" title="组合关系 Composition    带实心的菱形"></a>组合关系 Composition    带实心的菱形</h4><p>也是整体和部分的关系，但是和聚合关系不同的是，部分不能够独立存在，这边的经典例子是公司和部门，要是没有公司，部门的存在没啥意义。图例是用带实心的菱形表示。</p><h4 id="依赖关系-Dependency-带箭头的虚线"><a href="#依赖关系-Dependency-带箭头的虚线" class="headerlink" title="依赖关系 Dependency    带箭头的虚线"></a>依赖关系 Dependency    带箭头的虚线</h4><p>是一种使用的关系，一个类需要另一个类的协助。</p><p>我感觉也不需要刻意去背吧，以后要画了要看了，翻出这篇来看一下就好了，所以在这边mark一下。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;  最近看一些常用设计模式的时候，老是看到uml图，软件工程的课上学过，学完就忘了，没想到设计模式里到处都是，这里贴一张在UML Diagram上面找到的一张图，是关于uml的常用元素的。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="技术" scheme="https://junshang11.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="uml" scheme="https://junshang11.com/tags/uml/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>PageHelper的使用</title>
+    <link href="https://junshang11.com/2019/02/09/%E5%88%86%E9%A1%B5/"/>
+    <id>https://junshang11.com/2019/02/09/分页/</id>
+    <published>2019-02-08T16:00:00.000Z</published>
+    <updated>2019-09-15T02:15:53.098Z</updated>
+    
+    <content type="html"><![CDATA[<p>之前写网页写到分页的时候都很头疼，因为涉及的数据太多了，分页的信息得封装到一个类里面，页面信息又得分装到一个类里面，很麻烦，所以这边尝试着用Github 开源的MyBatis PageHelper做一次。</p> <a id="more"></a><h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>那第一步还是加载依赖，</p><p><img src="/images/%E5%88%86%E9%A1%B5/1.png" alt="依赖"></p><p>接着在MyBatis全局配置文件中配置拦截器插件。<br><img src="/images/%E5%88%86%E9%A1%B5/2.png" alt="拦截器插件"><br>拦截器的具体实现这边先不多花时间进行关注，我们去看一下使用流程。</p><h3 id="使用流程"><a href="#使用流程" class="headerlink" title="使用流程"></a>使用流程</h3><p>首先我们需要</p><pre><code>//获取第1页，10条内容，默认查询总数countPageHelper.startPage(1, 10);//紧跟着的第一个select方法会被分页List<employee> list = employeeService.getAll();//使用pageinfo包装,传入连续显示的页数，这个5是相邻页码的意思PageInfo pageInfo = new PageInfo(list,5);//接下来我们就可以用model以键值对的形式将值传出去了model.addAttribute("pageInfo",pageInfo);</employee></code></pre><h3 id="看一下神奇的PageInfo"><a href="#看一下神奇的PageInfo" class="headerlink" title="看一下神奇的PageInfo"></a>看一下神奇的PageInfo</h3><p><img src="/images/%E5%88%86%E9%A1%B5/3.png" alt="PageInfo"><br>这边事实上就是对分页的相关信息进行了一个封装，可以看到封装的数据很全面，这样对前端代码的编写带来了极大的便利。</p><p><img src="/images/%E5%88%86%E9%A1%B5/4.png" alt="前端代码展示"></p><p>然后这边记录一下前端的相邻页码的写法。挺有意思的。</p><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>可以看到PageHelper实现的思想其实是一个更大的封装。不仅将分页信息封装起来，还将页面的详细信息封装起来。挺方便的。并且根据文档，他的实现还是很安全的。</p><blockquote><p>只要你可以保证在 PageHelper 方法调用后紧跟 MyBatis 查询方法，这就是安全的。因为 PageHelper 在 finally 代码段中自动清除了 ThreadLocal 存储的对象。</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;之前写网页写到分页的时候都很头疼，因为涉及的数据太多了，分页的信息得封装到一个类里面，页面信息又得分装到一个类里面，很麻烦，所以这边尝试着用Github 开源的MyBatis PageHelper做一次。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="技术" scheme="https://junshang11.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="SSM" scheme="https://junshang11.com/tags/SSM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MyBatis Generator的使用</title>
+    <link href="https://junshang11.com/2019/02/03/ssm/"/>
+    <id>https://junshang11.com/2019/02/03/ssm/</id>
+    <published>2019-02-02T16:00:00.000Z</published>
+    <updated>2019-09-14T13:23:55.432Z</updated>
+    
+    <content type="html"><![CDATA[<p>之前学SSM的时候，因为时间不多，所以有一些不是核心的知识点我就直接跳过了，比如说MyBatis的逆向工程，也就是Mybatis Generator的使用，我就没有去管。然而事实上，自己写的那个接口的映射文件总写的很繁杂，在复杂的业务上，那写的叫一个长。据说Mybatis Generator创建的是非常标准化的映射写法，所以这次来学习一下。</p> <a id="more"></a><h3 id="Maven中加入依赖并配置插件信息"><a href="#Maven中加入依赖并配置插件信息" class="headerlink" title="Maven中加入依赖并配置插件信息"></a>Maven中加入依赖并配置插件信息</h3><p>那第一步肯定是在maven中加入依赖。</p><p><img src="/images/generator/1.png" alt="依赖"></p><p>然后因为使用的是idea，所以我们用idea plugin的形式来配置generator的相关信息。</p><p><img src="/images/generator/2.png" alt="插件信息"></p><p>我这边踩过的坑是啥呢，没加mysql-connector，插件是不会调用上面的dependency里的mysql-connector的，所以要额外配一个，然后我一开始不清楚要写configurationFile，现在看来是蛮蠢的，你不写配置文件的话，用的应该是默认的那种，默认的文档结构和我自己需要的应该是不一样的，所以我们这边自己配置一个路径地址，自己也好找。</p><h3 id="接下来就是写运行的配置信息"><a href="#接下来就是写运行的配置信息" class="headerlink" title="接下来就是写运行的配置信息"></a>接下来就是写运行的配置信息</h3><p>这边包括了，你想把创建的pojo啊，mapper接口和mapper映射文件放在哪里，直接上代码,我注释的挺全的。</p><p><img src="/images/generator/3.png" alt="配置1"><br><img src="/images/generator/4.png" alt="配置2"></p><p>然后这边我遇到一个问题呢，是idea带来的，我本来想把mapper映射文件和mapper接口放在一起，但idea的思想是，你的xml就应该和resources放在一起读取。那不违背这个原则，我就在resources里面创建了新的directory，和我mapper接口的路径保持一致，这样就能一一对应起来。</p><p>这些配置做完以后，MyBatis Generator就会把你在MySQL数据库的数据，标准化地配置出来。</p><h3 id="看一下他生成的接口映射文件"><a href="#看一下他生成的接口映射文件" class="headerlink" title="看一下他生成的接口映射文件"></a>看一下他生成的接口映射文件</h3><p>pojo和mapper接口是不用看了，可以看到是相当的全，我更在意地是他的mapper接口映射文件。<br>可以看到他把一些需要重复使用的sql语句，给归并了，抽出来放在了表头的sql里，这样子看下面的某个业务需要使用到这些，只需要include refid就行，这种模块化的思想，让代码的可读性提高了很多。</p><p>以上是我从MyBatis Generator里学到的新的东西，当然，他生成的接口不可能是完全符合我们的业务需求的，所以如果我们有一对多或者多对一的需求，我们可以自己扩充，然后这边记得，Mybatis的一对一的关键词是association，一对多是collection，我自己记反了，结果2个小时就这么没了。。。真的头疼。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;之前学SSM的时候，因为时间不多，所以有一些不是核心的知识点我就直接跳过了，比如说MyBatis的逆向工程，也就是Mybatis Generator的使用，我就没有去管。然而事实上，自己写的那个接口的映射文件总写的很繁杂，在复杂的业务上，那写的叫一个长。据说Mybatis Generator创建的是非常标准化的映射写法，所以这次来学习一下。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="技术" scheme="https://junshang11.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="SSM" scheme="https://junshang11.com/tags/SSM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MySQL编码的坑</title>
+    <link href="https://junshang11.com/2019/01/31/MySQL%E7%BC%96%E7%A0%81%E7%9A%84%E5%9D%91/"/>
+    <id>https://junshang11.com/2019/01/31/MySQL编码的坑/</id>
+    <published>2019-01-30T16:00:00.000Z</published>
+    <updated>2019-09-14T05:46:15.328Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天开始做毕设，SSM框架整合的蛋糕店后台管理系统，第一天做得就有点心态崩，搭好环境，做测试的时候，死活中文显示乱码，可我都设置了characterEncodingFilter了啊，排查了一天，发现是MySQL创建时没注意到的问题。这边记录一下。</p> <a id="more"></a><h3 id="utf-8和utf-8mb4"><a href="#utf-8和utf-8mb4" class="headerlink" title="utf-8和utf-8mb4"></a>utf-8和utf-8mb4</h3><p> 创建数据库的时候一定要选择好MySQL的编码啊，通常情况下选择，UTF-8mb4。<br>这边记录一下utf-8 和utf-8mb4的区别。</p><p>UTF-8 编码是一种变长的编码机制，可以用1~4个字节存储字符。<br>因为历史遗留问题，MySQL 中的 utf8 编码并不是真正的 UTF-8，而是阉割版的，最长只有3个字节。当遇到占4个字节的 UTF-8 编码，例如 emoji 字符或者复杂的汉字，会导致存储异常。<br>从 5.5.3 开始，MySQL 开始用 utf8mb4 编码来实现完整的 UTF-8，其中 mb4 表示 most bytes 4，最多占用4个字节。从 8.0 之后，将会在某个版本开始用 utf8mb4 作为默认字符编码<br>所以以后创建项目直接选择utf-8mb4以应对各种各样的数据。</p><h3 id="什么是collation"><a href="#什么是collation" class="headerlink" title="什么是collation"></a>什么是collation</h3><p>再然后就是在修改完character set之后，可以看到一个collation，collation是啥呢。<br>collation是排序字符集，因为除了要存储字符，还需要排序或者比大小，这时候就推荐用utf8mb4_general<br>_ci或者用utf8mb4_unicode_ci，这里面的参数含义是：</p><ol><li>utf8mb4是编码方案</li><li>后面跟着的是校对算法版本，也就是排序的依据是啥</li><li>在接下来有两个参数可以选择，ai和ci，ci是不区分大小写的，ai是指口音不敏感。</li></ol><p>就是这些，继续写毕设了。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;今天开始做毕设，SSM框架整合的蛋糕店后台管理系统，第一天做得就有点心态崩，搭好环境，做测试的时候，死活中文显示乱码，可我都设置了characterEncodingFilter了啊，排查了一天，发现是MySQL创建时没注意到的问题。这边记录一下。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="技术" scheme="https://junshang11.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="MySQL" scheme="https://junshang11.com/tags/MySQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>代理模式</title>
+    <link href="https://junshang11.com/2019/01/17/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/"/>
+    <id>https://junshang11.com/2019/01/17/代理模式/</id>
+    <published>2019-01-16T16:00:00.000Z</published>
+    <updated>2019-09-15T03:07:24.646Z</updated>
+    
+    <content type="html"><![CDATA[<p>  今天看到aop的时候，听到了一个新的名词，这是我在单例模式和工厂模式之后听到的一个新的模式。加上我看了一下动态代理模式的代码和反射又有关系，是真的挺难看懂的，所以这边写一篇理解一下这个模式。</p><a id="more"></a><h3 id="使用场景是啥"><a href="#使用场景是啥" class="headerlink" title="使用场景是啥"></a>使用场景是啥</h3><p>先不说aop，先看名字，代理，一下子就想起来我妈朋友圈删不光的微商代理了。代理的意思就是我主体不想做的，请别人来做的意思吧。就比如说，我赚钱赚得贼多，数钱的活就不是我做了，我要聘个小秘帮我数钱（你怕是活在梦里）。那我这边用个糖果店卖东西的时候顺便打广告的例子来说。</p><h3 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h3><p>我现在是一个店铺接口，我的职责就是销售。</p><pre><code>public interface groceries {        void sell();}</code></pre><p>我们这里有卖德芙巧克力。</p><p><em>这就是被代理对象</em></p><pre><code>public class Defu implements groceries {    public void sell() {        System.out.println("我卖德芙巧克力的");    }}</code></pre><p>代理对象</p><pre><code>public class defuproxy implements groceries {    private defu defu;    public defuproxy(defu defu){        this.defu =defu;    }    public void sell(){        advertise();        defu.sell();    }    public void advertise(){        System.out.println("打广告的来了");    }}</code></pre><p>那当客户来访问的时候。</p><pre><code>public class testDefu(){    public static void main(){        Defu defu = new Defu();        Proxy proxy = new proxy(defu);        proxy.sell();    }}</code></pre><p>这样的话，运行结果就是：</p><p><img src="/images/%E7%BB%93%E6%9E%9C1.png" alt="运行结果1" title="静态代理"></p><p>这样的话，用户就不需要知道被代理对象的具体的行为，就可以通过代理对象进行相应的操作。但是静态代理有个麻烦的地方是，代理对象需要与目标对象实现一样的接口,所以会有很多代理类,类太多.同时,一旦接口增加方法,目标对象与代理对象都要维护。那这个时候就可以用我前几天学的反射，来进行动态代理。</p><h3 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h3><p>动态代理使用的是InvocationHandler(Interface)接口和java.lang.reflect包里的代理类，proxy。具体的修改代码如下，接口和被代理对象不变，所以就不重复写了。</p><pre><code>public class defuproxy implements InvocationHandler {     private Object target;​    public defuproxy(Object target) {​        this.target = target;}​    @Override​    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {​        System.out.println("欢迎来到商店");​      method.invoke(target, args);​        return null;}}</code></pre><p>测试的main方法是：</p><pre><code>public class test {​    public static void main(String[] args) {​        groceries defu= new defu();​        InvocationHandler shop1 = new shops(defu);​        groceries proxy = (groceries) Proxy.newProxyInstance(defu.class.getClassLoader(),​                defu.class.getInterfaces(), shop1);​        proxy.sell();​    }}</code></pre><p>这样就能动态地创建代理对象了。</p><p>代理模式的优点：<br>不需要去修改源代码的情况下，就可以对原代码进行功能的增强，这就是aop的思想。通过代理模式，职责更加清晰了。代理模式很好用，但他也带来了一些性能上的问题，有一些复杂场景下的代理会写的很复杂，所以代理模式的使用还是需要去斟酌的。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;  今天看到aop的时候，听到了一个新的名词，这是我在单例模式和工厂模式之后听到的一个新的模式。加上我看了一下动态代理模式的代码和反射又有关系，是真的挺难看懂的，所以这边写一篇理解一下这个模式。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="技术" scheme="https://junshang11.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="代理模式" scheme="https://junshang11.com/tags/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>反射的相关知识</title>
+    <link href="https://junshang11.com/2019/01/13/%E5%8F%8D%E5%B0%84/"/>
+    <id>https://junshang11.com/2019/01/13/反射/</id>
+    <published>2019-01-12T16:00:00.000Z</published>
+    <updated>2019-09-07T09:31:11.081Z</updated>
+    
+    <content type="html"><![CDATA[<p>  这学期学了spring,struts和hibernate，还学了点MyBatis，做了两个项目，感觉还行。然后昨天晚上回家路上在脑子里面转，突然想起来上课的老师一直说的，反射是一切框架的基础，没有反射就没有框架。但我竟然反射是啥都没有好好看过，查了点资料，翻了书，按照我的理解，我来写写反射的相关的事情。</p><a id="more"></a><h3 id="为什么我们需要反射"><a href="#为什么我们需要反射" class="headerlink" title="为什么我们需要反射"></a>为什么我们需要反射</h3><p>​    平时我们操作数据的时候，都是上来直接new对象，然后拿属性，调用方法。编译器是根据类型进行代码的检查编译的，编译完了我们才能操作对象。</p><p>​    反射不一样，它是在运行时，而非编译时获取类型信息的。既然是在编译时，那不可避免的就是，他的效率不是那么高的，因为有时候在调用方法前，反射得首先查找到对应的方法才能执行，但是为啥反射的使用频率还是那么高呢。</p><p>​    因为它够灵活。</p><p>​    我看到的一个案例是，假如我有一个软件，去给公司去使用，一开始用的是MySQL，后面换成了Oracle，这种时候不可能去停下来找代码改成Oracle吧，不然以后再换个啥啥数据库的，还是得再改一次，这种时候就可以使用反射，去动态地读取Oracle配置文件里的信息。</p><h3 id="一些反射的代码"><a href="#一些反射的代码" class="headerlink" title="一些反射的代码"></a>一些反射的代码</h3><p>代码编译就是将java文件转换成.class文件的过程。这里我们反射就是操作.class。那如何获取Class对象呢。</p><pre><code>第一种类名.class第二种Class.forName("类名")第三种 Object类有一个getClass方法类名.getClass()</code></pre><p>那我们这边拿到了Class以后，能做些什么呢。</p><p>可以创建对象</p><pre><code>Class c =Class.forName("Object");Object o = c.newInstance(); </code></pre><p>可以拿对象的属性，这边有两种方法，一种是getDeclaredFields,一种是getFields,区别在哪里呢。不带declared的只可以获取public的字段，带declared可以获取private，protected的属性。</p><p><code>Fields f[] = c.getDeclaredFileds();</code></p><p>既然属性都能拿到，那相对应的，方法啊，构造方法啊，都能用反射拿到。</p><p>然后一种暴力的不提倡的越过类型检查的方法，比如说我一个对象里有一个int的数组，我如何在里面放个字符串。</p><pre><code>Class c = Class.forName("Object");Field f = c.getDeclaredFields("a");f.setAccessable(true);f.set(obj,value);</code></pre><p>只要通过反射打开属性的setAccessable，就能往里面越过类型检查添加其他数据了，但是这是不提倡的。</p><p>顺便提一下，如何通过反射调用方法，invoke方法。</p><p><code>method.invoke(obj,args)</code></p><pre><code>Class c = Class.forName("Object");Method method = c.getMethod(methodName, argsClass); //通过方法名称和参数获得方法method.invoke(Object,args);</code></pre><p>Invoke 方法里第一个是对象，第二个是参数。</p><p>以上是我找到的一些反射相关的内容。写着写着就感觉对Spring的ioc 有了一点更清晰的理解了。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;  这学期学了spring,struts和hibernate，还学了点MyBatis，做了两个项目，感觉还行。然后昨天晚上回家路上在脑子里面转，突然想起来上课的老师一直说的，反射是一切框架的基础，没有反射就没有框架。但我竟然反射是啥都没有好好看过，查了点资料，翻了书，按照我的理解，我来写写反射的相关的事情。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="技术" scheme="https://junshang11.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="反射" scheme="https://junshang11.com/tags/%E5%8F%8D%E5%B0%84/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>好广告，坏广告</title>
+    <link href="https://junshang11.com/2018/07/14/%E5%A5%BD%E5%B9%BF%E5%91%8Aor%E5%9D%8F%E5%B9%BF%E5%91%8A/"/>
+    <id>https://junshang11.com/2018/07/14/好广告or坏广告/</id>
+    <published>2018-07-13T16:00:00.000Z</published>
+    <updated>2018-07-15T01:13:52.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>我真以为我躲得蛮好的，结果还是在今天下午看足球回放的时候看到了知乎的最新广告。</p><p>广告来自叶茂中团队，算是中国最老的营销策划团队了吧。恒源祥，娃哈哈，脑白金，溜溜梅，知乎，蚂蜂窝这些的，都是叶茂中的手笔。叶茂中团队的作品是非常具有代表性的潜意识广告，不断重复，反复重复，把受众当巴浦洛夫的狗一样看，直到最后形成条件反射。</p><p>有人说他坏，一点美感都没有，多次重复，看了想吐，观感体验极差。<br>有人说他好，因为这样的营销策略简单直接，相比其他“自嗨型”广告，这样的广告是真的会带动数据指标的提升；<br>说好坏之前，我先自问了一遍，广告的目的是啥？</p><a id="more"></a><p>广告是为了广而告之，是为了准确表达广告信息，是为了树立品牌形象，是为了引导消费者，激发购买欲/使用欲。那一般情况下，我们可以说成功的广告是具备以上所有特征的。</p><p>那叶茂中的广告是否具备这些特征呢？<br>虽然我不喜欢，但不得不承认，从传播效果上来说，他的广告是具备上述特征的。<br>就拿知乎这次的广告来说，广告词是你知道吗？这条广告之前，你去问街上的人，有问题怎么办，80%的人会说百度一下；这条广告之后，是会有一个更大的比例说还有知乎的。<br><img src="/images/%E7%9F%A5%E4%B9%8E/1.png" alt="知乎百度指数"> </p><p><img src="/images/%E7%9F%A5%E4%B9%8E/2.png" alt="知乎排名"> </p><p>图一是广告播出以后，知乎的百度指数增幅，图二是知乎在ios平台排名趋势的上升。</p><p>所以从营销的角度来说，叶茂中的广告是一条成功的广告，唯一的一些对品牌带来的负面影响，比如说对此时此刻广告的厌恶，但随着时间的流逝，这些负面评价是会淡化的，就像我们几年前那么厌恶溜溜梅的广告，但今天再听到它，你不会生成和几年前一样的厌恶感的，但不变的是啥，你知道有个话梅牌子，叫溜溜梅。</p><p>广告的受众实在是太广了，人员分布，层次，受教育程度，环境，因素太多。喜欢和不喜欢，好与坏，都是受太多因素影响的事情，都太主观了。所以我之前说的是叶茂中的策划，是成功的营销案例，我没提好或者坏的营销。</p><p>那从我的角度来说，我不喜欢这样的广告，是因为啥呢？<br>我感觉它太急于求成了。</p><p>我喜欢苹果的1984以至于后面的这些广告片，喜欢金士顿地铁广告，喜欢台湾奥美做的《我害怕阅读的人》，喜欢去年999感冒灵感恩节广告片，还有很多其他的。</p><p>因为啥呢？他们所传播的信息更多，有公司核心价值的，抓住用户心理激发你同理心的。他们的共通点是，他们都传到了一个讯息：我的产品能给你创造更多的价值。这种为用户创造价值的体系是我非常希望看到的。</p><p>我也不懂我从哪个时刻从自嗨型广告走出来，开始意识到为受众/用户创造价值的重要性的。但我相信只有先为用户创造了价值，你的受众/用户才会更加信赖你的产品，才会真正实现我从叶茂中的营销书里看到的高级概念，让用户成为你产品的布道者，他们不光自己去使用，他们会非常反消费心理学地去推荐身边的人去使用。</p><p>为了好的营销效果，有千万种达到目的的方式，他选择了最简单粗暴的那种，所以我主观的觉得不喜欢。</p><p>我今天写这篇文章是为了啥呢？更多地提醒自己吧，在以后的产品生涯里，要记得为用户创造价值，产品的价值和用户的价值应该是正相关的。是有一万种方法通向成功，我选择用户与产品双赢的那种。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;我真以为我躲得蛮好的，结果还是在今天下午看足球回放的时候看到了知乎的最新广告。&lt;/p&gt;
+&lt;p&gt;广告来自叶茂中团队，算是中国最老的营销策划团队了吧。恒源祥，娃哈哈，脑白金，溜溜梅，知乎，蚂蜂窝这些的，都是叶茂中的手笔。叶茂中团队的作品是非常具有代表性的潜意识广告，不断重复，反复重复，把受众当巴浦洛夫的狗一样看，直到最后形成条件反射。&lt;/p&gt;
+&lt;p&gt;有人说他坏，一点美感都没有，多次重复，看了想吐，观感体验极差。&lt;br&gt;有人说他好，因为这样的营销策略简单直接，相比其他“自嗨型”广告，这样的广告是真的会带动数据指标的提升；&lt;br&gt;说好坏之前，我先自问了一遍，广告的目的是啥？&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="记录" scheme="https://junshang11.com/categories/%E8%AE%B0%E5%BD%95/"/>
+    
+    
+      <category term="日志" scheme="https://junshang11.com/tags/%E6%97%A5%E5%BF%97/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>&lt;运营之光&gt;总结</title>
+    <link href="https://junshang11.com/2018/07/12/%E8%BF%90%E8%90%A5%E4%B9%8B%E5%85%89/"/>
+    <id>https://junshang11.com/2018/07/12/运营之光/</id>
+    <published>2018-07-11T16:00:00.000Z</published>
+    <updated>2018-07-14T08:10:34.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="为什么看"><a href="#为什么看" class="headerlink" title="为什么看"></a>为什么看</h3><p>最早知道运营是之前上网易产品课的时候，听过老师讲的大概概念，说过产品经理一定要懂一些运营。<br>然后在我找实习的时候，因为大多数公司发出来的招聘，有写产品经理的，有写产品助理的，有写产品实习生的，那为了不错过机会，我统一搜索产品，这时候，挺多的产品运营就冒出来了。<br>种种条件下，我找了这本《运营之光》，补一下运营的相关知识。</p> <a id="more"></a><h3 id="学到了什么"><a href="#学到了什么" class="headerlink" title="学到了什么"></a>学到了什么</h3><h5 id="运营的职责"><a href="#运营的职责" class="headerlink" title="运营的职责"></a>运营的职责</h5><p>很多，远远超过了我所想的内容运营，活动运营，产品运营，用户运营；在现在的互联网时代，运营还有APP商店运营，SEO/SEM运营，广告投放运营。其中比较吸引我的是SEO/SEM运营，之前听小马宋讲过SEM的重要性，是一门比较实用的技术了。以后有机会了解一下。</p><h5 id="运营和市场的比较"><a href="#运营和市场的比较" class="headerlink" title="运营和市场的比较"></a>运营和市场的比较</h5><p>因为我有广告文案的经验，所以有些运营的理念，我是能比较快的get到的。比较有趣的是作者把市场和运营做了比较，这个比较做的很好。</p><p>市场怎么说，它包括了广告，它在创造无形价值，比如说一杯星巴克咖啡，它带来的额外无形价值有什么呢：身份象征价值，体验价值，品牌简化决策价值。那放到互联网产品上呢，这种无形价值就包括，用户认知，用户转化，用户使用，用户为服务付费。为了更多的用户认知，市场它更多的是维护一个知名度，你无法去估量受众的大小，但你必须要去做。这是一种向外的工作。</p><p>而运营所做的一定需要落实到相应产品数据上，他非常有针对性。它是根据产品需要，比如说我要拉新，那就围绕着拉新这件事进行运营。</p><h5 id="运营是数据驱动的，精细化，流程化"><a href="#运营是数据驱动的，精细化，流程化" class="headerlink" title="运营是数据驱动的，精细化，流程化"></a>运营是数据驱动的，精细化，流程化</h5><p>还拿微信公众号拉新做例子，定一个数据目标。把拉新这件事情拆分开来，可以从粉丝自然增长，高质量内容，渠道转载人数，主题连载，用户传播，课程拉新，大号互推，H5传播，渠道外推，这几个维度去综合考虑。比如说我改进现有的哪几个环节，根据历史数据估量转化率，估量数据会得到多大的改进，形成一个整体的大概方案，最后去执行。</p><p>整个环节都是数据驱动的，将可能影响指标的维度罗列出来，再通过数据分析去观察度量，估量转化率，制定方案，实施，到最后再次检查数据，调整方向。</p><p>大概的流程图就是这样吧：</p><p><img src="/images/%E8%BF%90%E8%90%A51.png" alt="运营"></p><h3 id="还没结束"><a href="#还没结束" class="headerlink" title="还没结束"></a>还没结束</h3><p>这书看到今天还有40%的样子，后面是关于不同运营职责所要去关注的点，偏方法的部分。等我看完了会再写一篇总结。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;为什么看&quot;&gt;&lt;a href=&quot;#为什么看&quot; class=&quot;headerlink&quot; title=&quot;为什么看&quot;&gt;&lt;/a&gt;为什么看&lt;/h3&gt;&lt;p&gt;最早知道运营是之前上网易产品课的时候，听过老师讲的大概概念，说过产品经理一定要懂一些运营。&lt;br&gt;然后在我找实习的时候，因为大多数公司发出来的招聘，有写产品经理的，有写产品助理的，有写产品实习生的，那为了不错过机会，我统一搜索产品，这时候，挺多的产品运营就冒出来了。&lt;br&gt;种种条件下，我找了这本《运营之光》，补一下运营的相关知识。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="产品" scheme="https://junshang11.com/categories/%E4%BA%A7%E5%93%81/"/>
+    
+    
+      <category term="产品学习" scheme="https://junshang11.com/tags/%E4%BA%A7%E5%93%81%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>区块链项目分析 二</title>
+    <link href="https://junshang11.com/2018/07/08/%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90/"/>
+    <id>https://junshang11.com/2018/07/08/需求分析/</id>
+    <published>2018-07-07T16:00:00.000Z</published>
+    <updated>2018-07-08T15:04:52.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>小组讨论以后，方案pass掉。</p><ul><li>是使用场景局限</li><li>是不能体现出区块链的不可替代性</li></ul><p>现阶段的方案的感觉是，现有的，有第三方介入劳务纠纷，劳资分配的方法是能解决问题的，但并没有体现区块链的不可替代性。</p><p>既然主题是区块链，所以应该是做个围绕着区块链特性为主的某个应用。而不是说在智能合约上面加外包或者社区的外套，让他看起来完善，但实际上，创新性不足。</p><p>这应该是一个，兼顾创新，实用和完整性的一个作品。</p><p>哎。。所以准备回过头看区块链的知识了，然后去想可能的应用场景。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;小组讨论以后，方案pass掉。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;是使用场景局限&lt;/li&gt;
+&lt;li&gt;是不能体现出区块链的不可替代性&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;现阶段的方案的感觉是，现有的，有第三方介入劳务纠纷，劳资分配的方法是能解决问题的，但并没有体现区块链的不可替代性。&lt;/p&gt;
+      
+    
+    </summary>
+    
+      <category term="产品" scheme="https://junshang11.com/categories/%E4%BA%A7%E5%93%81/"/>
+    
+    
+      <category term="区块链项目" scheme="https://junshang11.com/tags/%E5%8C%BA%E5%9D%97%E9%93%BE%E9%A1%B9%E7%9B%AE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>足球赔率这件事</title>
+    <link href="https://junshang11.com/2018/07/05/%E8%B6%B3%E7%90%83%E8%B5%94%E7%8E%87%E8%BF%99%E4%BB%B6%E4%BA%8B/"/>
+    <id>https://junshang11.com/2018/07/05/足球赔率这件事/</id>
+    <published>2018-07-04T16:00:00.000Z</published>
+    <updated>2018-07-12T09:51:54.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h3><p>世界杯开赛的时候，我们宿舍三个不懂球的就像我这一个懂球的咨询，这球怎么买。<br>其实有时候这种世界性的比赛挺有意思的，群众对一项运动的关注程度会一下子就上去，然后过一个月，不怎么看球的可能印象里就剩下梅西，c罗那几个出现频次比较高的名字了；对于哪个队有哪些新的妖人出来，谁谁退役了可能都记不清楚。</p><p>一个月后，这比赛对于我室友来说就当没发生过一样了，这比赛的意义在哪里呢？应该是个转化率的问题，还是会一部分概率的人从这一届开始喜欢上足球，开始关心某个球星或者某个国家队的，那20个观看了比赛的人有1个人对足球有了第一次心动，基数这么大，那这个受触动的群体就会变得贼大的。然后这个足球市场，或者说这项运动就会朝着一个健康的方向发展了。</p><p>然后我每天吃晚饭的时候像模像样跟他们分析队伍实力，一顿给我室友忽悠，最后他们每人都小赚10块，20块的，我亏了40样子。别问我怎么下注的，我买了那天巴西和德国的小组赛谢谢。。。</p><p>说真的真金白银的赌球算是群众对某项体育运动关注度害大于弊的行为。因为更多人胜负心理爆棚，观球体验就很差，会忽视足球本身的乐趣。但在我一个杠精室友说了多次可能博彩公司在操纵比赛赚钱，我突然开始好奇，这博彩公司是怎么赚钱的。</p><a id="more"></a><h3 id="赔率计算"><a href="#赔率计算" class="headerlink" title="赔率计算"></a>赔率计算</h3><p>我查了一些关键词的，结果感觉就是。</p><ul><li><p>博彩公司事先预测投注额比例，比如说今晚乌拉圭主场踢法国，主赢2.1，客赢1.5，投注额比例是1.4，这是一个预测值。</p></li><li><p>然后买家投注，根据数据汇总，投乌拉圭的有14万，投法国的有10万。<br>如果乌拉圭赢了，我们就有24万给乌拉圭的支持者，那为了博彩公司不亏损，赔率设置((14+10)/14)-1，乌拉圭的实际赔率就不能超过0.7。博彩公司可能会为了利润，调整赔率到0.65样子，而这0.05的值，就是博彩公司的利润所在，就是所谓的博彩公司的佣金。但调整后的赔率一定要尽可能地靠近0.7，因为这样才能符合群众心理预期，让更多的人选择下注。</p></li><li><p>比较神奇的一点就是，这个赔率计算是动态的，因为下注金额在不断变化，所以就算最开始预测的值差的多，博彩公司也可以根据实际的下注值调整。</p></li><li><p>那么博彩公司最愿意见到的情形就是两方都均匀的有人下注，这对博彩公司来说是个只赚不亏的生意。所以为了在两队实力相近的情况下，比如今晚乌拉圭踢法国的情况下，如果大多数人都投法国，博彩公司会联系旗下的报纸媒体，放出新闻，比如说乌拉圭卡瓦尼伤势好转，法国的后防线能否守住这匹禁区野兽的冲击。这样对乌拉圭的正面宣传或者法国军心不稳的负面宣传，都会影响更多人下注给乌拉圭，从而让博彩公司保证只赚不赔的情况。</p></li></ul><h3 id="赌球，彩票这些事情"><a href="#赌球，彩票这些事情" class="headerlink" title="赌球，彩票这些事情"></a>赌球，彩票这些事情</h3><p>其实你稍微得到的信息多一点，心里算一下，你是能非常直观地发现，博彩公司是永远不会亏的，而且正规博彩公司不会想着说控制裁判，控制球员，他不需要费那么大的风险去控制那些，他只需要控制舆论就行。反而博彩公司为了规避风险，可能是最希望比赛顺着正常发展的一群人了。</p><p>那大家赌球，赌彩票，赌的是个啥呢。</p><ul><li>话题性，日常交流有了点话题，网上流传的各种什么足球反着买，别墅靠海，这些话题本身有趣味性。</li><li>投机心理，心理学上是叫halo effect。比如说我面前这个姑娘，太漂亮了，漂亮到我忽视她和我没有共同话题，根本聊不下去。彩票，赌球都是这样子的吧，报纸上的宣传永远都是幸运儿得了多少多少钱，买彩票导致家破人亡的这些案例就很少。</li></ul><p>就理性呗，享受足球本身，买点啤酒烧烤和朋友一起看球不好么= =。。</p><h3 id="有趣的事情"><a href="#有趣的事情" class="headerlink" title="有趣的事情"></a>有趣的事情</h3><ol><li><p>从七麦数据上看到的，现在体育榜单是这样子的，除了看直播的，所有的足彩应用全上去了，我好奇一个月后，这些足彩app的运营会怎么整呢，有什么活动能留住用户么，甘心让排名下来吗？<br><img src="/images/%E8%B6%B3%E5%BD%A9/1.png" alt="体育榜单"></p></li><li><p>华帝的营销<br>这波营销噱头炸裂啊。<br><img src="/images/%E8%B6%B3%E5%BD%A9/2.jpg" alt="华帝广告"><br>后来知乎看到一种解释，华帝已经早在活动开始前就用一部分营业额买了法国队是冠军。而那时候赔率是相当高的，所以这波华帝根本不慌吧，连风险对冲的准备都做好了。最坏的下场就是不赚不亏，不赚不亏算坏么？这短时间内的品牌爆炸推广效应所带来的经济效益，是不可估量的好么。</p></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;起因&quot;&gt;&lt;a href=&quot;#起因&quot; class=&quot;headerlink&quot; title=&quot;起因&quot;&gt;&lt;/a&gt;起因&lt;/h3&gt;&lt;p&gt;世界杯开赛的时候，我们宿舍三个不懂球的就像我这一个懂球的咨询，这球怎么买。&lt;br&gt;其实有时候这种世界性的比赛挺有意思的，群众对一项运动的关注程度会一下子就上去，然后过一个月，不怎么看球的可能印象里就剩下梅西，c罗那几个出现频次比较高的名字了；对于哪个队有哪些新的妖人出来，谁谁退役了可能都记不清楚。&lt;/p&gt;
+&lt;p&gt;一个月后，这比赛对于我室友来说就当没发生过一样了，这比赛的意义在哪里呢？应该是个转化率的问题，还是会一部分概率的人从这一届开始喜欢上足球，开始关心某个球星或者某个国家队的，那20个观看了比赛的人有1个人对足球有了第一次心动，基数这么大，那这个受触动的群体就会变得贼大的。然后这个足球市场，或者说这项运动就会朝着一个健康的方向发展了。&lt;/p&gt;
+&lt;p&gt;然后我每天吃晚饭的时候像模像样跟他们分析队伍实力，一顿给我室友忽悠，最后他们每人都小赚10块，20块的，我亏了40样子。别问我怎么下注的，我买了那天巴西和德国的小组赛谢谢。。。&lt;/p&gt;
+&lt;p&gt;说真的真金白银的赌球算是群众对某项体育运动关注度害大于弊的行为。因为更多人胜负心理爆棚，观球体验就很差，会忽视足球本身的乐趣。但在我一个杠精室友说了多次可能博彩公司在操纵比赛赚钱，我突然开始好奇，这博彩公司是怎么赚钱的。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="记录" scheme="https://junshang11.com/categories/%E8%AE%B0%E5%BD%95/"/>
+    
+    
+      <category term="日志" scheme="https://junshang11.com/tags/%E6%97%A5%E5%BF%97/"/>
+    
+  </entry>
+  
+</feed>
