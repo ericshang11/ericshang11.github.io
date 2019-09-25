@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://junshang11.com/"/>
-  <updated>2019-09-23T09:01:09.561Z</updated>
+  <updated>2019-09-24T08:08:13.156Z</updated>
   <id>https://junshang11.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>多线程初探</title>
+    <link href="https://junshang11.com/2019/09/24/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%88%9D%E6%8E%A2/"/>
+    <id>https://junshang11.com/2019/09/24/多线程初探/</id>
+    <published>2019-09-23T16:00:00.000Z</published>
+    <updated>2019-09-24T08:08:13.156Z</updated>
+    
+    <content type="html"><![CDATA[<p>我多线程之前3月份准备面试的时候，看过完整的马士兵老师的课，做了手抄笔记，那时候面试的时候还能答得上来，后来去了凌志，写写sql，没怎么碰都忘得差不多了，所以这篇来重新整理一下多线程相关的知识。</p><a id="more"></a><h3 id="线程的基础"><a href="#线程的基础" class="headerlink" title="线程的基础"></a>线程的基础</h3><h4 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a>进程和线程</h4><p>首先问题就是，什么是线程什么是进程，用自己的理解的话，qq音乐app打开，这整体就是一个进程，然后打开以后检测用户登陆，开始匹配今日的最新推荐歌单，调整广告，这些都是线程。所以可以理解成是多个线程组成了一个进程，线程是最小的执行单位。</p><h4 id="并发和并行"><a href="#并发和并行" class="headerlink" title="并发和并行"></a>并发和并行</h4><p>并发是同一时间段，多个任务都在进行。</p><p>并行是，单位时间内，多个任务同时执行。</p><p>这里面用的主要区别就是<strong>同时</strong>。</p><p>比如说双十一的前一天晚上22点10分，有些稀稀拉拉的购物狂在看不同商店里的打折商品，这是并发。并行是啥呢，双十一零点零分的时候，所有的人都在疯狂下单，这就是并行了。</p><h4 id="线程的生命周期和状态"><a href="#线程的生命周期和状态" class="headerlink" title="线程的生命周期和状态"></a>线程的生命周期和状态</h4><p><strong>New</strong>: 初始状态，创建了而未启动的方法</p><p><strong>Runnable</strong>： 包括两个子状态：ready和running状态，ready表示可以被调用了，running是正在运行。</p><p><strong>Blocked</strong>：一个线程发起了一个阻塞式I/O操作后，或者申请到了一个由其他线程持有的独占资源时，线程就会进入这个状态，也就是说想申请资源，结果被堵了。等拿到了资源，就又可以转为runnable了。</p><p><strong>Waiting</strong>：等待状态，线程不急着办事情，给人让路</p><p><strong>Timed_Waiting</strong>：也是等待，和waiting的区别在于，他是有时间限制的等待，时间限制后，直接进入runnable状态</p><p><strong>Terminated</strong>：结束了，线程使命完成。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;我多线程之前3月份准备面试的时候，看过完整的马士兵老师的课，做了手抄笔记，那时候面试的时候还能答得上来，后来去了凌志，写写sql，没怎么碰都忘得差不多了，所以这篇来重新整理一下多线程相关的知识。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="技术" scheme="https://junshang11.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="多线程" scheme="https://junshang11.com/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    
+  </entry>
   
   <entry>
     <title>websocket的实现</title>
@@ -434,36 +456,6 @@
     
     
       <category term="产品学习" scheme="https://junshang11.com/tags/%E4%BA%A7%E5%93%81%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>区块链项目分析 二</title>
-    <link href="https://junshang11.com/2018/07/08/%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90/"/>
-    <id>https://junshang11.com/2018/07/08/需求分析/</id>
-    <published>2018-07-07T16:00:00.000Z</published>
-    <updated>2018-07-08T15:04:52.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>小组讨论以后，方案pass掉。</p><ul><li>是使用场景局限</li><li>是不能体现出区块链的不可替代性</li></ul><p>现阶段的方案的感觉是，现有的，有第三方介入劳务纠纷，劳资分配的方法是能解决问题的，但并没有体现区块链的不可替代性。</p><p>既然主题是区块链，所以应该是做个围绕着区块链特性为主的某个应用。而不是说在智能合约上面加外包或者社区的外套，让他看起来完善，但实际上，创新性不足。</p><p>这应该是一个，兼顾创新，实用和完整性的一个作品。</p><p>哎。。所以准备回过头看区块链的知识了，然后去想可能的应用场景。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;小组讨论以后，方案pass掉。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;是使用场景局限&lt;/li&gt;
-&lt;li&gt;是不能体现出区块链的不可替代性&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;现阶段的方案的感觉是，现有的，有第三方介入劳务纠纷，劳资分配的方法是能解决问题的，但并没有体现区块链的不可替代性。&lt;/p&gt;
-      
-    
-    </summary>
-    
-      <category term="产品" scheme="https://junshang11.com/categories/%E4%BA%A7%E5%93%81/"/>
-    
-    
-      <category term="区块链项目" scheme="https://junshang11.com/tags/%E5%8C%BA%E5%9D%97%E9%93%BE%E9%A1%B9%E7%9B%AE/"/>
     
   </entry>
   

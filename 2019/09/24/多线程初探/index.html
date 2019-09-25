@@ -94,7 +94,7 @@
 
 
 
-  <meta name="keywords" content="json,">
+  <meta name="keywords" content="多线程,">
 
 
 
@@ -107,18 +107,18 @@
 
 
 
-<meta name="description" content="前几天写了Ajax相关的知识，然后这几天写前后端传json磕磕绊绊中学到了点新的，这边来记录一下。">
-<meta name="keywords" content="json">
+<meta name="description" content="我多线程之前3月份准备面试的时候，看过完整的马士兵老师的课，做了手抄笔记，那时候面试的时候还能答得上来，后来去了凌志，写写sql，没怎么碰都忘得差不多了，所以这篇来重新整理一下多线程相关的知识。">
+<meta name="keywords" content="多线程">
 <meta property="og:type" content="article">
-<meta property="og:title" content="json的那些事">
-<meta property="og:url" content="https://junshang11.com/2019/02/20/json的解析/index.html">
+<meta property="og:title" content="多线程初探">
+<meta property="og:url" content="https://junshang11.com/2019/09/24/多线程初探/index.html">
 <meta property="og:site_name" content="君十一">
-<meta property="og:description" content="前几天写了Ajax相关的知识，然后这几天写前后端传json磕磕绊绊中学到了点新的，这边来记录一下。">
+<meta property="og:description" content="我多线程之前3月份准备面试的时候，看过完整的马士兵老师的课，做了手抄笔记，那时候面试的时候还能答得上来，后来去了凌志，写写sql，没怎么碰都忘得差不多了，所以这篇来重新整理一下多线程相关的知识。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-17T23:32:47.919Z">
+<meta property="og:updated_time" content="2019-09-24T08:08:13.156Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="json的那些事">
-<meta name="twitter:description" content="前几天写了Ajax相关的知识，然后这几天写前后端传json磕磕绊绊中学到了点新的，这边来记录一下。">
+<meta name="twitter:title" content="多线程初探">
+<meta name="twitter:description" content="我多线程之前3月份准备面试的时候，看过完整的马士兵老师的课，做了手抄笔记，那时候面试的时候还能答得上来，后来去了凌志，写写sql，没怎么碰都忘得差不多了，所以这篇来重新整理一下多线程相关的知识。">
 
 
 
@@ -148,13 +148,13 @@
 
 
 
-  <link rel="canonical" href="https://junshang11.com/2019/02/20/json的解析/">
+  <link rel="canonical" href="https://junshang11.com/2019/09/24/多线程初探/">
 
 
 
 
 
-  <title>json的那些事 | 君十一</title>
+  <title>多线程初探 | 君十一</title>
   
 
 
@@ -281,7 +281,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://junshang11.com/2019/02/20/json的解析/">
+    <link itemprop="mainEntityOfPage" href="https://junshang11.com/2019/09/24/多线程初探/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jun Shang">
@@ -298,7 +298,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">json的那些事</h1>
+          <h1 class="post-title" itemprop="name headline">多线程初探</h1>
         
 
         <div class="post-meta">
@@ -310,8 +310,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-20T00:00:00+08:00">
-                2019-02-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T00:00:00+08:00">
+                2019-09-24
               </time>
             
 
@@ -370,71 +370,21 @@
       
 
       
-        <p>前几天写了Ajax相关的知识，然后这几天写前后端传json磕磕绊绊中学到了点新的，这边来记录一下。</p>
+        <p>我多线程之前3月份准备面试的时候，看过完整的马士兵老师的课，做了手抄笔记，那时候面试的时候还能答得上来，后来去了凌志，写写sql，没怎么碰都忘得差不多了，所以这篇来重新整理一下多线程相关的知识。</p>
 <a id="more"></a>
 
-<h3 id="页面发Ajax请求过来，我怎么收"><a href="#页面发Ajax请求过来，我怎么收" class="headerlink" title="页面发Ajax请求过来，我怎么收"></a>页面发Ajax请求过来，我怎么收</h3><pre><code>$(function(){
-// 绑定点击事件 
-$("#btn").click(function(){
-        $.ajax({ 
-        url:"user/testJson", 
-        contentType:"application/json;
-        charset=UTF-8", 
-        data:'{"addressName":"aa","addressNum":100}', 
-        dataType:"json",
-        type:"post", 
-        success:function(data){ 
-        alert(data); 
-        alert(data.addressName); }
-});
-});
-});</code></pre>现在传过来一个键值对对象，我这边就得在我的控制器参数里面加上@RequestBody注解
+<h3 id="线程的基础"><a href="#线程的基础" class="headerlink" title="线程的基础"></a>线程的基础</h3><h4 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a>进程和线程</h4><p>首先问题就是，什么是线程什么是进程，用自己的理解的话，qq音乐app打开，这整体就是一个进程，然后打开以后检测用户登陆，开始匹配今日的最新推荐歌单，调整广告，这些都是线程。所以可以理解成是多个线程组成了一个进程，线程是最小的执行单位。</p>
+<h4 id="并发和并行"><a href="#并发和并行" class="headerlink" title="并发和并行"></a>并发和并行</h4><p>并发是同一时间段，多个任务都在进行。</p>
+<p>并行是，单位时间内，多个任务同时执行。</p>
+<p>这里面用的主要区别就是<strong>同时</strong>。</p>
+<p>比如说双十一的前一天晚上22点10分，有些稀稀拉拉的购物狂在看不同商店里的打折商品，这是并发。并行是啥呢，双十一零点零分的时候，所有的人都在疯狂下单，这就是并行了。</p>
+<h4 id="线程的生命周期和状态"><a href="#线程的生命周期和状态" class="headerlink" title="线程的生命周期和状态"></a>线程的生命周期和状态</h4><p><strong>New</strong>: 初始状态，创建了而未启动的方法</p>
+<p><strong>Runnable</strong>： 包括两个子状态：ready和running状态，ready表示可以被调用了，running是正在运行。</p>
+<p><strong>Blocked</strong>：一个线程发起了一个阻塞式I/O操作后，或者申请到了一个由其他线程持有的独占资源时，线程就会进入这个状态，也就是说想申请资源，结果被堵了。等拿到了资源，就又可以转为runnable了。</p>
+<p><strong>Waiting</strong>：等待状态，线程不急着办事情，给人让路</p>
+<p><strong>Timed_Waiting</strong>：也是等待，和waiting的区别在于，他是有时间限制的等待，时间限制后，直接进入runnable状态</p>
+<p><strong>Terminated</strong>：结束了，线程使命完成。</p>
 
-<pre><code>@RequestMapping("/testJson") 
-public void testJson(@RequestBody Address address) { 
-System.out.println(body); }</code></pre>
-
-<p>这边的@RequestBody会自动地将json数据转化成java bean对象。</p>
-<h3 id="将JavaBean对象转成json"><a href="#将JavaBean对象转成json" class="headerlink" title="将JavaBean对象转成json"></a>将JavaBean对象转成json</h3><p>比如说我现在服务器查到了信息，需要将数据返回给前端</p>
-<pre><code><pre><code>@RequestMapping("/testJson") 
-public @ResponseBody Address testJson(@RequestBody Address address) { 
-    address.setAddressName("上海");
-    return address;}</code></pre>
-
-<p>只需要在返回值前面加上@ResponseBody就行了，这样他会自动解析bean对象转成json。</p>
-<h3 id="Gson"><a href="#Gson" class="headerlink" title="Gson"></a>Gson</h3><p>当然上面的操作没有一个第三方包的支持是不可能的，@RequestBody和@ResponseBody都没有内置json的解析器。</p>
-<p>我看的绝大多数教程用的都是jackson去解析json，然后我看到一篇比较近期很流行的json解析器排行时，看到了谷歌开源的Gson。相比阿里出品的FastJson，他有更好的稳定性，所以这边讲一下Gson的用法。</p>
-<h4 id="首先是Gson的实力化"><a href="#首先是Gson的实力化" class="headerlink" title="首先是Gson的实力化"></a>首先是Gson的实力化</h4><p><code>Gson gson = new Gson();</code></p>
-<p>我们可以通过GsonBuilder对Gson进行个性化的配置：</p>
-<pre><code>gson = new GsonBuilder()
-                    .setLenient()// json宽松
-                    .enableComplexMapKeySerialization()//支持Map的key为复杂对象的形式
-                    .serializeNulls() //智能null
-                    .setPrettyPrinting()// 调教格式
-                    .disableHtmlEscaping() //默认是GSON把HTML 转义的
-                    .create();
-</code></pre>
-
-<h4 id="各种数据和json之前的转化"><a href="#各种数据和json之前的转化" class="headerlink" title="各种数据和json之前的转化"></a>各种数据和json之前的转化</h4><h5 id="JavaBean转json"><a href="#JavaBean转json" class="headerlink" title="JavaBean转json"></a>JavaBean转json</h5><p><code>        String jsonStr = gson.toJson(student);</code></p>
-<h5 id="List和Map-转json"><a href="#List和Map-转json" class="headerlink" title="List和Map 转json"></a>List和Map 转json</h5><pre><code> List<string> list = Arrays.asList("1", "a", "3", "rt", "5");
-String jsonStr = gson.toJson(list);</string></code></pre>
-
-<pre><code>  
-        Map<string, object> content = new HashMap<string, object>();
-        content.put("name", "ericshang11");
-        content.put("age", "11");
-        String jsonStr = gson.toJson(content);
-</string,></string,></code></pre>
-
-<h5 id="json转其他数据类型"><a href="#json转其他数据类型" class="headerlink" title="json转其他数据类型"></a>json转其他数据类型</h5><p>先看一个json转成JavaBean的：</p>
-<pre><code>String studentJsonStr="{\"name\":\"ericshang11\",\"age\":11}";
-Student student1 = gson.fromJson(studentJsonStr, Student.class);
-</code></pre>
-
-<p>这边用到了一个fromJson方法，他的第一个参数值是需要转的json对象，第二个是要转成的类型。但是当我们不明确要转成的对象是什么的时候呢，我们就可以用Gson提供的TypeToken，这是一个数据类型转换器。</p>
-<p><code>List<person> ps = gson.fromJson(str, new TypeToken<list<person>>(){}.getType());<br></list<person></person></code></p>
-<p>以上就是我整理json相关的知识，能应付我绝大多数开发场景了吧。</p>
-</code></pre>
       
     </div>
     
@@ -451,7 +401,7 @@ Student student1 = gson.fromJson(studentJsonStr, Student.class);
       
         <div class="post-tags">
           
-            <a href="/tags/json/" rel="tag"># json</a>
+            <a href="/tags/多线程/" rel="tag"># 多线程</a>
           
         </div>
       
@@ -464,8 +414,8 @@ Student student1 = gson.fromJson(studentJsonStr, Student.class);
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/02/16/Ajax/" rel="next" title="Ajax">
-                <i class="fa fa-chevron-left"></i> Ajax
+              <a href="/2019/09/22/websocket的实现/" rel="next" title="websocket的实现">
+                <i class="fa fa-chevron-left"></i> websocket的实现
               </a>
             
           </div>
@@ -473,10 +423,6 @@ Student student1 = gson.fromJson(studentJsonStr, Student.class);
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/10/Linux语句相关/" rel="prev" title="Linux命令相关">
-                Linux命令相关 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -615,7 +561,7 @@ Student student1 = gson.fromJson(studentJsonStr, Student.class);
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#页面发Ajax请求过来，我怎么收"><span class="nav-number">1.</span> <span class="nav-text">页面发Ajax请求过来，我怎么收</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将JavaBean对象转成json"><span class="nav-number">2.</span> <span class="nav-text">将JavaBean对象转成json</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gson"><span class="nav-number">3.</span> <span class="nav-text">Gson</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#首先是Gson的实力化"><span class="nav-number">3.1.</span> <span class="nav-text">首先是Gson的实力化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#各种数据和json之前的转化"><span class="nav-number">3.2.</span> <span class="nav-text">各种数据和json之前的转化</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#JavaBean转json"><span class="nav-number">3.2.1.</span> <span class="nav-text">JavaBean转json</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#List和Map-转json"><span class="nav-number">3.2.2.</span> <span class="nav-text">List和Map 转json</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#json转其他数据类型"><span class="nav-number">3.2.3.</span> <span class="nav-text">json转其他数据类型</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#线程的基础"><span class="nav-number">1.</span> <span class="nav-text">线程的基础</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#进程和线程"><span class="nav-number">1.1.</span> <span class="nav-text">进程和线程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#并发和并行"><span class="nav-number">1.2.</span> <span class="nav-text">并发和并行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线程的生命周期和状态"><span class="nav-number">1.3.</span> <span class="nav-text">线程的生命周期和状态</span></a></li></ol></li></ol></div>
             
 
           </div>
