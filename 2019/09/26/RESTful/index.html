@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Springboot系列,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="君十一" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="Springboot第二天，又学到了很多很有意思的东西，这边来记录一下这三个比较amaze我的。">
+<meta name="keywords" content="Springboot系列">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RESTful封装思想，Dozer使用">
+<meta property="og:url" content="https://junshang11.com/2019/09/26/RESTful/index.html">
+<meta property="og:site_name" content="君十一">
+<meta property="og:description" content="Springboot第二天，又学到了很多很有意思的东西，这边来记录一下这三个比较amaze我的。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-26T09:33:55.752Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RESTful封装思想，Dozer使用">
+<meta name="twitter:description" content="Springboot第二天，又学到了很多很有意思的东西，这边来记录一下这三个比较amaze我的。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://junshang11.com/2019/09/26/RESTful/">
+
+
+
+
+
+  <title>RESTful封装思想，Dozer使用 | 君十一</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">君十一</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Stay hungry Stay foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://junshang11.com/2019/09/26/RESTful/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jun Shang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="君十一">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">RESTful封装思想，Dozer使用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-26T00:00:00+08:00">
+                2019-09-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Springboot第二天，又学到了很多很有意思的东西，这边来记录一下这三个比较amaze我的。</p>
+<a id="more"></a>
+
+<h3 id="先说RESTful学到的封装写法"><a href="#先说RESTful学到的封装写法" class="headerlink" title="先说RESTful学到的封装写法"></a>先说RESTful学到的封装写法</h3><p>RESTful风格概念我这边就不多写了，因为之前学ssm的时候自己就查过详细的资料，这边上个链接，忘了再来看看 <a href="http://www.ruanyifeng.com/blog/2011/09/restful.html" target="_blank" rel="noopener">理解RESTful架构</a>。</p>
+<p>然后当时ssm的写法是配置了一个HiddenHttpMethodFilter过滤器，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;filter&gt;</span><br><span class="line">	   &lt;filter-name&gt;HiddenHttpMethodFilter&lt;/filter-name&gt;</span><br><span class="line">	   &lt;filter-<span class="class"><span class="keyword">class</span>&gt;<span class="title">org</span>.<span class="title">springframework</span>.<span class="title">web</span>.<span class="title">filter</span>.<span class="title">HiddenHttpMethodFilter</span>&lt;/<span class="title">filter</span>-<span class="title">class</span>&gt;</span></span><br><span class="line"><span class="class">	&lt;/<span class="title">filter</span>&gt;</span></span><br><span class="line"><span class="class">	&lt;<span class="title">filter</span>-<span class="title">mapping</span>&gt;</span></span><br><span class="line"><span class="class">	   &lt;<span class="title">filter</span>-<span class="title">name</span>&gt;<span class="title">HiddenHttpMethodFilter</span>&lt;/<span class="title">filter</span>-<span class="title">name</span>&gt;</span></span><br><span class="line"><span class="class">	   &lt;<span class="title">url</span>-<span class="title">pattern</span>&gt;/*&lt;/<span class="title">url</span>-<span class="title">pattern</span>&gt;</span></span><br><span class="line"><span class="class">	&lt;/<span class="title">filter</span>-<span class="title">mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>然后在form表单里面加上一个新的值，</p>
+<p><code><input type="hidden" name="_method" value="DELETE"></code></p>
+<p>这样在后台就知道你这个方法是个delete请求了。这是ssm里面的写法，挺有意思的是这个隐藏域的思想。然后现在SpringBoot就很简单了，直接用注解，@PutMapping，@GetMapping，这些就能直接匹配到Restful风格的请求。</p>
+<p>以上是基础的，我这边着重想写的是啥呢，RESTful的返回值，不应该仅仅只有返回的数据，他还应该包括响应的状态码，结果描述信息，然后再是请求的结果。那这样的情况下，我们可以把这些封装起来，再搞个封装类。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">@Data</span><br><span class="line">public class AjaxResponse &#123;</span><br><span class="line"></span><br><span class="line">    private boolean isok;   //请求是否处理成功</span><br><span class="line">    private int code;          //请求响应状态码（200、400、500）</span><br><span class="line">    private String message;  //请求结果描述信息</span><br><span class="line">    private Object data;  //请求结果数据</span><br><span class="line"></span><br><span class="line">    private AjaxResponse() &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static AjaxResponse success() &#123;</span><br><span class="line">        AjaxResponse resultBean = new AjaxResponse();</span><br><span class="line">        resultBean.setIsok(true);</span><br><span class="line">        resultBean.setCode(200);</span><br><span class="line">        resultBean.setMessage(&quot;success&quot;);</span><br><span class="line">        return resultBean;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static AjaxResponse success(Object data) &#123;</span><br><span class="line">        AjaxResponse resultBean = new AjaxResponse();</span><br><span class="line">        resultBean.setIsok(true);</span><br><span class="line">        resultBean.setCode(200);</span><br><span class="line">        resultBean.setMessage(&quot;success&quot;);</span><br><span class="line">        resultBean.setData(data);</span><br><span class="line">        return resultBean;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种思想很有意思。其实这种思想不是第一次碰见吧，之前用pagehelper分页工具的时候，也是这个思想，把信息和分页需要的相关数据封装起来，然后向前端返回一个pageinfo的对象，再在前端解析它。</p>
+<p>这边写这个其实意义在于，想告诉自己思路要灵活，不要死板，要熟悉各种编程思想。</p>
+<h3 id="Dozer的使用"><a href="#Dozer的使用" class="headerlink" title="Dozer的使用"></a>Dozer的使用</h3><h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><p>在此之前，我是没想过一个项目需要两个pojo类的。但是在接触了Dozer以后，你是能感觉到它存在的必要性的。因为你传到表现层的数据visual object (vo) ，多多少少应该和你查询出来的数据有所出入。</p>
+<p>比如说你想用jackson去对返回的数据做个处理，比如说我id值不返回给前端，我用@JsonIgnore 排除id，那这样的标示放在po上是不合理的。所以这时候，我们就要区分po和vo。</p>
+<h4 id="dozer是什么以及使用"><a href="#dozer是什么以及使用" class="headerlink" title="dozer是什么以及使用"></a>dozer是什么以及使用</h4><p>所以我们这边介绍dozer，它是一个能把实体和实体之间进行转换的工具，只要建立好映射关系，就像是ORM的数据库和实体映射一样。写法是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EntityVo entityVo = dozerMapper.map(entity, EntityVo.class);</span><br></pre></td></tr></table></figure>
+
+<p>接下来讲一下这玩意怎么配置到项目中的，首先老规矩添加依赖</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">   &lt;groupId&gt;net.sf.dozer&lt;/groupId&gt;</span><br><span class="line">   &lt;artifactId&gt;dozer&lt;/artifactId&gt;</span><br><span class="line">   &lt;version&gt;5.4.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>然后创建一个配置类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line">   <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DozerBeanMapperConfigure</span> </span>&#123;</span><br><span class="line">       <span class="meta">@Bean</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> DozerBeanMapper <span class="title">mapper</span><span class="params">()</span> </span>&#123;</span><br><span class="line">           DozerBeanMapper mapper = <span class="keyword">new</span> DozerBeanMapper();</span><br><span class="line">           <span class="keyword">return</span> mapper;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后我们就可以直接使用了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@Autowired</span><br><span class="line">protected Mapper dozerMapper;</span><br></pre></td></tr></table></figure>
+
+<p>具体的场景举个例子：比如说我们想要查询编号为1的员工信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public Employeevo getEmployee(int id)&#123;</span><br><span class="line">  //查询到了信息，这是一个po</span><br><span class="line">	Employee employee = EmployeeMapper.selectByPrimaryId(id);</span><br><span class="line">	//将它转为vo</span><br><span class="line">	Employeevo employeevo = dozerMapper.map(employee,Employeevo.class);</span><br><span class="line">	return employeevo;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>那有时候我们返回的是多个对象呢，那我们就需要借助工具类：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class DozerUtils &#123;</span><br><span class="line"></span><br><span class="line">    static DozerBeanMapper dozerBeanMapper = new DozerBeanMapper();</span><br><span class="line"></span><br><span class="line">    public static &lt;T&gt; List&lt;T&gt; mapList(Collection sourceList, Class&lt;T&gt; destinationClass)&#123;</span><br><span class="line">        List destinationList = Lists.newArrayList();</span><br><span class="line">        for (Iterator i$ = sourceList.iterator(); i$.hasNext();)&#123;</span><br><span class="line">            Object sourceObject = i$.next();</span><br><span class="line">            Object destinationObject = dozerBeanMapper.map(sourceObject, destinationClass);</span><br><span class="line">            destinationList.add(destinationObject);</span><br><span class="line">        &#125;</span><br><span class="line">        return destinationList;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再来个例子，比如说我们要查询所有的员工信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public List&lt;Employeevo&gt; getAll()&#123;</span><br><span class="line">  //查询到了信息，这是一个po</span><br><span class="line">	List&lt;Employee&gt; employees = EmployeeMapper.selectByExample(null);</span><br><span class="line">	//调用工具类中的mapList方法</span><br><span class="line">	List&lt;Employeevo&gt; employeevos = dozerMapper.mapList(employees,Employeevo.class);</span><br><span class="line">	return employeevos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>就是这样子的。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Springboot系列/" rel="tag"># Springboot系列</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/25/lombok/" rel="next" title="lombok">
+                <i class="fa fa-chevron-left"></i> lombok
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Jun Shang</p>
+              <p class="site-description motion-element" itemprop="description">Road to a decent Product Manager</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#先说RESTful学到的封装写法"><span class="nav-number">1.</span> <span class="nav-text">先说RESTful学到的封装写法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dozer的使用"><span class="nav-number">2.</span> <span class="nav-text">Dozer的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用场景"><span class="nav-number">2.1.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dozer是什么以及使用"><span class="nav-number">2.2.</span> <span class="nav-text">dozer是什么以及使用</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jun Shang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

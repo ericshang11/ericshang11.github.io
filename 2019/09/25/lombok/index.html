@@ -94,7 +94,7 @@
 
 
 
-  <meta name="keywords" content="日志,">
+  <meta name="keywords" content="Springboot系列,">
 
 
 
@@ -107,21 +107,18 @@
 
 
 
-<meta name="description" content="我真以为我躲得蛮好的，结果还是在今天下午看足球回放的时候看到了知乎的最新广告。 广告来自叶茂中团队，算是中国最老的营销策划团队了吧。恒源祥，娃哈哈，脑白金，溜溜梅，知乎，蚂蜂窝这些的，都是叶茂中的手笔。叶茂中团队的作品是非常具有代表性的潜意识广告，不断重复，反复重复，把受众当巴浦洛夫的狗一样看，直到最后形成条件反射。 有人说他坏，一点美感都没有，多次重复，看了想吐，观感体验极差。有人说他好，因为这">
-<meta name="keywords" content="日志">
+<meta name="description" content="最近在学Springboot，看教程看到了一个挺实用的工具，lombok，这边记录一下它的使用方法，和几个常用注解的含义。">
+<meta name="keywords" content="Springboot系列">
 <meta property="og:type" content="article">
-<meta property="og:title" content="好广告，坏广告">
-<meta property="og:url" content="https://junshang11.com/2018/07/14/好广告or坏广告/index.html">
+<meta property="og:title" content="lombok">
+<meta property="og:url" content="https://junshang11.com/2019/09/25/lombok/index.html">
 <meta property="og:site_name" content="君十一">
-<meta property="og:description" content="我真以为我躲得蛮好的，结果还是在今天下午看足球回放的时候看到了知乎的最新广告。 广告来自叶茂中团队，算是中国最老的营销策划团队了吧。恒源祥，娃哈哈，脑白金，溜溜梅，知乎，蚂蜂窝这些的，都是叶茂中的手笔。叶茂中团队的作品是非常具有代表性的潜意识广告，不断重复，反复重复，把受众当巴浦洛夫的狗一样看，直到最后形成条件反射。 有人说他坏，一点美感都没有，多次重复，看了想吐，观感体验极差。有人说他好，因为这">
+<meta property="og:description" content="最近在学Springboot，看教程看到了一个挺实用的工具，lombok，这边记录一下它的使用方法，和几个常用注解的含义。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://junshang11.com/images/%E7%9F%A5%E4%B9%8E/1.png">
-<meta property="og:image" content="https://junshang11.com/images/%E7%9F%A5%E4%B9%8E/2.png">
-<meta property="og:updated_time" content="2018-07-15T01:13:52.000Z">
+<meta property="og:updated_time" content="2019-09-26T07:52:32.027Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="好广告，坏广告">
-<meta name="twitter:description" content="我真以为我躲得蛮好的，结果还是在今天下午看足球回放的时候看到了知乎的最新广告。 广告来自叶茂中团队，算是中国最老的营销策划团队了吧。恒源祥，娃哈哈，脑白金，溜溜梅，知乎，蚂蜂窝这些的，都是叶茂中的手笔。叶茂中团队的作品是非常具有代表性的潜意识广告，不断重复，反复重复，把受众当巴浦洛夫的狗一样看，直到最后形成条件反射。 有人说他坏，一点美感都没有，多次重复，看了想吐，观感体验极差。有人说他好，因为这">
-<meta name="twitter:image" content="https://junshang11.com/images/%E7%9F%A5%E4%B9%8E/1.png">
+<meta name="twitter:title" content="lombok">
+<meta name="twitter:description" content="最近在学Springboot，看教程看到了一个挺实用的工具，lombok，这边记录一下它的使用方法，和几个常用注解的含义。">
 
 
 
@@ -151,13 +148,13 @@
 
 
 
-  <link rel="canonical" href="https://junshang11.com/2018/07/14/好广告or坏广告/">
+  <link rel="canonical" href="https://junshang11.com/2019/09/25/lombok/">
 
 
 
 
 
-  <title>好广告，坏广告 | 君十一</title>
+  <title>lombok | 君十一</title>
   
 
 
@@ -284,7 +281,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://junshang11.com/2018/07/14/好广告or坏广告/">
+    <link itemprop="mainEntityOfPage" href="https://junshang11.com/2019/09/25/lombok/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jun Shang">
@@ -301,7 +298,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">好广告，坏广告</h1>
+          <h1 class="post-title" itemprop="name headline">lombok</h1>
         
 
         <div class="post-meta">
@@ -313,8 +310,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-14T00:00:00+08:00">
-                2018-07-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-25T00:00:00+08:00">
+                2019-09-25
               </time>
             
 
@@ -336,8 +333,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/记录/" itemprop="url" rel="index">
-                    <span itemprop="name">记录</span>
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
                   </a>
                 </span>
 
@@ -373,23 +370,36 @@
       
 
       
-        <p>我真以为我躲得蛮好的，结果还是在今天下午看足球回放的时候看到了知乎的最新广告。</p>
-<p>广告来自叶茂中团队，算是中国最老的营销策划团队了吧。恒源祥，娃哈哈，脑白金，溜溜梅，知乎，蚂蜂窝这些的，都是叶茂中的手笔。叶茂中团队的作品是非常具有代表性的潜意识广告，不断重复，反复重复，把受众当巴浦洛夫的狗一样看，直到最后形成条件反射。</p>
-<p>有人说他坏，一点美感都没有，多次重复，看了想吐，观感体验极差。<br>有人说他好，因为这样的营销策略简单直接，相比其他“自嗨型”广告，这样的广告是真的会带动数据指标的提升；<br>说好坏之前，我先自问了一遍，广告的目的是啥？</p>
+        <p>最近在学Springboot，看教程看到了一个挺实用的工具，lombok，这边记录一下它的使用方法，和几个常用注解的含义。</p>
 <a id="more"></a>
-<p>广告是为了广而告之，是为了准确表达广告信息，是为了树立品牌形象，是为了引导消费者，激发购买欲/使用欲。那一般情况下，我们可以说成功的广告是具备以上所有特征的。</p>
-<p>那叶茂中的广告是否具备这些特征呢？<br>虽然我不喜欢，但不得不承认，从传播效果上来说，他的广告是具备上述特征的。<br>就拿知乎这次的广告来说，广告词是你知道吗？这条广告之前，你去问街上的人，有问题怎么办，80%的人会说百度一下；这条广告之后，是会有一个更大的比例说还有知乎的。<br><img src="/images/%E7%9F%A5%E4%B9%8E/1.png" alt="知乎百度指数"> </p>
-<p><img src="/images/%E7%9F%A5%E4%B9%8E/2.png" alt="知乎排名"> </p>
-<p>图一是广告播出以后，知乎的百度指数增幅，图二是知乎在ios平台排名趋势的上升。</p>
-<p>所以从营销的角度来说，叶茂中的广告是一条成功的广告，唯一的一些对品牌带来的负面影响，比如说对此时此刻广告的厌恶，但随着时间的流逝，这些负面评价是会淡化的，就像我们几年前那么厌恶溜溜梅的广告，但今天再听到它，你不会生成和几年前一样的厌恶感的，但不变的是啥，你知道有个话梅牌子，叫溜溜梅。</p>
-<p>广告的受众实在是太广了，人员分布，层次，受教育程度，环境，因素太多。喜欢和不喜欢，好与坏，都是受太多因素影响的事情，都太主观了。所以我之前说的是叶茂中的策划，是成功的营销案例，我没提好或者坏的营销。</p>
-<p>那从我的角度来说，我不喜欢这样的广告，是因为啥呢？<br>我感觉它太急于求成了。</p>
-<p>我喜欢苹果的1984以至于后面的这些广告片，喜欢金士顿地铁广告，喜欢台湾奥美做的《我害怕阅读的人》，喜欢去年999感冒灵感恩节广告片，还有很多其他的。</p>
-<p>因为啥呢？他们所传播的信息更多，有公司核心价值的，抓住用户心理激发你同理心的。他们的共通点是，他们都传到了一个讯息：我的产品能给你创造更多的价值。这种为用户创造价值的体系是我非常希望看到的。</p>
-<p>我也不懂我从哪个时刻从自嗨型广告走出来，开始意识到为受众/用户创造价值的重要性的。但我相信只有先为用户创造了价值，你的受众/用户才会更加信赖你的产品，才会真正实现我从叶茂中的营销书里看到的高级概念，让用户成为你产品的布道者，他们不光自己去使用，他们会非常反消费心理学地去推荐身边的人去使用。</p>
-<p>为了好的营销效果，有千万种达到目的的方式，他选择了最简单粗暴的那种，所以我主观的觉得不喜欢。</p>
-<p>我今天写这篇文章是为了啥呢？更多地提醒自己吧，在以后的产品生涯里，要记得为用户创造价值，产品的价值和用户的价值应该是正相关的。是有一万种方法通向成功，我选择用户与产品双赢的那种。</p>
 
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>首先是配置依赖</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;lombok&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.16.18&lt;/version&gt;</span><br><span class="line">    &lt;scope&gt;provided&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>然后去idea的插件库里去寻找Lombok plugin，安装重启就行了。</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><h4 id="Lombok作用"><a href="#Lombok作用" class="headerlink" title="Lombok作用"></a>Lombok作用</h4><p>Lombok最关键的作用是能够自动帮我们生成get/set，constructor等等。虽然这些idea能帮我们自动生成，但是只用注解就能默认生成的方式，能在阅读代码的时候更加focus在类的属性。就比如我这个bean 10几个属性，那我改了一个属性的名称，现在下面constructor，get/set方法全都要改，那不是很烦么。所以Lombok的出现，让可读性好了很多。</p>
+<p>接下来，说明一些常用注解的方法。</p>
+<h4 id="常用注解说明"><a href="#常用注解说明" class="headerlink" title="常用注解说明"></a>常用注解说明</h4><h6 id="Data"><a href="#Data" class="headerlink" title="@Data"></a>@Data</h6><p>提供类所有属性的 get 和 set 方法，此外还提供了equals、canEqual、hashCode、toString 方法。</p>
+<h5 id="AllArgsConstructor"><a href="#AllArgsConstructor" class="headerlink" title="@AllArgsConstructor"></a>@AllArgsConstructor</h5><p>为类提供一个全参的构造方法，加了这个注解后，类中不提供默认构造方法了</p>
+<h5 id="NoArgsConstructor"><a href="#NoArgsConstructor" class="headerlink" title="@NoArgsConstructor"></a>@NoArgsConstructor</h5><p>为类提供一个无参的构造方法。</p>
+<h5 id="NonNull"><a href="#NonNull" class="headerlink" title="@NonNull"></a>@NonNull</h5><p>注解在 属性 上，会自动产生一个关于此参数的非空检查，如果参数为空，则抛出一个空指针异常，也会有一个默认的无参构造方法。</p>
+<h5 id="Builder"><a href="#Builder" class="headerlink" title="@Builder"></a>@Builder</h5><p>这个是最棒的，这边写个例子。<br>比如说我一个pojo的属性是这样的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Builder</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserExample</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Integer id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> String address;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在加上了@Builder注解后，我们在创建对象的时候，可以这么写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">UserExample userExample = UserExample.builder()</span><br><span class="line">                .id(1)</span><br><span class="line">                .name(&quot;aaa&quot;)</span><br><span class="line">                .address(&quot;bbb&quot;)</span><br><span class="line">                .build();</span><br><span class="line">System.out.println(userExample);</span><br></pre></td></tr></table></figure>
+
+<p>这样就可以创建出一个对象了。</p>
+<p><strong>这边有个坑</strong></p>
+<p>关于子类使用@Builder后，拿不到父类属性的办法。虽然我没有遇到过，但我查Lombok的使用时，很多人都反映过这个情况。这边记录一下解决办法。</p>
+<p>首先父类需要一个全参构造方法，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@AllArgsConstructor</span><br><span class="line">public class Parent &#123;</span><br><span class="line">  private String a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>子类这边，手写一个全参构造方法，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class Child extends Parent &#123;</span><br><span class="line">  private String b;</span><br><span class="line"></span><br><span class="line">  @Builder</span><br><span class="line">  private Child(String a, String b)&#123;</span><br><span class="line">    super(a);</span><br><span class="line">    this.b = b;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样，你在创建子类的时候，就不会找不到父类的属性了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Child.builder().a(&quot;testA&quot;).b(&quot;testB&quot;).build();</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -406,7 +416,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/日志/" rel="tag"># 日志</a>
+            <a href="/tags/Springboot系列/" rel="tag"># Springboot系列</a>
           
         </div>
       
@@ -419,9 +429,9 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/07/12/运营之光/" rel="next" title="<运营之光>总结">
-                <i class="fa fa-chevron-left"></i> <运营之光>总结
-              </运营之光></a>
+              <a href="/2019/09/24/多线程初探/" rel="next" title="多线程初探">
+                <i class="fa fa-chevron-left"></i> 多线程初探
+              </a>
             
           </div>
 
@@ -429,8 +439,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/01/13/反射/" rel="prev" title="反射的相关知识">
-                反射的相关知识 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/09/26/RESTful/" rel="prev" title="RESTful封装思想，Dozer使用">
+                RESTful封装思想，Dozer使用 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -483,8 +493,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -551,6 +570,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用"><span class="nav-number">2.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Lombok作用"><span class="nav-number">2.1.</span> <span class="nav-text">Lombok作用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用注解说明"><span class="nav-number">2.2.</span> <span class="nav-text">常用注解说明</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Data"><span class="nav-number">2.2.0.1.</span> <span class="nav-text">@Data</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AllArgsConstructor"><span class="nav-number">2.2.1.</span> <span class="nav-text">@AllArgsConstructor</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#NoArgsConstructor"><span class="nav-number">2.2.2.</span> <span class="nav-text">@NoArgsConstructor</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#NonNull"><span class="nav-number">2.2.3.</span> <span class="nav-text">@NonNull</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Builder"><span class="nav-number">2.2.4.</span> <span class="nav-text">@Builder</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
