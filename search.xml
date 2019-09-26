@@ -8,7 +8,18 @@
         <category>技术</category>
       </categories>
       <tags>
-        <tag>Springboot系列</tag>
+        <tag>SpringBoot系列</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Git小结]]></title>
+    <url>%2F2019%2F09%2F26%2Fgit%E5%B0%8F%E7%BB%93%2F</url>
+    <content type="text"><![CDATA[最近超卖力地学SpringBoot，然后写很多demo。之前git不太熟，只知道add，commit，checkout这些，现在懂了更多，所以写一篇记录一下这些操作。 不讲那些我已经懂的，svn和git区别，什么本地仓库，工作区概念之类的了，直接开冲常用命令好吧。 git int创建一个空的本地仓库 git add这是将修改添加到暂存区有几个后缀的 git add -A 是全部添加 git add -u 将当前目录下所有跟踪文件中被修改过或已删除文件的信息添加到索引库 通常情况下，直接是-A git status检查文件状态在commit之前，用git status检查一下文件状态是个很好的习惯 git commit将更改记录(提交)到存储库通常情况下写的是git commit -m’annotation’加了注释的话，在log里能更直观 git branch对分支的操作比如说我创建一个新的分支git branch dev那我就得到了一个dev的分支 git checkout切换分支也可以取出误删的文件比如说我rm -f hello.py那我就可以用git checkout hello.py 把它找回来 git merge这个命令可以把两个或两个以上的开发历史加入(合并)一起比如说我想把dev 这个分支 合并到master下就是git checkout master 到主分支下然后 git merge dev git push将本地的版本，推送到远程主机git push origin master git pull取回远程主机某个分支的更新，再与本地的指定分支合并它相当于先做了git fetch，然后再git merge 这些是我碰到的常用，接下来提一下cherry pick git cherry pick就比如说，我想要dev分支的某笔提交的内容，并入我目前的分支上，我不需要全部的内容，那这时候就可以用git cherry pick。那完整的流程就是: 1234git checkout devgit log //查看几次提交的内容git checkout master //回到当前的分支git cherry pick 20fe2f9 //将dev的20fe2f9这个分支给拿过来 就是这些啦，我之前觉得git烦，现在的感觉就是，git真香啊。。]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
       </tags>
   </entry>
   <entry>
@@ -19,7 +30,7 @@
         <category>技术</category>
       </categories>
       <tags>
-        <tag>Springboot系列</tag>
+        <tag>SpringBoot系列</tag>
       </tags>
   </entry>
   <entry>
