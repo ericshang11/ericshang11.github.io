@@ -115,7 +115,7 @@
 <meta property="og:site_name" content="君十一">
 <meta property="og:description" content="到昨天为止学完了SpringBoot基础，今天开始学redis，然后完了之后写一个SpringBoot和Redis的整合。这篇的整体结构是  基础的操作  基础的数据类型和使用场景   那我们就开始吧。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-03T05:14:37.129Z">
+<meta property="og:updated_time" content="2019-10-03T08:41:05.390Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis学习手册-青铜级">
 <meta name="twitter:description" content="到昨天为止学完了SpringBoot基础，今天开始学redis，然后完了之后写一个SpringBoot和Redis的整合。这篇的整体结构是  基础的操作  基础的数据类型和使用场景   那我们就开始吧。">
@@ -451,7 +451,7 @@ hvals key
 </code></pre>
 
 <p>hash最多的使用场景就是存储存储部分变更数据，如用户信息等。</p>
-<h3 id="List类型"><a href="#List类型" class="headerlink" title="List类型"></a>List类型</h3><p>list类型的实现方法是双向链表，这样的设计，让它的添加元素的时间复杂度是O(1)，获取越接近两端的元素，速度越快。</p>
+<h4 id="List类型"><a href="#List类型" class="headerlink" title="List类型"></a>List类型</h4><p>list类型的实现方法是双向链表，这样的设计，让它的添加元素的时间复杂度是O(1)，获取越接近两端的元素，速度越快。</p>
 <p>常用的操作是：</p>
 <pre><code>lpush key value1 value2 
 rpush key value1 
@@ -466,7 +466,7 @@ lrem key count value    // 删除列表中前count个值为value的元素，也�
 <p>list的使用场景是啥呢，</p>
 <p><strong>对数据量大的集合数据删减</strong>：</p>
 <p>列表数据显示、关注列表、粉丝列表、留言评价等…分页、热点新闻（Top5)等。</p>
-<h3 id="Set类型-集合类型"><a href="#Set类型-集合类型" class="headerlink" title="Set类型 集合类型"></a>Set类型 集合类型</h3><p>set类型的内部实现是hashtable，所以加入，删除等操作的时间复杂度都是O(1)。</p>
+<h4 id="Set类型-集合类型"><a href="#Set类型-集合类型" class="headerlink" title="Set类型 集合类型"></a>Set类型 集合类型</h4><p>set类型的内部实现是hashtable，所以加入，删除等操作的时间复杂度都是O(1)。</p>
 <p>常用的操作是：</p>
 <pre><code>sadd key member1 member2 
 srem key member
@@ -479,7 +479,7 @@ sunion key1 key2 并集
 </code></pre>
 
 <p>set最突出的特点就是，它多个集合类型键之间可以进行并行，交集，和差集运算。那这些运算有什么用呢，放在现实生活里面的例子就是，找到共同关注、共同喜好等功能。然后因为它内部实现是hashtable，所以它具有唯一性，所以它可以用作记录访问的独立ip，可以存储文章的唯一标签。</p>
-<h3 id="ZSET类型-有序集合类型"><a href="#ZSET类型-有序集合类型" class="headerlink" title="ZSET类型  有序集合类型"></a>ZSET类型  有序集合类型</h3><p>它和集合类型最大的区别就在于，它是有序的。它是通过将每个元素关联一个分数，通过分数，就可以对元素进行排序。有序集合的实现是hashtable和skip list（fuck，又是一个我不熟的数据结构，回头补起来）。</p>
+<h4 id="ZSET类型-有序集合类型"><a href="#ZSET类型-有序集合类型" class="headerlink" title="ZSET类型  有序集合类型"></a>ZSET类型  有序集合类型</h4><p>它和集合类型最大的区别就在于，它是有序的。它是通过将每个元素关联一个分数，通过分数，就可以对元素进行排序。有序集合的实现是hashtable和skip list（fuck，又是一个我不熟的数据结构，回头补起来）。</p>
 <p>常用的操作是：</p>
 <pre><code>zadd key score1 member1 score2 member2 //分数支持双精度浮点数
 zscore key member 
@@ -546,8 +546,8 @@ zrevrangebyscore posts:views +inf -inf
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/26/RESTful/" rel="next" title="RESTful封装思想，Dozer使用">
-                <i class="fa fa-chevron-left"></i> RESTful封装思想，Dozer使用
+              <a href="/2019/10/02/ssm整合/" rel="next" title="SSM整合最佳实践">
+                <i class="fa fa-chevron-left"></i> SSM整合最佳实践
               </a>
             
           </div>
@@ -631,7 +631,7 @@ zrevrangebyscore posts:views +inf -inf
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-count">54</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -693,7 +693,7 @@ zrevrangebyscore posts:views +inf -inf
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础操作"><span class="nav-number">1.</span> <span class="nav-text">基础操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#打开-关闭-连接之类的"><span class="nav-number">1.1.</span> <span class="nav-text">打开/关闭/连接之类的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#redis-conf-相关"><span class="nav-number">1.2.</span> <span class="nav-text">redis.conf 相关</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据类型和使用场景"><span class="nav-number">2.</span> <span class="nav-text">数据类型和使用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#String类型"><span class="nav-number">2.1.</span> <span class="nav-text">String类型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hash类型"><span class="nav-number">3.</span> <span class="nav-text">Hash类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#List类型"><span class="nav-number">4.</span> <span class="nav-text">List类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set类型-集合类型"><span class="nav-number">5.</span> <span class="nav-text">Set类型 集合类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZSET类型-有序集合类型"><span class="nav-number">6.</span> <span class="nav-text">ZSET类型  有序集合类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#键的操作"><span class="nav-number">7.</span> <span class="nav-text">键的操作</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础操作"><span class="nav-number">1.</span> <span class="nav-text">基础操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#打开-关闭-连接之类的"><span class="nav-number">1.1.</span> <span class="nav-text">打开/关闭/连接之类的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#redis-conf-相关"><span class="nav-number">1.2.</span> <span class="nav-text">redis.conf 相关</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据类型和使用场景"><span class="nav-number">2.</span> <span class="nav-text">数据类型和使用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#String类型"><span class="nav-number">2.1.</span> <span class="nav-text">String类型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hash类型"><span class="nav-number">3.</span> <span class="nav-text">Hash类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#List类型"><span class="nav-number">3.1.</span> <span class="nav-text">List类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Set类型-集合类型"><span class="nav-number">3.2.</span> <span class="nav-text">Set类型 集合类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ZSET类型-有序集合类型"><span class="nav-number">3.3.</span> <span class="nav-text">ZSET类型  有序集合类型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#键的操作"><span class="nav-number">4.</span> <span class="nav-text">键的操作</span></a></li></ol></div>
             
 
           </div>

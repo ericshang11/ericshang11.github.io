@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://junshang11.com/"/>
-  <updated>2019-10-03T05:14:37.129Z</updated>
+  <updated>2019-10-03T08:41:05.390Z</updated>
   <id>https://junshang11.com/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://junshang11.com/2019/10/02/redis%E5%AD%A6%E4%B9%A0%E6%89%8B%E5%86%8C/"/>
     <id>https://junshang11.com/2019/10/02/redis学习手册/</id>
     <published>2019-10-01T16:00:00.000Z</published>
-    <updated>2019-10-03T05:14:37.129Z</updated>
+    <updated>2019-10-03T08:41:05.390Z</updated>
     
-    <content type="html"><![CDATA[<p>到昨天为止学完了SpringBoot基础，今天开始学redis，然后完了之后写一个SpringBoot和Redis的整合。这篇的整体结构是</p><ol><li><p>基础的操作</p></li><li><p>基础的数据类型和使用场景</p></li></ol><p>那我们就开始吧。</p><a id="more"></a><h3 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h3><h4 id="打开-关闭-连接之类的"><a href="#打开-关闭-连接之类的" class="headerlink" title="打开/关闭/连接之类的"></a>打开/关闭/连接之类的</h4><p>redis的有点什么特点的，这边就不赘述了，一搜就有好多，这边整点我容易忘记的操作。</p><p>我是Mac端整的，所以直接官网下包，放到根目录下，cd进目录，然后redis-server打开服务端。然后redis-cli 进入客户端操作。</p><p>这边有条命令可以查看redis服务是否开启的。</p><p><code>ps -ef | grep redis</code></p><p>如果看到有个6379的端口开着，那说明我们的服务是启动着的。</p><p>关于关闭redis，一般来说是在redis-cli里直接shutdown，这是断电保护，会把当前操作保存，还有一种暴力的，先通过</p><p><code>ps -ef | grep redis</code>找到redis的pid，然后直接kill - 9 pid，杀了它。</p><h4 id="redis-conf-相关"><a href="#redis-conf-相关" class="headerlink" title="redis.conf 相关"></a>redis.conf 相关</h4><p>redis.conf这个配置文件，它注释写得非常全，我这边主要注意的是三个操作和两个注意点。</p><ol><li><p>requirepass这边设置密码</p></li><li><p>daemonize 设置为yes，这样你退出了终端，你的redis依然在跑</p></li><li><p>把bind注释掉，这样子允许除本机外的客户端访问。</p><p>注释掉以后，要是远程的客户端访问，命令是<br><code>redis-cli -h host -p port -a password</code><br> 解释是这样的：redis-cli –h IP地址 –p 端口 –a 密码</p></li></ol><p>两个注意点:</p><ol><li><strong>save <seconds> <changes></changes></seconds></strong></li></ol><p>这条命令记录的是你的持久化策略，多长时间进行一次保存操作：</p><p>​    <strong>save 900 1</strong></p><p>​    <strong>save 300 10</strong></p><p>​    <strong>save 60 10000</strong></p><p>​    分别表示900秒（15分钟）内有1个更改，300秒（5分钟）内有10个更改以及60秒内有10000个更改，这边可以根据自己的需求做出修改。</p><ol start="2"><li>MAXMEMORY POLICY 这块</li></ol><p>这边记录的是，当你的缓存不能再放的情况下，你的缓存释放策略。<br>redis缓存的释放有两种方法，一种就是在你设定好了键值对以后，你用expire命令，却规定它什么时候过期。<br>还有一种操作就是这时候，你在conf里面制定你的缓存释放策略，redis的缓存淘汰策略是用LRU算法动态将不常用的数据删除。这边界定不常用的数据提供的选项是：</p><p>1.volatile-lru：设定超时时间的数据中,删除最不常使用的数据.</p><p>2.allkeys-lru：查询所有的key中最近最不常使用的数据进行删除，这是应用最广泛的策略.</p><p>3.volatile-random：在已经设定了超时的数据中随机删除.</p><p>4.allkeys-random：查询所有的key,之后随机删除.</p><p>5.volatile-ttl：查询全部设定超时时间的数据,之后排序,将马上将要过期的数据进行删除操作.</p><p>6.noeviction：如果设置为该属性,则不会进行删除操作,如果内存溢出则报错返回.<br>    volatile-lfu：从所有配置了过期时间的键中驱逐使用频率最少的键<br>    allkeys-lfu：从所有键中驱逐使用频率最少的键</p><p>redis的默认设置是6。可以根据自己项目的需求，自动配置。</p><p>在我们做出了相应的配置后，我们怎么才能去让我们的配置生效呢。<br><code>redis-server redis.conf</code></p><p>这样，redis启动服务端的时候，就会去读取redis.conf里我们的新配置。</p><p>以上是，redis的基础操作。接下来我们谈谈redis提供的数据结构，和我们的日常使用场景。</p><h3 id="数据类型和使用场景"><a href="#数据类型和使用场景" class="headerlink" title="数据类型和使用场景"></a>数据类型和使用场景</h3><h4 id="String类型"><a href="#String类型" class="headerlink" title="String类型"></a>String类型</h4><p>最基础的数据结构，常用的操作是</p><pre><code>set key stringget keydel key incr keyincrby key incrementappend key value</code></pre><p>String类型最常用的使用场景就是计数器，并且redis的所有命令都是原子性的，所以当出现竞态条件的时候，比如多个客户端都进行incr命令，并不会出现value重复加1的情况。</p><h3 id="Hash类型"><a href="#Hash类型" class="headerlink" title="Hash类型"></a>Hash类型</h3><p>hash类型最大的特点在于，他可以存储对象。</p><p>常用的操作是:</p><pre><code>hset key field value, field valuehget key fieldhmset key field value  key field valuehmget key field hgetall keyhkeys keyhvals key </code></pre><p>hash最多的使用场景就是存储存储部分变更数据，如用户信息等。</p><h3 id="List类型"><a href="#List类型" class="headerlink" title="List类型"></a>List类型</h3><p>list类型的实现方法是双向链表，这样的设计，让它的添加元素的时间复杂度是O(1)，获取越接近两端的元素，速度越快。</p><p>常用的操作是：</p><pre><code>lpush key value1 value2 rpush key value1 lpop key rpop keyllen key lrange key start stop linsert key before/after key1 value1lrem key count value    // 删除列表中前count个值为value的元素，也就是删除列表中指定的值</code></pre><p>list的使用场景是啥呢，</p><p><strong>对数据量大的集合数据删减</strong>：</p><p>列表数据显示、关注列表、粉丝列表、留言评价等…分页、热点新闻（Top5)等。</p><h3 id="Set类型-集合类型"><a href="#Set类型-集合类型" class="headerlink" title="Set类型 集合类型"></a>Set类型 集合类型</h3><p>set类型的内部实现是hashtable，所以加入，删除等操作的时间复杂度都是O(1)。</p><p>常用的操作是：</p><pre><code>sadd key member1 member2 srem key membersmembers keysismember key member//集合间的运算sdiff key1 key2  差集sinter key1 key2 交集sunion key1 key2 并集</code></pre><p>set最突出的特点就是，它多个集合类型键之间可以进行并行，交集，和差集运算。那这些运算有什么用呢，放在现实生活里面的例子就是，找到共同关注、共同喜好等功能。然后因为它内部实现是hashtable，所以它具有唯一性，所以它可以用作记录访问的独立ip，可以存储文章的唯一标签。</p><h3 id="ZSET类型-有序集合类型"><a href="#ZSET类型-有序集合类型" class="headerlink" title="ZSET类型  有序集合类型"></a>ZSET类型  有序集合类型</h3><p>它和集合类型最大的区别就在于，它是有序的。它是通过将每个元素关联一个分数，通过分数，就可以对元素进行排序。有序集合的实现是hashtable和skip list（fuck，又是一个我不熟的数据结构，回头补起来）。</p><p>常用的操作是：</p><pre><code>zadd key score1 member1 score2 member2 //分数支持双精度浮点数zscore key member zrange key start stop [withscores] 从小到大zrevrange key start stop [withscores] zrangebyscore key min max [withscores]//例子 -inf 负无穷 inf 正无穷 不包含(zrangebyscore score  (80 +inf       //高于80分的zincrby key increment member   //增加某个元素的分数zincrby score 4 tom   // tom加4分</code></pre><p>基于它的底层实现结构，zset经常被运用在排行榜的实现中。比如说，我这边写一个文章点击量的排序。</p><pre><code>zadd posts:views 1 post1 2 post2//当有人看了post1zincrby posts:views 2 post1//看一些新的排行zrevrangebyscore posts:views +inf -inf</code></pre><p>这样就可以看到post1在前，post2 在后了。</p><p>以上就是基础的数据类型的操作和使用场景。</p><h3 id="键的操作"><a href="#键的操作" class="headerlink" title="键的操作"></a>键的操作</h3><p>如何查看所有的键呢</p><p>keys *</p><p>如何看某个键是否存在呢</p><p>exists key</p><p>前面做测试，整了各种键，键的命名还是尽可能规范的好，像我上面的，posts:view， 就算的上是有意义的键，不规范的命名，可读性贼差，所以这边我们把之前所有的键全部删掉。</p><p>如何删除所有的键呢</p><p>flushall</p><p>还有之前在清楚内存策略里，我提过可以用expire设置键的存活时间，是这样的</p><p>expire key seconds，单位是秒。比如说expire key1 300。</p><p>想要查看key1的存活时间，可以用，ttl key来查看。</p><p>那我假如说想要移除key1的过期时间呢，就用persist key 1就可以了。</p><p>ok，以上就是redis的基础部分了，接下来我们就开始准备用Springboot 去整合redis了。</p>]]></content>
+    <content type="html"><![CDATA[<p>到昨天为止学完了SpringBoot基础，今天开始学redis，然后完了之后写一个SpringBoot和Redis的整合。这篇的整体结构是</p><ol><li><p>基础的操作</p></li><li><p>基础的数据类型和使用场景</p></li></ol><p>那我们就开始吧。</p><a id="more"></a><h3 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h3><h4 id="打开-关闭-连接之类的"><a href="#打开-关闭-连接之类的" class="headerlink" title="打开/关闭/连接之类的"></a>打开/关闭/连接之类的</h4><p>redis的有点什么特点的，这边就不赘述了，一搜就有好多，这边整点我容易忘记的操作。</p><p>我是Mac端整的，所以直接官网下包，放到根目录下，cd进目录，然后redis-server打开服务端。然后redis-cli 进入客户端操作。</p><p>这边有条命令可以查看redis服务是否开启的。</p><p><code>ps -ef | grep redis</code></p><p>如果看到有个6379的端口开着，那说明我们的服务是启动着的。</p><p>关于关闭redis，一般来说是在redis-cli里直接shutdown，这是断电保护，会把当前操作保存，还有一种暴力的，先通过</p><p><code>ps -ef | grep redis</code>找到redis的pid，然后直接kill - 9 pid，杀了它。</p><h4 id="redis-conf-相关"><a href="#redis-conf-相关" class="headerlink" title="redis.conf 相关"></a>redis.conf 相关</h4><p>redis.conf这个配置文件，它注释写得非常全，我这边主要注意的是三个操作和两个注意点。</p><ol><li><p>requirepass这边设置密码</p></li><li><p>daemonize 设置为yes，这样你退出了终端，你的redis依然在跑</p></li><li><p>把bind注释掉，这样子允许除本机外的客户端访问。</p><p>注释掉以后，要是远程的客户端访问，命令是<br><code>redis-cli -h host -p port -a password</code><br> 解释是这样的：redis-cli –h IP地址 –p 端口 –a 密码</p></li></ol><p>两个注意点:</p><ol><li><strong>save <seconds> <changes></changes></seconds></strong></li></ol><p>这条命令记录的是你的持久化策略，多长时间进行一次保存操作：</p><p>​    <strong>save 900 1</strong></p><p>​    <strong>save 300 10</strong></p><p>​    <strong>save 60 10000</strong></p><p>​    分别表示900秒（15分钟）内有1个更改，300秒（5分钟）内有10个更改以及60秒内有10000个更改，这边可以根据自己的需求做出修改。</p><ol start="2"><li>MAXMEMORY POLICY 这块</li></ol><p>这边记录的是，当你的缓存不能再放的情况下，你的缓存释放策略。<br>redis缓存的释放有两种方法，一种就是在你设定好了键值对以后，你用expire命令，却规定它什么时候过期。<br>还有一种操作就是这时候，你在conf里面制定你的缓存释放策略，redis的缓存淘汰策略是用LRU算法动态将不常用的数据删除。这边界定不常用的数据提供的选项是：</p><p>1.volatile-lru：设定超时时间的数据中,删除最不常使用的数据.</p><p>2.allkeys-lru：查询所有的key中最近最不常使用的数据进行删除，这是应用最广泛的策略.</p><p>3.volatile-random：在已经设定了超时的数据中随机删除.</p><p>4.allkeys-random：查询所有的key,之后随机删除.</p><p>5.volatile-ttl：查询全部设定超时时间的数据,之后排序,将马上将要过期的数据进行删除操作.</p><p>6.noeviction：如果设置为该属性,则不会进行删除操作,如果内存溢出则报错返回.<br>    volatile-lfu：从所有配置了过期时间的键中驱逐使用频率最少的键<br>    allkeys-lfu：从所有键中驱逐使用频率最少的键</p><p>redis的默认设置是6。可以根据自己项目的需求，自动配置。</p><p>在我们做出了相应的配置后，我们怎么才能去让我们的配置生效呢。<br><code>redis-server redis.conf</code></p><p>这样，redis启动服务端的时候，就会去读取redis.conf里我们的新配置。</p><p>以上是，redis的基础操作。接下来我们谈谈redis提供的数据结构，和我们的日常使用场景。</p><h3 id="数据类型和使用场景"><a href="#数据类型和使用场景" class="headerlink" title="数据类型和使用场景"></a>数据类型和使用场景</h3><h4 id="String类型"><a href="#String类型" class="headerlink" title="String类型"></a>String类型</h4><p>最基础的数据结构，常用的操作是</p><pre><code>set key stringget keydel key incr keyincrby key incrementappend key value</code></pre><p>String类型最常用的使用场景就是计数器，并且redis的所有命令都是原子性的，所以当出现竞态条件的时候，比如多个客户端都进行incr命令，并不会出现value重复加1的情况。</p><h3 id="Hash类型"><a href="#Hash类型" class="headerlink" title="Hash类型"></a>Hash类型</h3><p>hash类型最大的特点在于，他可以存储对象。</p><p>常用的操作是:</p><pre><code>hset key field value, field valuehget key fieldhmset key field value  key field valuehmget key field hgetall keyhkeys keyhvals key </code></pre><p>hash最多的使用场景就是存储存储部分变更数据，如用户信息等。</p><h4 id="List类型"><a href="#List类型" class="headerlink" title="List类型"></a>List类型</h4><p>list类型的实现方法是双向链表，这样的设计，让它的添加元素的时间复杂度是O(1)，获取越接近两端的元素，速度越快。</p><p>常用的操作是：</p><pre><code>lpush key value1 value2 rpush key value1 lpop key rpop keyllen key lrange key start stop linsert key before/after key1 value1lrem key count value    // 删除列表中前count个值为value的元素，也就是删除列表中指定的值</code></pre><p>list的使用场景是啥呢，</p><p><strong>对数据量大的集合数据删减</strong>：</p><p>列表数据显示、关注列表、粉丝列表、留言评价等…分页、热点新闻（Top5)等。</p><h4 id="Set类型-集合类型"><a href="#Set类型-集合类型" class="headerlink" title="Set类型 集合类型"></a>Set类型 集合类型</h4><p>set类型的内部实现是hashtable，所以加入，删除等操作的时间复杂度都是O(1)。</p><p>常用的操作是：</p><pre><code>sadd key member1 member2 srem key membersmembers keysismember key member//集合间的运算sdiff key1 key2  差集sinter key1 key2 交集sunion key1 key2 并集</code></pre><p>set最突出的特点就是，它多个集合类型键之间可以进行并行，交集，和差集运算。那这些运算有什么用呢，放在现实生活里面的例子就是，找到共同关注、共同喜好等功能。然后因为它内部实现是hashtable，所以它具有唯一性，所以它可以用作记录访问的独立ip，可以存储文章的唯一标签。</p><h4 id="ZSET类型-有序集合类型"><a href="#ZSET类型-有序集合类型" class="headerlink" title="ZSET类型  有序集合类型"></a>ZSET类型  有序集合类型</h4><p>它和集合类型最大的区别就在于，它是有序的。它是通过将每个元素关联一个分数，通过分数，就可以对元素进行排序。有序集合的实现是hashtable和skip list（fuck，又是一个我不熟的数据结构，回头补起来）。</p><p>常用的操作是：</p><pre><code>zadd key score1 member1 score2 member2 //分数支持双精度浮点数zscore key member zrange key start stop [withscores] 从小到大zrevrange key start stop [withscores] zrangebyscore key min max [withscores]//例子 -inf 负无穷 inf 正无穷 不包含(zrangebyscore score  (80 +inf       //高于80分的zincrby key increment member   //增加某个元素的分数zincrby score 4 tom   // tom加4分</code></pre><p>基于它的底层实现结构，zset经常被运用在排行榜的实现中。比如说，我这边写一个文章点击量的排序。</p><pre><code>zadd posts:views 1 post1 2 post2//当有人看了post1zincrby posts:views 2 post1//看一些新的排行zrevrangebyscore posts:views +inf -inf</code></pre><p>这样就可以看到post1在前，post2 在后了。</p><p>以上就是基础的数据类型的操作和使用场景。</p><h3 id="键的操作"><a href="#键的操作" class="headerlink" title="键的操作"></a>键的操作</h3><p>如何查看所有的键呢</p><p>keys *</p><p>如何看某个键是否存在呢</p><p>exists key</p><p>前面做测试，整了各种键，键的命名还是尽可能规范的好，像我上面的，posts:view， 就算的上是有意义的键，不规范的命名，可读性贼差，所以这边我们把之前所有的键全部删掉。</p><p>如何删除所有的键呢</p><p>flushall</p><p>还有之前在清楚内存策略里，我提过可以用expire设置键的存活时间，是这样的</p><p>expire key seconds，单位是秒。比如说expire key1 300。</p><p>想要查看key1的存活时间，可以用，ttl key来查看。</p><p>那我假如说想要移除key1的过期时间呢，就用persist key 1就可以了。</p><p>ok，以上就是redis的基础部分了，接下来我们就开始准备用Springboot 去整合redis了。</p>]]></content>
     
     <summary type="html">
     
@@ -42,6 +42,31 @@
     
     
       <category term="Redis" scheme="https://junshang11.com/tags/Redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SSM整合最佳实践</title>
+    <link href="https://junshang11.com/2019/10/02/ssm%E6%95%B4%E5%90%88/"/>
+    <id>https://junshang11.com/2019/10/02/ssm整合/</id>
+    <published>2019-10-01T16:00:00.000Z</published>
+    <updated>2019-10-03T08:38:58.464Z</updated>
+    
+    <content type="html"><![CDATA[<a id="more"></a>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+      
+    
+    </summary>
+    
+      <category term="技术" scheme="https://junshang11.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="SSM" scheme="https://junshang11.com/tags/SSM/"/>
     
   </entry>
   
@@ -439,28 +464,6 @@
     
     
       <category term="SSM" scheme="https://junshang11.com/tags/SSM/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MySQL编码的坑</title>
-    <link href="https://junshang11.com/2019/01/31/MySQL%E7%BC%96%E7%A0%81%E7%9A%84%E5%9D%91/"/>
-    <id>https://junshang11.com/2019/01/31/MySQL编码的坑/</id>
-    <published>2019-01-30T16:00:00.000Z</published>
-    <updated>2019-09-14T05:46:15.328Z</updated>
-    
-    <content type="html"><![CDATA[<p>今天开始做毕设，SSM框架整合的蛋糕店后台管理系统，第一天做得就有点心态崩，搭好环境，做测试的时候，死活中文显示乱码，可我都设置了characterEncodingFilter了啊，排查了一天，发现是MySQL创建时没注意到的问题。这边记录一下。</p> <a id="more"></a><h3 id="utf-8和utf-8mb4"><a href="#utf-8和utf-8mb4" class="headerlink" title="utf-8和utf-8mb4"></a>utf-8和utf-8mb4</h3><p> 创建数据库的时候一定要选择好MySQL的编码啊，通常情况下选择，UTF-8mb4。<br>这边记录一下utf-8 和utf-8mb4的区别。</p><p>UTF-8 编码是一种变长的编码机制，可以用1~4个字节存储字符。<br>因为历史遗留问题，MySQL 中的 utf8 编码并不是真正的 UTF-8，而是阉割版的，最长只有3个字节。当遇到占4个字节的 UTF-8 编码，例如 emoji 字符或者复杂的汉字，会导致存储异常。<br>从 5.5.3 开始，MySQL 开始用 utf8mb4 编码来实现完整的 UTF-8，其中 mb4 表示 most bytes 4，最多占用4个字节。从 8.0 之后，将会在某个版本开始用 utf8mb4 作为默认字符编码<br>所以以后创建项目直接选择utf-8mb4以应对各种各样的数据。</p><h3 id="什么是collation"><a href="#什么是collation" class="headerlink" title="什么是collation"></a>什么是collation</h3><p>再然后就是在修改完character set之后，可以看到一个collation，collation是啥呢。<br>collation是排序字符集，因为除了要存储字符，还需要排序或者比大小，这时候就推荐用utf8mb4_general<br>_ci或者用utf8mb4_unicode_ci，这里面的参数含义是：</p><ol><li>utf8mb4是编码方案</li><li>后面跟着的是校对算法版本，也就是排序的依据是啥</li><li>在接下来有两个参数可以选择，ai和ci，ci是不区分大小写的，ai是指口音不敏感。</li></ol><p>就是这些，继续写毕设了。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;今天开始做毕设，SSM框架整合的蛋糕店后台管理系统，第一天做得就有点心态崩，搭好环境，做测试的时候，死活中文显示乱码，可我都设置了characterEncodingFilter了啊，排查了一天，发现是MySQL创建时没注意到的问题。这边记录一下。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="技术" scheme="https://junshang11.com/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="MySQL" scheme="https://junshang11.com/tags/MySQL/"/>
     
   </entry>
   
