@@ -115,7 +115,7 @@
 <meta property="og:site_name" content="君十一">
 <meta property="og:description" content="到昨天为止学完了SpringBoot基础，今天开始学redis，然后完了之后写一个SpringBoot和Redis的整合。这篇的整体结构是  基础的操作  基础的数据类型和使用场景   那我们就开始吧。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-03T08:41:05.390Z">
+<meta property="og:updated_time" content="2019-10-03T08:42:36.095Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis学习手册-青铜级">
 <meta name="twitter:description" content="到昨天为止学完了SpringBoot基础，今天开始学redis，然后完了之后写一个SpringBoot和Redis的整合。这篇的整体结构是  基础的操作  基础的数据类型和使用场景   那我们就开始吧。">
@@ -439,7 +439,7 @@ incrby key increment
 append key value</code></pre>
 
 <p>String类型最常用的使用场景就是计数器，并且redis的所有命令都是原子性的，所以当出现竞态条件的时候，比如多个客户端都进行incr命令，并不会出现value重复加1的情况。</p>
-<h3 id="Hash类型"><a href="#Hash类型" class="headerlink" title="Hash类型"></a>Hash类型</h3><p>hash类型最大的特点在于，他可以存储对象。</p>
+<h4 id="Hash类型"><a href="#Hash类型" class="headerlink" title="Hash类型"></a>Hash类型</h4><p>hash类型最大的特点在于，他可以存储对象。</p>
 <p>常用的操作是:</p>
 <pre><code>hset key field value, field value
 hget key field
@@ -693,7 +693,7 @@ zrevrangebyscore posts:views +inf -inf
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础操作"><span class="nav-number">1.</span> <span class="nav-text">基础操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#打开-关闭-连接之类的"><span class="nav-number">1.1.</span> <span class="nav-text">打开/关闭/连接之类的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#redis-conf-相关"><span class="nav-number">1.2.</span> <span class="nav-text">redis.conf 相关</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据类型和使用场景"><span class="nav-number">2.</span> <span class="nav-text">数据类型和使用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#String类型"><span class="nav-number">2.1.</span> <span class="nav-text">String类型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hash类型"><span class="nav-number">3.</span> <span class="nav-text">Hash类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#List类型"><span class="nav-number">3.1.</span> <span class="nav-text">List类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Set类型-集合类型"><span class="nav-number">3.2.</span> <span class="nav-text">Set类型 集合类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ZSET类型-有序集合类型"><span class="nav-number">3.3.</span> <span class="nav-text">ZSET类型  有序集合类型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#键的操作"><span class="nav-number">4.</span> <span class="nav-text">键的操作</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础操作"><span class="nav-number">1.</span> <span class="nav-text">基础操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#打开-关闭-连接之类的"><span class="nav-number">1.1.</span> <span class="nav-text">打开/关闭/连接之类的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#redis-conf-相关"><span class="nav-number">1.2.</span> <span class="nav-text">redis.conf 相关</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据类型和使用场景"><span class="nav-number">2.</span> <span class="nav-text">数据类型和使用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#String类型"><span class="nav-number">2.1.</span> <span class="nav-text">String类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hash类型"><span class="nav-number">2.2.</span> <span class="nav-text">Hash类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#List类型"><span class="nav-number">2.3.</span> <span class="nav-text">List类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Set类型-集合类型"><span class="nav-number">2.4.</span> <span class="nav-text">Set类型 集合类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ZSET类型-有序集合类型"><span class="nav-number">2.5.</span> <span class="nav-text">ZSET类型  有序集合类型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#键的操作"><span class="nav-number">3.</span> <span class="nav-text">键的操作</span></a></li></ol></div>
             
 
           </div>
