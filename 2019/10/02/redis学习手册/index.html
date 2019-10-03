@@ -115,7 +115,7 @@
 <meta property="og:site_name" content="君十一">
 <meta property="og:description" content="到昨天为止学完了SpringBoot基础，今天开始学redis，然后完了之后写一个SpringBoot和Redis的整合。这篇的整体结构是  基础的操作  基础的数据类型和使用场景   那我们就开始吧。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-03T04:15:08.157Z">
+<meta property="og:updated_time" content="2019-10-03T05:14:37.129Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis学习手册-青铜级">
 <meta name="twitter:description" content="到昨天为止学完了SpringBoot基础，今天开始学redis，然后完了之后写一个SpringBoot和Redis的整合。这篇的整体结构是  基础的操作  基础的数据类型和使用场景   那我们就开始吧。">
@@ -511,6 +511,10 @@ zrevrangebyscore posts:views +inf -inf
 <p>前面做测试，整了各种键，键的命名还是尽可能规范的好，像我上面的，posts:view， 就算的上是有意义的键，不规范的命名，可读性贼差，所以这边我们把之前所有的键全部删掉。</p>
 <p>如何删除所有的键呢</p>
 <p>flushall</p>
+<p>还有之前在清楚内存策略里，我提过可以用expire设置键的存活时间，是这样的</p>
+<p>expire key seconds，单位是秒。比如说expire key1 300。</p>
+<p>想要查看key1的存活时间，可以用，ttl key来查看。</p>
+<p>那我假如说想要移除key1的过期时间呢，就用persist key 1就可以了。</p>
 <p>ok，以上就是redis的基础部分了，接下来我们就开始准备用Springboot 去整合redis了。</p>
 
       
