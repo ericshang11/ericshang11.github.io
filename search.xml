@@ -8,6 +8,7 @@
         <category>技术</category>
       </categories>
       <tags>
+        <tag>SpringBoot</tag>
         <tag>Redis</tag>
       </tags>
   </entry>
@@ -20,6 +21,28 @@
       </categories>
       <tags>
         <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[SpringBoot异常处理最佳实践]]></title>
+    <url>%2F2019%2F10%2F01%2FSpringBoot%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5%2F</url>
+    <content type="text"><![CDATA[到今天为止，SpringBoot的基础部分已经学完了，从yaml文件开始，到web，在restful规范那边，然后到SpringBoot和MyBatis的整合，没细看jpa，因为真的不太喜欢hibernate写的那种方式，封装的太好了，就显得死板，相比之下，MyBatis在写动态SQL的时候真的是舒服。 到thymeleaf的模版引擎，就感觉还行，终于脱离了jsp，听无数人说这玩意已经不行了，到了thymeleaf这边，是终于和它告别了。但肯定不是最后的目标吧，我想用vue写前端，后端用SpringBoot，然后实现一个真正的前后端分离，然后再去投简历。 这篇讲的是异常，说实话，我之前写的项目里，异常处理是基本没有的，后端直接try catch，打印完了事，一点给前端的反馈都没有的；再加上我前面用vo里的AjaxResponse封装请求的信息，里面加了请求响应状态码之类的，我写了成功以后会将请求信息封装进AjaxResponse里并返回，我没有考虑到要是出现错误了，它能用什么方法去“发现”错误并拦截下来。 所以这篇是就主讲SpringBoot异常处理最佳实践，资料来源是csdn啊，segmentfault和博客园的好多文章，这边开始做一个整合。开始吧。 什么是一个好的异常处理标准我查了很多篇文章 面向相关方友好 后端开发人员职责单一，只需要将异常捕获并转换为自定义异常一直对外抛出。不需要去想页面跳转404，以及异常响应的数据结构的设计。 面向前端人员友好，后端返回给前端的数据应该有统一的数据结构，统一的规范。不能一个人一个响应的数据结构。而在此过程中不需要后端开发人员做更多的工作，交给全局异常处理器去处理“异常”到“响应数据结构”的转换。 面向用户友好，用户能够清楚的知道异常产生的原因。这就要求自定义异常，全局统一处理，ajax接口请求响应统一的异常数据结构，页面模板请求统一跳转到404页面。 相应的开发规范是： Controller、Service、DAO层拦截异常转换为自定义异常，不允许将异常私自截留。必须对外抛出。 统一数据响应代码，使用httpstatusode，不要自定义。自定义不方便记忆。200请求成功，400用户输入错误导致的异常，500系统内部异常，999未知异常。 自定义异常里面有message属性，一定用友好的语言描述异常，并赋值给message. 不允许对父类Excetion统一catch，要分小类catch，这样能够清楚地将异常转换为自定义异常传递给前端。 对照着开发规范，我们需要的是，首先我们得定义一个]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>SpringBoot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[敏感字段的处理和druid配置]]></title>
+    <url>%2F2019%2F09%2F27%2F%E6%95%8F%E6%84%9F%E5%AD%97%E6%AE%B5%E7%9A%84%E5%A4%84%E7%90%86%E5%92%8Cdruid%E9%85%8D%E7%BD%AE%2F</url>
+    <content type="text"><![CDATA[今天开始接触SpringBoot和MyBatis的整合的时候，突然想起来得把数据库连接池给换了，因为之前看到文章说，c3p0已经很久不维护了，于是搜了一下，决定用阿里推出的druid作为以后的核心数据库连接池。 然后还有一个问题是，我每次的密码和用户名都是直接放在那边的，在生产环境里，是不可能这么放的吧，所以又找了一下，发现一个Jasypt的工具，可以设定自己的盐，然后他会帮助你用PBEWithMD5AndDES的加密方式加密。 接下来就使用一下这两个工具。 Jasypt工具的使用首先导包，它是可以和Spring集成的。 12345&lt;dependency&gt; &lt;groupId&gt;com.github.ulisesbocchio&lt;/groupId&gt; &lt;artifactId&gt;jasypt-spring-boot-starter&lt;/artifactId&gt; &lt;version&gt;2.0.0&lt;/version&gt;&lt;/dependency&gt; 然后在工具类里面创建一个新的类。做一个main方法， 1234567891011121314public class encrypt &#123; public static void main(String[] args) &#123; BasicTextEncryptor textEncryptor = new BasicTextEncryptor(); //加密所需要的盐 textEncryptor.setPassword("mimatest"); //对用户名和密码进行加密 String usename = textEncryptor.encrypt("root"); String password = textEncryptor.encrypt("ericshang11"); System.out.println("username = "+ usename); System.out.println("password = " + password); &#125;&#125; 这样，我们可以在控制台发现，这两个数据都被加密了。复制控制台这两个值。 那我们在application.yml里，怎么去将这两个值解密呢。 只需要在需要解密的外面，包裹一个ENC()，就好了。 像这样ENC(BzP/xEfXux6GSVNHlvtJcA==)。 接下来我们开始配置druid。 druid的配置首先依旧是导包， 12345&lt;dependency&gt; &lt;groupId&gt;com.alibaba&lt;/groupId&gt; &lt;artifactId&gt;druid&lt;/artifactId&gt; &lt;version&gt;1.0.25&lt;/version&gt;&lt;/dependency&gt; 接下来，我们要在application.yml中，对datasource做些修改。 123456789101112131415161718192021222324252627282930313233343536373839404142Spring: datasource: username: ENC(BzP/xEfXux6GSVNHlvtJcA==) password: ENC(iYNvsaHhxmO09hNKQcPI37BXfbY2Au2W) url: jdbc:mysql://127.0.0.1:3306/testdb driver-class-name: com.mysql.jdbc.Driver type: com.alibaba.druid.pool.DruidDataSource # 下面为连接池的补充设置，应用到上面所有数据源中 # 初始化大小，最小，最大 initialSize: 1 minIdle: 3 maxActive: 20 # 配置获取连接等待超时的时间 maxWait: 60000 # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 timeBetweenEvictionRunsMillis: 60000 # 配置一个连接在池中最小生存的时间，单位是毫秒 minEvictableIdleTimeMillis: 30000 validationQuery: select &apos;x&apos; testWhileIdle: true testOnBorrow: false testOnReturn: false # 打开PSCache，并且指定每个连接上PSCache的大小 poolPreparedStatements: true maxPoolPreparedStatementPerConnectionSize: 20 # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，&apos;wall&apos;用于防火墙 filters: stat,wall,slf4j # 通过connectProperties属性来打开mergeSql功能；慢SQL记录 connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000 # 合并多个DruidDataSource的监控数据 #useGlobalDataSourceStat: truejasypt: encryptor: password: mimatestmybatis: configuration: mapUnderscoreToCamelCase: true 接下来，我们需要对druid进行配置。 123456789101112131415161718192021222324252627282930@Configurationpublic class DruidDBConfig &#123; @Bean public ServletRegistrationBean druidServlet() &#123; ServletRegistrationBean reg = new ServletRegistrationBean(); reg.setServlet(new StatViewServlet()); reg.addUrlMappings(&quot;/druid/*&quot;); //设置控制台管理用户 reg.addInitParameter(&quot;loginUsername&quot;,&quot;root&quot;); reg.addInitParameter(&quot;loginPassword&quot;,&quot;123456&quot;); // 禁用HTML页面上的“Reset All”功能 reg.addInitParameter(&quot;resetEnable&quot;,&quot;false&quot;); //reg.addInitParameter(&quot;allow&quot;, &quot;127.0.0.1&quot;); //白名单 return reg; &#125; @Bean public FilterRegistrationBean filterRegistrationBean() &#123; //创建过滤器 FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(); filterRegistrationBean.setFilter(new WebStatFilter()); Map&lt;String, String&gt; initParams = new HashMap&lt;String, String&gt;(); //忽略过滤的形式 initParams.put(&quot;exclusions&quot;, &quot;*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*&quot;); filterRegistrationBean.setInitParameters(initParams); //设置过滤器过滤路径 filterRegistrationBean.addUrlPatterns(&quot;/*&quot;); return filterRegistrationBean; &#125;&#125; 这样，我们的druid就开启了，接下来写个测试案例后，在进入 druid监控器 就可以看到刚才那次请求的相关信息了。]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>SpringBoot</tag>
       </tags>
   </entry>
   <entry>
