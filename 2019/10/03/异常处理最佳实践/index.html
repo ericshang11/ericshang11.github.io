@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="SpringBoot,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="君十一" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="到今天为止，SpringBoot的基础部分已经学完了，从yaml文件开始，到web，在restful规范那边，然后到SpringBoot和MyBatis的整合，没细看jpa，因为真的不太喜欢hibernate写的那种方式，封装的太好了，就显得死板，相比之下，MyBatis在写动态SQL的时候真的是舒服。 到thymeleaf的模版引擎，就感觉还行，终于脱离了jsp，听无数人说这玩意已经不行了，到了">
+<meta name="keywords" content="SpringBoot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="异常处理最佳实践">
+<meta property="og:url" content="https://junshang11.com/2019/10/03/异常处理最佳实践/index.html">
+<meta property="og:site_name" content="君十一">
+<meta property="og:description" content="到今天为止，SpringBoot的基础部分已经学完了，从yaml文件开始，到web，在restful规范那边，然后到SpringBoot和MyBatis的整合，没细看jpa，因为真的不太喜欢hibernate写的那种方式，封装的太好了，就显得死板，相比之下，MyBatis在写动态SQL的时候真的是舒服。 到thymeleaf的模版引擎，就感觉还行，终于脱离了jsp，听无数人说这玩意已经不行了，到了">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-08T07:35:54.548Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="异常处理最佳实践">
+<meta name="twitter:description" content="到今天为止，SpringBoot的基础部分已经学完了，从yaml文件开始，到web，在restful规范那边，然后到SpringBoot和MyBatis的整合，没细看jpa，因为真的不太喜欢hibernate写的那种方式，封装的太好了，就显得死板，相比之下，MyBatis在写动态SQL的时候真的是舒服。 到thymeleaf的模版引擎，就感觉还行，终于脱离了jsp，听无数人说这玩意已经不行了，到了">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://junshang11.com/2019/10/03/异常处理最佳实践/">
+
+
+
+
+
+  <title>异常处理最佳实践 | 君十一</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">君十一</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Stay hungry Stay foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://junshang11.com/2019/10/03/异常处理最佳实践/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jun Shang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="君十一">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">异常处理最佳实践</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-03T00:00:00+08:00">
+                2019-10-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>到今天为止，SpringBoot的基础部分已经学完了，从yaml文件开始，到web，在restful规范那边，然后到SpringBoot和MyBatis的整合，没细看jpa，因为真的不太喜欢hibernate写的那种方式，封装的太好了，就显得死板，相比之下，MyBatis在写动态SQL的时候真的是舒服。</p>
+<p>到thymeleaf的模版引擎，就感觉还行，终于脱离了jsp，听无数人说这玩意已经不行了，到了thymeleaf这边，是终于和它告别了。但肯定不是最后的目标吧，我想用vue写前端，后端用SpringBoot，然后实现一个真正的前后端分离，然后再去投简历。</p>
+<p>这篇讲的是异常，说实话，我之前写的项目里，异常处理是基本没有的，后端直接try catch，打印完了事，一点给前端的反馈都没有的；再加上我前面用vo里的AjaxResponse封装请求的信息，里面加了请求响应状态码之类的，我写了成功以后会将请求信息封装进AjaxResponse里并返回，我没有考虑到要是出现错误了，它能用什么方法去“发现”错误并拦截下来。</p>
+<p>所以这篇是就主讲异常处理最佳实践，这边将用SpringBoot框架作演示，对SSM框架整合同样适用，关键是异常处理的思想。</p>
+<p>资料来源是csdn啊，segmentfault和博客园的好多文章，这边开始做一个整合。</p>
+<a id="more"></a>
+
+<h3 id="什么是一个好的异常处理标准"><a href="#什么是一个好的异常处理标准" class="headerlink" title="什么是一个好的异常处理标准"></a>什么是一个好的异常处理标准</h3><h4 id="面向相关方友好"><a href="#面向相关方友好" class="headerlink" title="面向相关方友好"></a>面向相关方友好</h4><ol>
+<li>后端开发人员职责单一，只需要将异常捕获并转换为自定义异常一直对外抛出。不需要去想页面跳转404，以及异常响应的数据结构的设计。</li>
+<li>面向前端人员友好，后端返回给前端的数据应该有统一的数据结构，统一的规范。不能一个人一个响应的数据结构。而在此过程中不需要后端开发人员做更多的工作，交给全局异常处理器去处理“异常”到“响应数据结构”的转换。</li>
+<li>面向用户友好，用户能够清楚的知道异常产生的原因。这就要求自定义异常，全局统一处理，ajax接口请求响应统一的异常数据结构，页面模板请求统一跳转到404页面。</li>
+</ol>
+<h4 id="相应的开发规范是："><a href="#相应的开发规范是：" class="headerlink" title="相应的开发规范是："></a>相应的开发规范是：</h4><ol>
+<li><p>Controller、Service、DAO层拦截异常转换为自定义异常，不允许将异常私自截留。必须对外抛出。</p>
+</li>
+<li><p>统一数据响应代码，使用httpstatusode，不要自定义。自定义不方便记忆。200请求成功，400用户输入错误导致的异常，500系统内部异常，999未知异常。</p>
+</li>
+<li><p>自定义异常里面有message属性，一定用友好的语言描述异常，并赋值给message.</p>
+</li>
+<li><p>不允许对父类Excetion统一catch，要分小类catch，这样能够清楚地将异常转换为自定义异常传递给前端。</p>
+</li>
+</ol>
+<h4 id="对照着开发规范，我们需要的是"><a href="#对照着开发规范，我们需要的是" class="headerlink" title="对照着开发规范，我们需要的是"></a>对照着开发规范，我们需要的是</h4><ol>
+<li>一个异常分类的枚举，统一异常分类编码</li>
+<li>自定义异常的结构，需要有异常错误编码和异常信息描述，合理的异常信息描述能更好地帮助开发获得反馈</li>
+<li>统一响应前端的数据结构，创建一个boolean值，如果响应未成功，前端应该有相应的提示页面</li>
+<li>全局异常处理，在拿到异常后，对异常进行处理</li>
+<li>服务端数据校验</li>
+<li>error.html页面，前端响应出现问题，将跳转到这个页面</li>
+</ol>
+<h3 id="异常处理需要的结构"><a href="#异常处理需要的结构" class="headerlink" title="异常处理需要的结构"></a>异常处理需要的结构</h3><p>结构篇将解决以上1，2，3出现的问题，它包含一个异常的枚举类，一个自定义异常，以及反馈给前端的数据结构。</p>
+<p>首先我们将制定一个异常的枚举类，将异常分类固化下来：</p>
+<pre><code>
+public enum CustomExceptionType {
+    USER_INPUT_ERROR(400,"用户输入异常"),
+    SYSTEM_ERROR (500,"系统服务异常"),
+    OTHER_ERROR(999,"其他未知异常");
+       CustomExceptionType(int code, String typeDesc) {
+        this.code = code;
+        this.typeDesc = typeDesc;
+    } 
+    private String typeDesc;//异常类型中文描述 
+    private int code; //code  
+    public String getTypeDesc() {
+        return typeDesc;
+    }   
+    public int getCode() {
+        return code;
+    }
+}
+</code></pre>
+
+<p>接下来我们将实现一个自定义异常的结构。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomException</span> <span class="keyword">extends</span> <span class="title">RuntimeException</span> </span>&#123;</span><br><span class="line">    <span class="comment">//异常错误编码</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> code ;</span><br><span class="line">    <span class="comment">//异常信息</span></span><br><span class="line">    <span class="keyword">private</span> String message;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CustomException</span><span class="params">(CustomExceptionType exceptionTypeEnum, String message)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.code = exceptionTypeEnum.getCode();</span><br><span class="line">        <span class="keyword">this</span>.message = message;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">getCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getMessage</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> message;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>反馈给前端的数据结构，之前我写过这个，遵循RESTful风格，我反馈给前端的不仅仅是我的数据，还要带上我的状态码。这边的代码是增强版本，除了考虑响应成功的情况，我们还将考虑响应不成功的话，得返回的信息是什么。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AjaxResponse</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> isok; <span class="comment">// ajax请求是否成功</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> code;        <span class="comment">// http status code</span></span><br><span class="line">    <span class="keyword">private</span> String message; <span class="comment">//请求失败的的提示信息。</span></span><br><span class="line">    <span class="keyword">private</span> Object data;     <span class="comment">//请求成功时，需要响应给前端的数据</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">AjaxResponse</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125; </span><br><span class="line">    <span class="comment">//请求出现异常时的响应数据封装</span></span><br><span class="line">  <span class="comment">//当出现异常时，将从前面定义的自定义异常中，找到相对应的异常，拿异常码和信息，并打包返回出去。</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> AjaxResponse <span class="title">error</span><span class="params">(CustomException e)</span> </span>&#123;</span><br><span class="line">        AjaxResponse resultBean = <span class="keyword">new</span> AjaxResponse();</span><br><span class="line">        resultBean.setIsok(<span class="keyword">false</span>);</span><br><span class="line">        resultBean.setCode(e.getCode());</span><br><span class="line">        <span class="keyword">if</span>(e.getCode() == CustomExceptionType.USER_INPUT_ERROR.getCode())&#123;</span><br><span class="line">            resultBean.setMessage(e.getMessage());</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(e.getCode() == CustomExceptionType.SYSTEM_ERROR.getCode())&#123;</span><br><span class="line">            resultBean.setMessage(e.getMessage() + <span class="string">",系统出现异常，请联系管理员电话：xxxx进行处理!"</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            resultBean.setMessage(<span class="string">"系统出现未知异常，请联系管理员电话：xxx进行处理!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> resultBean;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//请求成功时的响应数据封装，没有响应数据（比如删除修改成功）</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> AjaxResponse <span class="title">success</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        AjaxResponse resultBean = <span class="keyword">new</span> AjaxResponse();</span><br><span class="line">        resultBean.setIsok(<span class="keyword">true</span>);</span><br><span class="line">        resultBean.setCode(<span class="number">200</span>);</span><br><span class="line">        resultBean.setMessage(<span class="string">"success"</span>);</span><br><span class="line">        <span class="keyword">return</span> resultBean;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//请求成功时的响应数据封装，有响应数据（比如查询成功）</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> AjaxResponse <span class="title">success</span><span class="params">(Object data)</span> </span>&#123;</span><br><span class="line">        AjaxResponse resultBean = <span class="keyword">new</span> AjaxResponse();</span><br><span class="line">        resultBean.setIsok(<span class="keyword">true</span>);</span><br><span class="line">        resultBean.setCode(<span class="number">200</span>);</span><br><span class="line">        resultBean.setMessage(<span class="string">"success"</span>);</span><br><span class="line">        resultBean.setData(data);</span><br><span class="line">        <span class="keyword">return</span> resultBean;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="全局异常处理"><a href="#全局异常处理" class="headerlink" title="全局异常处理"></a>全局异常处理</h4><p>全局异常是针对后端开发的，在做crud的过程中，出现的异常将不断外抛出来，这时候我们就需要在最外面利用全局异常处理去处理异常。</p>
+<p>全局处理需要一个 @ControllerAdvice 的注解，它将监听所有的Controller，当Controller抛出异常后，就会在@ExceptionHandler(CustomException.class) 对异常进行处理。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ControllerAdvice</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebExceptionHandler</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line"><span class="comment">//对自定义异常的处理</span></span><br><span class="line">    <span class="meta">@ExceptionHandler</span>(CustomException.class)</span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> AjaxResponse <span class="title">customerException</span><span class="params">(CustomException e)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(e.getCode() == CustomExceptionType.SYSTEM_ERROR.getCode())&#123;</span><br><span class="line">                 <span class="comment">//400异常不需要持久化，将异常信息以友好的方式告知用户就可以</span></span><br><span class="line">                <span class="comment">//TODO 将500异常信息持久化处理，方便运维人员处理</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> AjaxResponse.error(e);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//对自定义异常没包括的异常进行处理</span></span><br><span class="line">    <span class="meta">@ExceptionHandler</span>(Exception.class)</span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> AjaxResponse <span class="title">exception</span><span class="params">(Exception e)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//TODO 将异常信息持久化处理，方便运维人员处理</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//没有被程序员发现，并转换为CustomException的异常，都是其他异常或者未知异常.</span></span><br><span class="line">        <span class="keyword">return</span> AjaxResponse.error(<span class="keyword">new</span> CustomException(CustomExceptionType.OTHER_ERROR,<span class="string">"未知异常"</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="后端数据校验和对数据校验信息的异常处理"><a href="#后端数据校验和对数据校验信息的异常处理" class="headerlink" title="后端数据校验和对数据校验信息的异常处理"></a>后端数据校验和对数据校验信息的异常处理</h4><p>这边不讨论前端的数据校验，后端的数据校验这块，我们通常用JSR 303对数据进行校验。</p>
+<p>导个包。</p>
+<dependency>
+            <groupid>org.hibernate.validator</groupid>
+            <artifactid>hibernate-validator</artifactid>
+            <version>6.0.10.Final</version>
+        </dependency>
+        <dependency>
+            <groupid>org.hibernate</groupid>
+            <artifactid>hibernate-validator-annotation-processor</artifactid>
+            <version>6.0.10.Final</version>
+</dependency>
+
+<p>然后就可以将一些常用注解加在VO的bean的属性字段上，然后在参数校验的方法上加@Valid注解，这样就可以了。常用的注解很多，<a href="https://www.ibm.com/developerworks/cn/java/j-lo-jsr303/index.html" target="_blank" rel="noopener">具体的参考这边的表格</a>。</p>
+<p>在做完参数校验后，如果校验失败，会抛出BindException或MethodArgumentNotValidException这两种异常，那我们就需要对我们上面定义的异常类中进行添加。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ControllerAdvice</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebExceptionHandler</span> </span>&#123;</span><br><span class="line">  <span class="comment">//之前的一些实现</span></span><br><span class="line"><span class="meta">@ExceptionHandler</span>(MethodArgumentNotValidException.class)</span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> AjaxResponse <span class="title">handleBindException</span><span class="params">(MethodArgumentNotValidException ex)</span> </span>&#123;</span><br><span class="line">    FieldError fieldError = ex.getBindingResult().getFieldError();</span><br><span class="line">    <span class="keyword">return</span> AjaxResponse.error(<span class="keyword">new</span> CustomException(CustomExceptionType.USER_INPUT_ERROR,fieldError.getDefaultMessage()));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@ExceptionHandler</span>(BindException.class)</span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> AjaxResponse <span class="title">handleBindException</span><span class="params">(BindException ex)</span> </span>&#123;</span><br><span class="line">    FieldError fieldError = ex.getBindingResult().getFieldError();</span><br><span class="line">    <span class="keyword">return</span> AjaxResponse.error(<span class="keyword">new</span> CustomException(CustomExceptionType.USER_INPUT_ERROR,fieldError.getDefaultMessage()));</span><br><span class="line">&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上我们就实现了对Controller层出现的绝大多数异常的处理，但我们有一个很麻烦的问题，就是如果说数据出现错误，我们反回给前端的是AjaxResponse对象，它不是ModelAndView，所以就无法跳转到error.html页面里。这边我们可以用Aop，将CostumException转换成ModelAndViewException。</p>
+<h3 id="AOP实现的异常处理方案"><a href="#AOP实现的异常处理方案" class="headerlink" title="AOP实现的异常处理方案"></a>AOP实现的异常处理方案</h3><p>上面写了我们这次想要达到的目的，将CostumException转换成ModelAndViewException。我们需要采取的操作是：</p>
+<ol>
+<li>用面向切面的方式，将CustomException转换为ModelAndViewException。</li>
+<li>全局异常处理器拦截ModelAndViewException，返回ModelAndView，即error.html页面</li>
+<li>切入点是带自定义注解@ModelView注解的Controller层方法</li>
+</ol>
+<p>首先我们需要新定义一个异常类。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public class ModelViewException extends RuntimeException&#123;</span><br><span class="line"></span><br><span class="line">    //异常错误编码</span><br><span class="line">    private int code ;</span><br><span class="line">    //异常信息</span><br><span class="line">    private String message;</span><br><span class="line"></span><br><span class="line">    public static ModelViewException transfer(CustomException e) &#123;</span><br><span class="line">        return new ModelViewException(e.getCode(),e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private ModelViewException(int code, String message)&#123;</span><br><span class="line">        this.code = code;</span><br><span class="line">        this.message = message;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    int getCode() &#123;</span><br><span class="line">        return code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String getMessage() &#123;</span><br><span class="line">        return message;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来我们自定义这个注解</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Documented</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Target(&#123;ElementType.METHOD&#125;)//只能在方法上使用此注解</span><br><span class="line">public @interface ModelView &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>它起到一个标注的作用。接下来我们详细写这个注解的实现。它将以@ModelView注解为切入点，面向切面编程,将CustomException转换为ModelViewException抛出。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">@Aspect</span><br><span class="line">@Component</span><br><span class="line">@Slf4j</span><br><span class="line">public class ModelViewAspect &#123;</span><br><span class="line">    </span><br><span class="line">    //设置切入点：这里直接拦截被@ModelView注解的方法</span><br><span class="line">    @Pointcut(&quot;@annotation(com.junshang11.springboot_crud.common.exception.ModelView)&quot;)</span><br><span class="line">    public void pointcut() &#123; &#125;</span><br><span class="line">    </span><br><span class="line">    /**</span><br><span class="line">     * 当有ModelView的注解的方法抛出异常的时候，做如下的处理</span><br><span class="line">     */</span><br><span class="line">    @AfterThrowing(pointcut=&quot;pointcut()&quot;,throwing=&quot;e&quot;)</span><br><span class="line">    public void afterThrowable(Throwable e) &#123;</span><br><span class="line">        log.error(&quot;切面发生了异常：&quot;, e);</span><br><span class="line">        if(e instanceof  CustomException)&#123;</span><br><span class="line">            throw ModelViewException.transfer((CustomException) e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来，我们要在全局异常处理类里面，添加</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ControllerAdvice</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebExceptionHandler</span> </span>&#123;</span><br><span class="line">  <span class="comment">//之前的一些实现</span></span><br><span class="line"><span class="meta">@ExceptionHandler</span>(ModelViewException.class)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ModelAndView <span class="title">viewExceptionHandler</span><span class="params">(HttpServletRequest req, ModelViewException e)</span> </span>&#123;</span><br><span class="line">        ModelAndView modelAndView = <span class="keyword">new</span> ModelAndView();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//将异常信息设置如modelAndView</span></span><br><span class="line">        modelAndView.addObject(<span class="string">"exception"</span>, e);</span><br><span class="line">        modelAndView.addObject(<span class="string">"url"</span>, req.getRequestURL());</span><br><span class="line">        modelAndView.setViewName(<span class="string">"error"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//返回ModelAndView</span></span><br><span class="line">        <span class="keyword">return</span> modelAndView;</span><br><span class="line">    &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="好好解释一下"><a href="#好好解释一下" class="headerlink" title="好好解释一下"></a>好好解释一下</h4><p>这边来解释一下这个的机制是什么：</p>
+<p>我们需要达到的目的是，当有跳转的controller，比如下面这个</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@GetMapping(&quot;/theymeleaf&quot;)</span><br><span class="line">public String index(Model model) &#123;</span><br><span class="line">    List&lt;ArticleVO&gt; articles = articleRestService.getAll();</span><br><span class="line">    model.addAttribute(&quot;articles&quot;, articles);</span><br><span class="line">    return &quot;theymeleaftemp&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>出现了异常，我们现在不要它跳转到theymeleaftemp.html页面，而是跳转到error.html页面。我们怎么做呢。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@ModelView</span><br><span class="line">@GetMapping(&quot;/theymeleaf&quot;)</span><br><span class="line">public String index(Model model) &#123;</span><br><span class="line">    List&lt;ArticleVO&gt; articles = articleRestService.getAll();</span><br><span class="line">    model.addAttribute(&quot;articles&quot;, articles);</span><br><span class="line">    return &quot;theymeleaftemp&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>加上@ModelView这个自定义注解，当有ModelView的注解的方法抛出异常的时候。它将用面向切面的形式，将这个CostumException 转化成 ModelViewException。这时候，我们的全局异常处理会监听到ModelViewException，他将异常信息封装到ModelAndView中，并设置跳转方向，error.html。</p>
+<p>以上这些才构成一个完整的，体系化的异常处理最佳实践。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>这是第一次去探究这么一个大的问题，好吧，最开始的时候并没有意识到这是个这么大的问题，越看资料越多，越觉得这个没有全，那个不完整，最后综合了好几篇实践，写出来这么一篇，算是很完善了吧。开心。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SpringBoot/" rel="tag"># SpringBoot</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/01/mybatis的xml配置/" rel="next" title="MyBatis的xml配置">
+                <i class="fa fa-chevron-left"></i> MyBatis的xml配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/04/redis学习手册/" rel="prev" title="redis基础手册">
+                redis基础手册 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Jun Shang</p>
+              <p class="site-description motion-element" itemprop="description">Road to a decent Product Manager</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是一个好的异常处理标准"><span class="nav-number">1.</span> <span class="nav-text">什么是一个好的异常处理标准</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#面向相关方友好"><span class="nav-number">1.1.</span> <span class="nav-text">面向相关方友好</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#相应的开发规范是："><span class="nav-number">1.2.</span> <span class="nav-text">相应的开发规范是：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对照着开发规范，我们需要的是"><span class="nav-number">1.3.</span> <span class="nav-text">对照着开发规范，我们需要的是</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异常处理需要的结构"><span class="nav-number">2.</span> <span class="nav-text">异常处理需要的结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#全局异常处理"><span class="nav-number">2.1.</span> <span class="nav-text">全局异常处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后端数据校验和对数据校验信息的异常处理"><span class="nav-number">2.2.</span> <span class="nav-text">后端数据校验和对数据校验信息的异常处理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOP实现的异常处理方案"><span class="nav-number">3.</span> <span class="nav-text">AOP实现的异常处理方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#好好解释一下"><span class="nav-number">3.1.</span> <span class="nav-text">好好解释一下</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jun Shang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

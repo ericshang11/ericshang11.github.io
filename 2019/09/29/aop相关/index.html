@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="SpringBoot,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="君十一" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="因为我看到异常处理那边需要用到这个，所以我们今天复习一下Aop的相关知识。">
+<meta name="keywords" content="SpringBoot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Aop相关的知识">
+<meta property="og:url" content="https://junshang11.com/2019/09/29/aop相关/index.html">
+<meta property="og:site_name" content="君十一">
+<meta property="og:description" content="因为我看到异常处理那边需要用到这个，所以我们今天复习一下Aop的相关知识。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://junshang11.com/Users/junshang/Hexo/source/images/aop%E6%97%A5%E5%BF%97.png">
+<meta property="og:updated_time" content="2019-10-07T09:19:12.930Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Aop相关的知识">
+<meta name="twitter:description" content="因为我看到异常处理那边需要用到这个，所以我们今天复习一下Aop的相关知识。">
+<meta name="twitter:image" content="https://junshang11.com/Users/junshang/Hexo/source/images/aop%E6%97%A5%E5%BF%97.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://junshang11.com/2019/09/29/aop相关/">
+
+
+
+
+
+  <title>Aop相关的知识 | 君十一</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">君十一</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Stay hungry Stay foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://junshang11.com/2019/09/29/aop相关/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jun Shang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="君十一">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Aop相关的知识</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-29T00:00:00+08:00">
+                2019-09-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>因为我看到异常处理那边需要用到这个，所以我们今天复习一下Aop的相关知识。</p>
+<a id="more"></a>
+
+<h3 id="什么是Aop"><a href="#什么是Aop" class="headerlink" title="什么是Aop"></a>什么是Aop</h3><p>Aop，又叫面向切片编程，Spring的两大特性之一，代理模式的最佳实现。</p>
+<p>Aop是对核心业务没有实现的小功能的实现，它可以应用在</p>
+<p>(1)日志记录;<br>(2)性能统计;<br>(3)安全控制(可以理解为权限控制);<br>(4)事务处理;<br>(5)异常处理;</p>
+<h3 id="Aop的核心要点"><a href="#Aop的核心要点" class="headerlink" title="Aop的核心要点"></a>Aop的核心要点</h3><h4 id="连接点-Joinpoint"><a href="#连接点-Joinpoint" class="headerlink" title="连接点(Joinpoint)"></a>连接点(Joinpoint)</h4><p>增强程序执行的某个特定位置(要在哪个地方做增强操作)。Spring仅支持方法的连接点，既仅能在方法调用前，方法调用后，方法抛出异常时等这些程序执行点进行织入增强。</p>
+<h4 id="切点-Pointcut"><a href="#切点-Pointcut" class="headerlink" title="切点(Pointcut)"></a>切点(Pointcut)</h4><p>切点是一组连接点的集合。Aop通过”切点”定位特定的连接点。通过数据库查询的概念来理解切点和连接点的关系再适合不过来:连接点相当于数据库中的记录，而切点相当于查询条件。</p>
+<h4 id="增强-Advice"><a href="#增强-Advice" class="headerlink" title="增强(Advice)"></a>增强(Advice)</h4><p>增强是织入到目标类连接点上的一段程序代码。表示要在连接点上做的操作。</p>
+<h4 id="切面-Aspect"><a href="#切面-Aspect" class="headerlink" title="切面(Aspect)"></a>切面(Aspect)</h4><p>切面由切点和增强(引介)组成(可以包含多个切点和多个增强)，它既包括横切逻辑的定义，也包括连接点的定义，Spring Aop就是负责实施切面的框架，它将切面所定义的横切逻辑织入到切面所指定的链接点中。</p>
+<h4 id="Spring-Aop常用注解如下"><a href="#Spring-Aop常用注解如下" class="headerlink" title="Spring Aop常用注解如下:"></a>Spring Aop常用注解如下:</h4><p>@Aspect(定义切面)<br>@Pointcut(定义切点)<br>@Before(标注Before Advice定义所在的方法)<br>@After-returning(标注After Returning Advice定义所在的方法)<br>@After-throwing(标注After Throwing Advice定义所在的方法)<br>@After(标注After(Finally)Advice定义所在的方法)<br>@Around(标注Around Advice定义所在的方法)</p>
+<p>其实总结一下就是，@Aspect告诉Spring这是我的一个切面，我的操作在里面；@Pointcut告诉Spring，我要往哪几个包里切，@Before，@After这些告诉Spring，方法执行前还是后，进行我的操作。</p>
+<h3 id="使用Aop统一处理Web请求日志"><a href="#使用Aop统一处理Web请求日志" class="headerlink" title="使用Aop统一处理Web请求日志"></a>使用Aop统一处理Web请求日志</h3><p>上面的都是概念点，我们这边利用Aop来实现一个web请求日志的控制台显示。</p>
+<p>首先导包。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-aop&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>接下来我们定义一个切片类。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">@Aspect  //这是一个切片</span><br><span class="line">@Component //放入bean</span><br><span class="line">public class logAsp &#123;</span><br><span class="line"></span><br><span class="line">   //指定切入点</span><br><span class="line">   //几个*的意思，任意返回值，任意类，任意方法，任意参数</span><br><span class="line">   @Pointcut(&quot;execution(public * com.junshang11.springboot_crud.controller.*.*(..))&quot;)</span><br><span class="line">   public void weblog() &#123;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   //在执行前进行的操作</span><br><span class="line">   @Before(&quot;weblog()&quot;)</span><br><span class="line">   public void doBefore(JoinPoint joinPoint) &#123;</span><br><span class="line">      System.out.println(&quot;我是前置通知!!!&quot;);</span><br><span class="line">      //获取目标方法的参数信息</span><br><span class="line">      Object[] obj = joinPoint.getArgs();</span><br><span class="line">      Signature signature = joinPoint.getSignature();</span><br><span class="line">      //代理的是哪一个方法</span><br><span class="line">      System.out.println(&quot;方法：&quot; + signature.getName());</span><br><span class="line">      //AOP代理类的名字</span><br><span class="line">      System.out.println(&quot;方法所在包:&quot; + signature.getDeclaringTypeName());</span><br><span class="line">      //AOP代理类的类（class）信息</span><br><span class="line">      signature.getDeclaringType();</span><br><span class="line">      MethodSignature methodSignature = (MethodSignature) signature;</span><br><span class="line">      String[] strings = methodSignature.getParameterNames();</span><br><span class="line">      System.out.println(&quot;参数名：&quot; + Arrays.toString(strings));</span><br><span class="line">      System.out.println(&quot;参数值ARGS : &quot; + Arrays.toString(joinPoint.getArgs()));</span><br><span class="line">      // 接收到请求，记录请求内容</span><br><span class="line">      ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();</span><br><span class="line">      HttpServletRequest req = attributes.getRequest();</span><br><span class="line">      // 记录下请求内容</span><br><span class="line">      System.out.println(&quot;请求URL : &quot; + req.getRequestURL().toString());</span><br><span class="line">      System.out.println(&quot;HTTP_METHOD : &quot; + req.getMethod());</span><br><span class="line">      System.out.println(&quot;IP : &quot; + req.getRemoteAddr());</span><br><span class="line">      System.out.println(&quot;CLASS_METHOD : &quot; + joinPoint.getSignature().getDeclaringTypeName() + &quot;.&quot; + joinPoint.getSignature().getName());</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line">   //执行后进行的操作</span><br><span class="line">   @AfterReturning(returning = &quot;ret&quot;, pointcut = &quot;webLog()&quot;)</span><br><span class="line">		public void doAfterReturning(Object ret) throws Throwable &#123;</span><br><span class="line">		// 处理完请求，返回内容</span><br><span class="line">		System.out.println(&quot;方法的返回值 : &quot; + ret);</span><br><span class="line">	&#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样就能在控制台看到，日志信息的打印了。</p>
+<p><img src="/Users/junshang/Hexo/source/images/aop%E6%97%A5%E5%BF%97.png" alt></p>
+<h3 id="利用自定义注解使用Aop"><a href="#利用自定义注解使用Aop" class="headerlink" title="利用自定义注解使用Aop"></a>利用自定义注解使用Aop</h3><p>有些功能，比如说参数校验，性能统计之类的，很多地方都需要用，那每次配置很麻烦，所以我们也可以用自定义注解的方式来实现Aop的功能。</p>
+<p>首先我们需要自定义一个注解，和定义接口很像，只不过前面加个@ 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Target(&#123;ElementType.METHOD, ElementType.TYPE&#125;)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">public @interface Timing &#123;</span><br><span class="line">   String param() default &quot;&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样我们就定义了一个叫Timing的注解。</p>
+<p>接下来我们对@Timing的功能进行解释。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Aspect</span><br><span class="line">@Component</span><br><span class="line">public class timingimpl &#123;</span><br><span class="line">   @Around(&quot;@annotation(Timing)&quot;)</span><br><span class="line">   public Object around(ProceedingJoinPoint joinPoint, DoneTime doneTime) throws Throwable &#123;</span><br><span class="line">      System.out.println(&quot;方法开始时间是:&quot;+new Date());</span><br><span class="line">      Object o = joinPoint.proceed();</span><br><span class="line">      System.out.println(&quot;方法结束时间是:&quot;+new Date()) ;</span><br><span class="line">      return o;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>@Timing将以环绕通知的方式，记录请求所需要的时间。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SpringBoot/" rel="tag"># SpringBoot</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/27/敏感字段的处理和druid配置/" rel="next" title="敏感字段的处理和druid配置">
+                <i class="fa fa-chevron-left"></i> 敏感字段的处理和druid配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/01/mybatis的xml配置/" rel="prev" title="MyBatis的xml配置">
+                MyBatis的xml配置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Jun Shang</p>
+              <p class="site-description motion-element" itemprop="description">Road to a decent Product Manager</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是Aop"><span class="nav-number">1.</span> <span class="nav-text">什么是Aop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Aop的核心要点"><span class="nav-number">2.</span> <span class="nav-text">Aop的核心要点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#连接点-Joinpoint"><span class="nav-number">2.1.</span> <span class="nav-text">连接点(Joinpoint)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#切点-Pointcut"><span class="nav-number">2.2.</span> <span class="nav-text">切点(Pointcut)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#增强-Advice"><span class="nav-number">2.3.</span> <span class="nav-text">增强(Advice)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#切面-Aspect"><span class="nav-number">2.4.</span> <span class="nav-text">切面(Aspect)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring-Aop常用注解如下"><span class="nav-number">2.5.</span> <span class="nav-text">Spring Aop常用注解如下:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Aop统一处理Web请求日志"><span class="nav-number">3.</span> <span class="nav-text">使用Aop统一处理Web请求日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#利用自定义注解使用Aop"><span class="nav-number">4.</span> <span class="nav-text">利用自定义注解使用Aop</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jun Shang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
